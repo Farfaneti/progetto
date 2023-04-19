@@ -12,7 +12,7 @@ class Contents extends StatelessWidget {
       appBar: AppBar(
         title: Text(Contents.routename),
       ),
-      body: const Column(children: <Widget>[
+      body: Column(children: <Widget>[
         Spacer(),
         Hypertension(),
         METindex(),
