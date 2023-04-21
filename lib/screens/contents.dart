@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../methods/theme.dart';
+
 class Contents extends StatelessWidget {
   Contents({Key? key}) : super(key: key);
 
@@ -9,6 +11,7 @@ class Contents extends StatelessWidget {
   Widget build(BuildContext context) {
     print('${Contents.routename} built');
     return Scaffold(
+      backgroundColor: FitnessAppTheme.background,
       appBar: AppBar(
         title: Text(Contents.routename),
       ),
