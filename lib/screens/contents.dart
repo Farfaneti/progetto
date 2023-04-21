@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:progetto/screens/text_contents/text1.dart';
+import 'package:progetto/screens/text_contents/text2.dart';
+
+import '../methods/theme.dart';
 
 class Contents extends StatelessWidget {
-  Contents({Key? key}) : super(key: key);
+ const Contents({Key? key}) : super(key: key);
 
   static const routename = 'Content';
+  
+ 
 
   @override
   Widget build(BuildContext context) {
     print('${Contents.routename} built');
     return Scaffold(
+      
       appBar: AppBar(
         title: Text(Contents.routename),
       ),
-      body: Column(children: <Widget>[
-        Spacer(),
-        Hypertension(),
-        METindex(),
-        Spacer(),
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Hypertension(),
+          METindex(),
+        ]),
+      ),
     );
   } //build
 }
@@ -35,7 +42,7 @@ class Hypertension extends StatelessWidget {
               children: [
                 Ink.image(
                   image: const AssetImage('assets/hypertension.jpg'),
-                  height: 150,
+                  height: 200,
                   fit: BoxFit.cover,
                 ),
                 const Positioned(
@@ -43,7 +50,7 @@ class Hypertension extends StatelessWidget {
                     right: 16,
                     left: 16,
                     child: Text(
-                      'Hypertension',
+                      'HYPERTENSION',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -56,7 +63,7 @@ class Hypertension extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 0),
               child: const Text(
-                'Hypertension is..........................................',
+                'Hypertension is the major cause of premature death worldwide.  Aerobic exercise is an effective coadjuvant treatment for reducing ambulatory blood pressure in patients with hypertension.',
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -64,7 +71,8 @@ class Hypertension extends StatelessWidget {
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                TextButton(onPressed: () {}, child: const Text('Learn more'))
+                TextButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => HypertensionPage())), 
+                child: const Text('Learn more'))
               ],
             )
           ],
@@ -85,7 +93,7 @@ class METindex extends StatelessWidget {
               children: [
                 Ink.image(
                   image: const AssetImage('assets/Met.png'),
-                  height: 100,
+                  height: 200,
                   fit: BoxFit.cover,
                 ),
                 const Positioned(
@@ -114,7 +122,8 @@ class METindex extends StatelessWidget {
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                TextButton(onPressed: () {}, child: const Text('Learn more'))
+                TextButton(onPressed: ()  => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MetPage())),
+                 child: const Text('Learn more'))
               ],
             )
           ],
