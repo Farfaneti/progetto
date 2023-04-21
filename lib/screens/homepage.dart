@@ -1,23 +1,49 @@
-// § The HomePage must show the provided username.
-
 import 'package:flutter/material.dart';
+import 'package:progetto/screens/contents.dart';
+import 'package:progetto/screens/graphs_page.dart';
 
 import '../methods/bottom_bar_view.dart';
 import '../methods/tab_icon_data.dart';
 import '../methods/theme.dart';
+import 'graphs_page2.dart';
 //import 'package:flutter_login/flutter_login.dart';
 //import 'package:login_flow/pages/login.dart';
-// da imortare quando è fatta la pagina di login
+// da importare quando è fatta la pagina di login
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-
+class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  AnimationController? animationController;
+
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
   Widget tabBody = Container(
     color: FitnessAppTheme.background,
   );
+
+  @override
+  void initState() {
+    tabIconsList.forEach((TabIconData tab) {
+      tab.isSelected = false;
+    });
+    tabIconsList[0].isSelected = true;
+
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
+    //tabBody = HomePage(animationController: animationController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,29 +102,29 @@ class HomePage extends StatelessWidget {
         BottomBarView(
           tabIconsList: tabIconsList,
           addClick: () {},
-          // changeIndex: (int index) {
-          //   if (index == 0 || index == 2) {
-          //     animationController?.reverse().then<dynamic>((data) {
-          //       if (!mounted) {
-          //         return;
-          //       }
-          //       setState(() {
-          //         tabBody =
-          //             MyDiaryScreen(animationController: animationController);
-          //       });
-          //     });
-          //   } else if (index == 1 || index == 3) {
-          //     animationController?.reverse().then<dynamic>((data) {
-          //       if (!mounted) {
-          //         return;
-          //       }
-          //       setState(() {
-          //         tabBody =
-          //             TrainingScreen(animationController: animationController);
-          //       });
-          //     });
-          //   }
-          // },
+          changeIndex: (int index) {
+            if (index == 0 || index == 2) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      GraphsScreen(animationController: animationController);
+                });
+              });
+            } else if (index == 1 || index == 3) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      GraphsScreen2(animationController: animationController);
+                });
+              });
+            }
+          },
         ),
       ],
     );

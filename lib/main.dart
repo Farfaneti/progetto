@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/screens/contents.dart';
+import 'package:progetto/screens/graphs_page.dart';
 import 'package:progetto/screens/homepage.dart';
 
 void main() {
