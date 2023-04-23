@@ -1,174 +1,138 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:progetto/screens/contents.dart';
-import 'package:progetto/screens/graphs_page.dart';
 
-import '../methods/bottom_bar_view.dart';
 import '../methods/tab_icon_data.dart';
 import '../methods/theme.dart';
-import 'graphs_page2.dart';
+import 'graphs_page.dart';
+
 //import 'package:flutter_login/flutter_login.dart';
 //import 'package:login_flow/pages/login.dart';
 // da importare quando è fatta la pagina di login
 
 class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
+  static const route = '/home/';
+  final String title;
+
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  AnimationController? animationController;
+  int _selectedIndex = 0;
 
-  List<TabIconData> tabIconsList = TabIconData.tabIconsList;
-
-  Widget tabBody = Container(
-    color: FitnessAppTheme.background,
-  );
-
-  @override
-  void initState() {
-    tabIconsList.forEach((TabIconData tab) {
-      tab.isSelected = false;
-    });
-    tabIconsList[0].isSelected = true;
-
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 600), vsync: this);
-    //tabBody = HomePage(animationController: animationController);
-    super.initState();
-  }
-
-  // Widget _selectPage({
-  //   required int index,
-  // }) {
-  //   switch (index) {
-  //     case 0:
-  //       return const GraphsScreen();
-  //     case 1:
-  //       return const GraphsScreen2();
-  //     case 2:
-  //       return const GraphsScreen();
-  //     case 3:
-  //       return const GraphsScreen2();
-  //     default:
-  //       return const GraphsScreen();
-  //   }
-  // }
-
-  @override
-  void dispose() {
-    animationController?.dispose();
-    super.dispose();
+  Widget _selectPage({
+    required int index,
+  }) {
+    switch (index) {
+      case 0:
+        return GraphPage();
+      case 1:
+        return Contents();
+      case 2:
+        return GraphPage();
+      case 3:
+        return Contents();
+      default:
+        return GraphPage();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print('${HomePage.routename} built');
-    return Container(
-        color: FitnessAppTheme.background,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          // drawer: Drawer(
-          //   child: ListView(children: [
-          //     DrawerHeader(
-          //       decoration: BoxDecoration(
-          //         color: Colors.blue,
-          //       ),
-          //       child: Text('login_flow'),
-          //     ),
-          //     ListTile(
-          //       leading: Icon(Icons.logout),
-          //       title: Text('Logout'),
-          //       onTap: () => Contents(),
-          //     )
-          //   ]),
-          // ),
-          body: FutureBuilder<bool>(
-            future: getData(),
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (!snapshot.hasData) {
-                return const SizedBox();
-              } else {
-                return Stack(
-                  children: <Widget>[
-                    tabBody,
-                    bottomBar(),
-                  ],
-                );
-              }
-            },
+    return Scaffold(
+        backgroundColor: const Color(0xFFE4DFD4),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              ListTile(
+                  leading: const Icon(
+                    MdiIcons.logout,
+                    color: FitnessAppTheme.nearlyBlue,
+                  ),
+                  title: const Text(
+                    'Logout',
+                    selectionColor: FitnessAppTheme.darkText,
+                  ),
+                  // delete all data from the database
+                  onTap: () => {
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: (context) => LoginPage(),
+                        // ))
+                      }),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('About'),
+              ),
+              ListTile(
+                  leading: const Icon(MdiIcons.imageFilterDrama,
+                      color: FitnessAppTheme.nearlyBlue),
+                  title: const Text('Profile',
+                      selectionColor: FitnessAppTheme.darkText),
+                  //delete all data from the database
+                  onTap: () => {
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: (context) => UserPage(),
+                        // ))
+                      }),
+            ],
           ),
-        )
-
-        // drawer: Drawer(
-        //     child: ListView(
-        //   padding: EdgeInsets.zero,
-        //   children: [
-        //     DrawerHeader(
-        //       decoration: BoxDecoration(
-        //         color: FitnessAppTheme.grey,
-        //       ),
-        //       child: Text('login_flow'),
-        //     ),
-        //     ListTile(
-        //       leading: Icon(Icons.logout),
-        //       title: Text('Logout'),
-        //       onTap: () => Contents(),
-        //     )
-        //   ],
-        // )),
-        );
-  } //build
-
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
-  }
-
-  Widget bottomBar() {
-    return Column(
-      children: <Widget>[
-        const Expanded(
-          child: SizedBox(),
         ),
-        BottomBarView(
-          tabIconsList: tabIconsList,
-          addClick: () {},
-          changeIndex: (int index) {
-            if (index == 0 || index == 2) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      GraphsScreen(animationController: animationController);
-                });
-              });
-            } else if (index == 1 || index == 3) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      GraphsScreen2(animationController: animationController);
-                });
-              });
-            }
-          },
+        appBar: AppBar(
+          title: (Text(
+            'AppName',
+          )),
+          titleTextStyle: FitnessAppTheme.headline,
+          iconTheme: const IconThemeData(color: FitnessAppTheme.nearlyBlack),
+          elevation: 0,
+          backgroundColor: FitnessAppTheme.background,
+          actions: [
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    // onPressed: () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           fullscreenDialog: true,
+                    //           builder: (context) => Profile()));
+                    // },
+                    Icon(
+                  MdiIcons.accountCircle,
+                  size: 40,
+                  color: FitnessAppTheme.background,
+                )),
+          ],
         ),
-      ],
-    );
+        body: _selectPage(index: _selectedIndex),
+        bottomNavigationBar: Container(
+          color: FitnessAppTheme.background,
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+              child: GNav(
+                backgroundColor: FitnessAppTheme.background,
+                color: FitnessAppTheme.deactivatedText,
+                activeColor: FitnessAppTheme.nearlyBlue,
+                tabBackgroundColor: FitnessAppTheme.dismissibleBackground,
+                gap: 8,
+                selectedIndex: _selectedIndex,
+                onTabChange: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                padding: EdgeInsets.all(16),
+                tabs: [
+                  GButton(icon: Icons.home, text: 'Graphs'),
+                  GButton(icon: Icons.favorite_border, text: 'Analysis'),
+                  GButton(icon: Icons.content_copy, text: 'Contents'),
+                  GButton(icon: Icons.settings, text: 'Profile'),
+                ],
+              )),
+        ));
   }
-
-  // void _toLoginPage(BuildContext context) {
-  //   //Pop the drawer first
-  //   Navigator.pop(context);
-  //   //Then pop the HomePage
-  //   Navigator.of(context)
-  //       .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
-  // } //_toCalendarPage
-} //MyApp
-
+}

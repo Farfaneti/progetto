@@ -12,11 +12,11 @@ class FitnessAppTheme {
   static const Color grey = Color.fromARGB(255, 93, 58, 96);
   static const Color dark_grey = Color.fromARGB(255, 64, 49, 68);
 
-  static const Color darkText = Color(0xFF253840);
-  static const Color darkerText = Color(0xFF17262A);
-  static const Color lightText = Color(0xFF4A6572);
+  static const Color darkText = Color.fromARGB(255, 53, 37, 64);
+  static const Color darkerText = Color.fromARGB(255, 44, 23, 53);
+  static const Color lightText = Color.fromARGB(255, 81, 53, 114);
   static const Color deactivatedText = Color(0xFF767676);
-  static const Color dismissibleBackground = Color(0xFF364A54);
+  static const Color dismissibleBackground = Color.fromARGB(255, 208, 205, 211);
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'Roboto';
 

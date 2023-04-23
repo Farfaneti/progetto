@@ -12,9 +12,6 @@ class Contents extends StatelessWidget {
     print('${Contents.routename} built');
     return Scaffold(
       backgroundColor: FitnessAppTheme.background,
-      appBar: AppBar(
-        title: Text(Contents.routename),
-      ),
       body: Column(children: <Widget>[
         Spacer(),
         Hypertension(),
