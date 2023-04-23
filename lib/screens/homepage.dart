@@ -39,6 +39,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
   }
 
+  // Widget _selectPage({
+  //   required int index,
+  // }) {
+  //   switch (index) {
+  //     case 0:
+  //       return const GraphsScreen();
+  //     case 1:
+  //       return const GraphsScreen2();
+  //     case 2:
+  //       return const GraphsScreen();
+  //     case 3:
+  //       return const GraphsScreen2();
+  //     default:
+  //       return const GraphsScreen();
+  //   }
+  // }
+
   @override
   void dispose() {
     animationController?.dispose();
@@ -49,43 +66,59 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     print('${HomePage.routename} built');
     return Container(
-      color: FitnessAppTheme.background,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: FutureBuilder<bool>(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
-              return Stack(
-                children: <Widget>[
-                  tabBody,
-                  bottomBar(),
-                ],
-              );
-            }
-          },
-        ),
-        drawer: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('login_flow'),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              //onTap: () => _toLoginPage(context),
-            )
-          ],
-        )),
-      ),
-    );
+        color: FitnessAppTheme.background,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          // drawer: Drawer(
+          //   child: ListView(children: [
+          //     DrawerHeader(
+          //       decoration: BoxDecoration(
+          //         color: Colors.blue,
+          //       ),
+          //       child: Text('login_flow'),
+          //     ),
+          //     ListTile(
+          //       leading: Icon(Icons.logout),
+          //       title: Text('Logout'),
+          //       onTap: () => Contents(),
+          //     )
+          //   ]),
+          // ),
+          body: FutureBuilder<bool>(
+            future: getData(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              } else {
+                return Stack(
+                  children: <Widget>[
+                    tabBody,
+                    bottomBar(),
+                  ],
+                );
+              }
+            },
+          ),
+        )
+
+        // drawer: Drawer(
+        //     child: ListView(
+        //   padding: EdgeInsets.zero,
+        //   children: [
+        //     DrawerHeader(
+        //       decoration: BoxDecoration(
+        //         color: FitnessAppTheme.grey,
+        //       ),
+        //       child: Text('login_flow'),
+        //     ),
+        //     ListTile(
+        //       leading: Icon(Icons.logout),
+        //       title: Text('Logout'),
+        //       onTap: () => Contents(),
+        //     )
+        //   ],
+        // )),
+        );
   } //build
 
   Future<bool> getData() async {

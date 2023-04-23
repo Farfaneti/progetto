@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
+import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/widgets/body_measurement_view.dart';
 
 import '../methods/title_view.dart';
@@ -14,6 +15,7 @@ class GraphsScreen extends StatefulWidget {
 
 class _GraphsState extends State<GraphsScreen> with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
@@ -57,8 +59,7 @@ class _GraphsState extends State<GraphsScreen> with TickerProviderStateMixin {
 
     listViews.add(
       TitleView(
-        titleTxt: 'Mediterranean diet',
-        subTxt: 'Details',
+        titleTxt: 'Graph1',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
@@ -69,7 +70,7 @@ class _GraphsState extends State<GraphsScreen> with TickerProviderStateMixin {
 
     listViews.add(
       TitleView(
-        titleTxt: 'Body measurement',
+        titleTxt: 'Graph2',
         subTxt: 'Today',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
@@ -88,17 +89,6 @@ class _GraphsState extends State<GraphsScreen> with TickerProviderStateMixin {
         animationController: widget.animationController!,
       ),
     );
-    listViews.add(
-      TitleView(
-        titleTxt: 'Water',
-        subTxt: 'Aqua SmartBottle',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
   }
 
   Future<bool> getData() async {
@@ -112,6 +102,21 @@ class _GraphsState extends State<GraphsScreen> with TickerProviderStateMixin {
       color: FitnessAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        // drawer: Drawer(
+        //   child: ListView(children: [
+        //     DrawerHeader(
+        //       decoration: BoxDecoration(
+        //         color: Colors.blue,
+        //       ),
+        //       child: Text('login_flow'),
+        //     ),
+        //     ListTile(
+        //       leading: Icon(Icons.logout),
+        //       title: Text('Logout'),
+        //       //onTap: () => _toLoginPage(context),
+        //     )
+        //   ]),
+        // ),
         body: Stack(
           children: <Widget>[
             getMainListViewUI(),
@@ -192,19 +197,33 @@ class _GraphsState extends State<GraphsScreen> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Graphs',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: FitnessAppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: FitnessAppTheme.darkerText,
+                              key: _scaffoldKey,
+                              child: Stack(
+                                children: [
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.menu,
+                                        color: FitnessAppTheme.darkText,
+                                      ),
+                                      onPressed: () {
+                                        _scaffoldKey.currentState?.openDrawer();
+                                      }),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(60, 8, 8, 8),
+                                    child: Text(
+                                      'Graphs',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: FitnessAppTheme.fontName,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 22 + 6 - 6 * topBarOpacity,
+                                        letterSpacing: 1.2,
+                                        color: FitnessAppTheme.darkerText,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                             SizedBox(
