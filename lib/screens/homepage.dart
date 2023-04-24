@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
+  String? _selectAppBarTitle;
+  String appBarTitle = 'Graph';
 
   Widget _selectPage({
     required int index,
@@ -39,6 +41,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return Contents();
       default:
         return GraphPage();
+    }
+  }
+
+  String _selectTitle({
+    required int index,
+  }) {
+    switch (index) {
+      case 0:
+        return 'Graph';
+      case 1:
+        return 'Analysis';
+      case 2:
+        return 'Contents';
+      case 3:
+        return 'Profile';
+      default:
+        return 'Graph';
     }
   }
 
@@ -83,9 +102,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ),
         appBar: AppBar(
-          title: (Text(
-            'AppName',
-          )),
+          title: Text(_selectTitle(index: _selectedIndex)),
+          // (Text(
+          //   'AppName',
+          // )),
           titleTextStyle: FitnessAppTheme.headline,
           iconTheme: const IconThemeData(color: FitnessAppTheme.nearlyBlack),
           elevation: 0,
