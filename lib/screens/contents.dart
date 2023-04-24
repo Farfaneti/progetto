@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:progetto/screens/text_contents/text1.dart';
+import 'package:progetto/screens/text_contents/text2.dart';
+
+import '../methods/theme.dart';
 
 import '../methods/theme.dart';
 
 class Contents extends StatelessWidget {
-  Contents({Key? key}) : super(key: key);
+ const Contents({Key? key}) : super(key: key);
 
   static const routename = 'Content';
+  
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +19,20 @@ class Contents extends StatelessWidget {
     return Scaffold(
       backgroundColor: FitnessAppTheme.background,
       appBar: AppBar(
-        title: Text(Contents.routename),
+        backgroundColor: FitnessAppTheme.background,
+        title: Text(Contents.routename,
+        style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                        fontSize: 24,
+                      ),),
       ),
-      body: Column(children: <Widget>[
-        Spacer(),
-        Hypertension(),
-        METindex(),
-        Spacer(),
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Hypertension(),
+          METindex(),
+        ]),
+      ),
     );
   } //build
 }
@@ -31,35 +43,32 @@ class Hypertension extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: FitnessAppTheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Column(
+        
+        child: Column( 
           children: [
             Stack(
               children: [
                 Ink.image(
                   image: const AssetImage('assets/hypertension.jpg'),
-                  height: 150,
-                  fit: BoxFit.cover,
+                  height: 300,
+                  fit: BoxFit.fill,
                 ),
-                const Positioned(
-                    bottom: 16,
-                    right: 16,
-                    left: 16,
-                    child: Text(
-                      'Hypertension',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 24,
-                      ),
-                    ))
+                
               ],
             ),
+            Title(color: FitnessAppTheme.darkText, child: Text('Hypertension', 
+            style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                        fontSize: 24,
+                      ),)),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 0),
               child: const Text(
-                'Hypertension is..........................................',
+                'Hypertension is the major cause of premature death worldwide.  Aerobic exercise is an effective coadjuvant treatment for reducing ambulatory blood pressure in patients with hypertension.',
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -67,7 +76,8 @@ class Hypertension extends StatelessWidget {
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                TextButton(onPressed: () {}, child: const Text('Learn more'))
+                TextButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => HypertensionPage())), 
+                child: const Text('Learn more'))
               ],
             )
           ],
@@ -81,6 +91,7 @@ class METindex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: FitnessAppTheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: Column(
           children: [
@@ -88,28 +99,25 @@ class METindex extends StatelessWidget {
               children: [
                 Ink.image(
                   image: const AssetImage('assets/Met.png'),
-                  height: 100,
-                  fit: BoxFit.cover,
+                  height: 300,
+                  fit: BoxFit.fill,
                 ),
-                const Positioned(
-                    bottom: 16,
-                    right: 16,
-                    left: 16,
-                    child: Text(
-                      'MET INDEX',
+              ]
+            ),
+                    Title(color: FitnessAppTheme.darkText, child: Text(
+                      'Metabolic Equivalent of Task (MET)',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.pink,
                         fontSize: 24,
                       ),
-                    ))
-              ],
+                    )
             ),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 0),
               child: const Text(
-                'MET index is..........................................',
+                '''A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. Aiming for at least 600 MET minutes a week is a good goal for optimal cardiovascular health.''',
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -117,7 +125,8 @@ class METindex extends StatelessWidget {
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                TextButton(onPressed: () {}, child: const Text('Learn more'))
+                TextButton(onPressed: ()  => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MetPage())),
+                 child: const Text('Learn more'))
               ],
             )
           ],
