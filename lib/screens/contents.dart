@@ -4,8 +4,6 @@ import 'package:progetto/screens/text_contents/text2.dart';
 
 import '../methods/theme.dart';
 
-import '../methods/theme.dart';
-
 class Contents extends StatelessWidget {
   const Contents({Key? key}) : super(key: key);
 
@@ -16,12 +14,14 @@ class Contents extends StatelessWidget {
     print('${Contents.routename} built');
     return Scaffold(
       backgroundColor: FitnessAppTheme.background,
-      body: Column(children: <Widget>[
-        Spacer(),
+      body:  SingleChildScrollView(
+        child: Column(children: <Widget>[
+      
         Hypertension(),
         METindex(),
-        Spacer(),
+       
       ]),
+      )
     );
   } //build
 }

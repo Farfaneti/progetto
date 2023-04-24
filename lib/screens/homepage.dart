@@ -34,9 +34,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 0:
         return GraphPage();
       case 1:
-        return Contents();
+        return GraphPage() ;
       case 2:
-        return GraphPage();
+        return  Contents();
       case 3:
         return Contents();
       default:
@@ -65,42 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFE4DFD4),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              ListTile(
-                  leading: const Icon(
-                    MdiIcons.logout,
-                    color: FitnessAppTheme.nearlyBlue,
-                  ),
-                  title: const Text(
-                    'Logout',
-                    selectionColor: FitnessAppTheme.darkText,
-                  ),
-                  // delete all data from the database
-                  onTap: () => {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (context) => LoginPage(),
-                        // ))
-                      }),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('About'),
-              ),
-              ListTile(
-                  leading: const Icon(MdiIcons.imageFilterDrama,
-                      color: FitnessAppTheme.nearlyBlue),
-                  title: const Text('Profile',
-                      selectionColor: FitnessAppTheme.darkText),
-                  //delete all data from the database
-                  onTap: () => {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (context) => UserPage(),
-                        // ))
-                      }),
-            ],
-          ),
-        ),
+        drawer: const NavigationDrawer() ,
         appBar: AppBar(
           title: Text(_selectTitle(index: _selectedIndex)),
           // (Text(
@@ -156,3 +121,75 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ));
   }
 }
+
+class NavigationDrawer extends StatelessWidget{
+  const NavigationDrawer({Key? key}): super(key:key);
+
+  @override
+  Widget build(BuildContext context) {
+   return Drawer(
+    child: SingleChildScrollView(child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget> [
+        buildHeader(context),
+        buildMenuItems(context),
+      ],)),
+   );
+}
+   Widget buildHeader(BuildContext context) => Material(
+    color: Colors.pink.shade100,
+    child: InkWell(
+      onTap:() {
+       // Navigator.pop(context);
+        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ProfilePage(),),
+       // );
+      },
+     child: Container(
+      padding: EdgeInsets.only(top: 24 + MediaQuery.of(context).padding.top,
+      bottom: 24,
+      ),
+      child: Column(
+        children: const[
+          CircleAvatar( radius: 52,),
+          SizedBox(height: 12),
+          Text(' nome utente', style: TextStyle(fontSize: 28, color: Colors.black),),
+          Text('utente@mail.com', style: TextStyle(fontSize: 16, color: Colors.black54),),
+        ],
+      ),
+     ),
+    )
+   );
+  Widget buildMenuItems(BuildContext context) => Container(
+    padding:  const EdgeInsets.all(24),
+    child: Wrap(
+      runSpacing: 16,
+      children: [
+          ListTile(
+          leading: const Icon(Icons.info_outline),
+          title: const Text('Information'),
+          onTap: () { 
+            Navigator.pop(context);
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> const Contents(),),
+        );
+          },
+        ),
+          ListTile(
+          leading: const Icon(Icons.account_circle),
+          title: const Text('Profile'),
+          onTap: () { 
+            //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ProfilePage(),),);
+          },
+        ),
+  
+        const Divider(color: Colors.black),
+  
+          ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text('Logout'),
+          onTap: () {},
+        )
+      ],
+    ),
+  );
+  }
+
