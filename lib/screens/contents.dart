@@ -7,32 +7,21 @@ import '../methods/theme.dart';
 import '../methods/theme.dart';
 
 class Contents extends StatelessWidget {
- const Contents({Key? key}) : super(key: key);
+  const Contents({Key? key}) : super(key: key);
 
   static const routename = 'Content';
-  
- 
 
   @override
   Widget build(BuildContext context) {
     print('${Contents.routename} built');
     return Scaffold(
       backgroundColor: FitnessAppTheme.background,
-      appBar: AppBar(
-        backgroundColor: FitnessAppTheme.background,
-        title: Text(Contents.routename,
-        style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                        fontSize: 24,
-                      ),),
-      ),
-      body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Hypertension(),
-          METindex(),
-        ]),
-      ),
+      body: Column(children: <Widget>[
+        Spacer(),
+        Hypertension(),
+        METindex(),
+        Spacer(),
+      ]),
     );
   } //build
 }
@@ -43,10 +32,9 @@ class Hypertension extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: FitnessAppTheme.background,
+        color: FitnessAppTheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        
-        child: Column( 
+        child: Column(
           children: [
             Stack(
               children: [
@@ -55,15 +43,18 @@ class Hypertension extends StatelessWidget {
                   height: 300,
                   fit: BoxFit.fill,
                 ),
-                
               ],
             ),
-            Title(color: FitnessAppTheme.darkText, child: Text('Hypertension', 
-            style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                        fontSize: 24,
-                      ),)),
+            Title(
+                color: FitnessAppTheme.darkText,
+                child: Text(
+                  'Hypertension',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink,
+                    fontSize: 24,
+                  ),
+                )),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 0),
@@ -76,8 +67,11 @@ class Hypertension extends StatelessWidget {
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                TextButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => HypertensionPage())), 
-                child: const Text('Learn more'))
+                TextButton(
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => HypertensionPage())),
+                    child: const Text('Learn more'))
               ],
             )
           ],
@@ -91,28 +85,27 @@ class METindex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: FitnessAppTheme.background,
+        color: FitnessAppTheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: Column(
           children: [
-            Stack(
-              children: [
-                Ink.image(
-                  image: const AssetImage('assets/Met.png'),
-                  height: 300,
-                  fit: BoxFit.fill,
-                ),
-              ]
-            ),
-                    Title(color: FitnessAppTheme.darkText, child: Text(
-                      'Metabolic Equivalent of Task (MET)',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                        fontSize: 24,
-                      ),
-                    )
-            ),
+            Stack(children: [
+              Ink.image(
+                image: const AssetImage('assets/Met.png'),
+                height: 300,
+                fit: BoxFit.fill,
+              ),
+            ]),
+            Title(
+                color: FitnessAppTheme.darkText,
+                child: Text(
+                  'Metabolic Equivalent of Task (MET)',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink,
+                    fontSize: 24,
+                  ),
+                )),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 0),
@@ -125,8 +118,10 @@ class METindex extends StatelessWidget {
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
-                TextButton(onPressed: ()  => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MetPage())),
-                 child: const Text('Learn more'))
+                TextButton(
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => MetPage())),
+                    child: const Text('Learn more'))
               ],
             )
           ],

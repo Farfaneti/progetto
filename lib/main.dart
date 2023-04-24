@@ -3,7 +3,6 @@ import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/graphs_page.dart';
 import 'package:progetto/screens/homepage.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -15,7 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Contents(),
+      home: HomePage(
+        title: 'Homepage',
+      ),
     );
   }
 }
