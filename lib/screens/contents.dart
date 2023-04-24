@@ -40,7 +40,7 @@ class Hypertension extends StatelessWidget {
               children: [
                 Ink.image(
                   image: const AssetImage('assets/hypertension.jpg'),
-                  height: 300,
+                  height: 250,
                   fit: BoxFit.fill,
                 ),
               ],
@@ -92,7 +92,7 @@ class METindex extends StatelessWidget {
             Stack(children: [
               Ink.image(
                 image: const AssetImage('assets/Met.png'),
-                height: 300,
+                height: 250,
                 fit: BoxFit.fill,
               ),
             ]),
