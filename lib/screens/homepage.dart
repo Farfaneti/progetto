@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:progetto/screens/contents.dart';
+import 'package:progetto/screens/login_screen.dart';
+import 'package:progetto/screens/profile.dart';
 
 import '../methods/tab_icon_data.dart';
 import '../methods/theme.dart';
@@ -79,13 +81,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child:
-                    // onPressed: () {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           fullscreenDialog: true,
-                    //           builder: (context) => Profile()));
-                    // },
+                   // onPressed: () {
+                    //Navigator.push(
+                    //     context,
+                    //MaterialPageRoute(
+                    //fullscreenDialog: true,
+                    //builder: (context) => ProfilePage()));
+                    //},
                     Icon(
                   MdiIcons.accountCircle,
                   size: 40,
@@ -140,9 +142,9 @@ class NavigationDrawer extends StatelessWidget{
     color: Colors.pink.shade100,
     child: InkWell(
       onTap:() {
-       // Navigator.pop(context);
-        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ProfilePage(),),
-       // );
+       Navigator.pop(context);
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ProfilePage(),),
+       );
       },
      child: Container(
       padding: EdgeInsets.only(top: 24 + MediaQuery.of(context).padding.top,
@@ -177,7 +179,7 @@ class NavigationDrawer extends StatelessWidget{
           leading: const Icon(Icons.account_circle),
           title: const Text('Profile'),
           onTap: () { 
-            //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ProfilePage(),),);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ProfilePage(),),);
           },
         ),
   
@@ -186,7 +188,11 @@ class NavigationDrawer extends StatelessWidget{
           ListTile(
           leading: const Icon(Icons.logout),
           title: const Text('Logout'),
-          onTap: () {},
+         onTap: () { 
+            Navigator.pop(context);
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> Login_screen(),),
+        );
+          },
         )
       ],
     ),
