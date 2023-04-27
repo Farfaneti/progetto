@@ -36,8 +36,11 @@ class HypertensionPage extends StatelessWidget {
     print('${HypertensionPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        title: Text(HypertensionPage.routename, style: TextStyle(color: Colors.pink),),
-        backgroundColor: Color.fromARGB(255, 245, 242, 248),
+        title: const Text(
+          HypertensionPage.routename,
+          style: FitnessAppTheme.headline2,
+        ),
+        backgroundColor: FitnessAppTheme.background,
       ),
       body: SingleChildScrollView(
           child: Column(children: [
@@ -51,10 +54,7 @@ class HypertensionPage extends StatelessWidget {
                     color: Colors.black,
                     child: Text(
                       'Definition',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textHypertension,
@@ -79,10 +79,7 @@ class HypertensionPage extends StatelessWidget {
                     color: Colors.black,
                     child: Text(
                       'BP monitoring',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textH1,
@@ -107,10 +104,7 @@ class HypertensionPage extends StatelessWidget {
                     color: Colors.black,
                     child: Text(
                       'Exercise and BP',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textH2,
@@ -126,18 +120,17 @@ class HypertensionPage extends StatelessWidget {
               ),
             )),
         Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-               child: Padding(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
-          child: Column(
-            children: [
-              Title(color: Colors.pink, child: Text('References')),
-              Text(references),
-            ],
-          ),
-               )
-        )
+              child: Column(
+                children: [
+                  Title(color: Colors.pink, child: Text('References')),
+                  Text(references),
+                ],
+              ),
+            ))
       ])),
     );
   } //build

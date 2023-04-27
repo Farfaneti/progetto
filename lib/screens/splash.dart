@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/screens/homepage.dart';
-
-
-
-
+import 'package:progetto/screens/login_screen.dart';
 
 class Splash extends StatelessWidget {
   static const route = '/splash/';
@@ -11,19 +8,21 @@ class Splash extends StatelessWidget {
 
   const Splash({Key? key}) : super(key: key);
 
-  // Method for navigation SplashPage -> HomePage
-  void _toHomePage(BuildContext context) {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomePage(title: 'HomePage',)));
+  // Method for navigation SplashPage -> Login
+  void _toLoginPage(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => Login_screen(
+            //title: 'LoginPage',
+            )));
   } //_toHomePage
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () => _toHomePage(context));
+    Future.delayed(const Duration(seconds: 3), () => _toLoginPage(context));
     return Material(
       child: Container(
         color: Color.fromARGB(255, 162, 113, 220),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(

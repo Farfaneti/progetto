@@ -6,8 +6,9 @@ class FitnessAppTheme {
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
   static const Color nearlyDarkBlue = Color.fromARGB(255, 139, 26, 201);
+  static const Color purple = Color.fromARGB(255, 178, 86, 235);
 
-  static const Color nearlyBlue = Color.fromARGB(255, 159, 2, 198);
+  static const Color nearlyBlue = Color.fromARGB(255, 154, 92, 170);
   static const Color nearlyBlack = Color.fromARGB(255, 45, 33, 51);
   static const Color grey = Color.fromARGB(255, 93, 58, 96);
   static const Color dark_grey = Color.fromARGB(255, 64, 49, 68);
@@ -44,23 +45,31 @@ class FitnessAppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 24,
     letterSpacing: 0.27,
-    color: darkerText,
+    color: nearlyBlue,
+  );
+
+  static const TextStyle headline2 = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.bold,
+    fontSize: 24,
+    letterSpacing: 0.27,
+    color: nearlyDarkBlue,
   );
 
   static const TextStyle title = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 16,
+    fontSize: 18,
     letterSpacing: 0.18,
-    color: darkerText,
+    color: purple,
   );
 
   static const TextStyle subtitle = TextStyle(
     fontFamily: fontName,
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
     letterSpacing: -0.04,
-    color: darkText,
+    color: grey,
   );
 
   static const TextStyle body2 = TextStyle(
@@ -86,5 +95,4 @@ class FitnessAppTheme {
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );
-
 }

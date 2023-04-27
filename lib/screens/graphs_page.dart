@@ -18,15 +18,25 @@ class GraphPage extends StatelessWidget {
           //TitleView(
           //   titleTxt: 'Graph1',
           // ),
-          Text('Graph1',
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Graph1',
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: FitnessAppTheme.fontName,
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-                letterSpacing: 0.5,
-                color: FitnessAppTheme.lightText,
-              ))
+              style: FitnessAppTheme.title,
+            ),
+          ),
+          // va messo il grafico 1
+          //
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Graph2',
+              textAlign: TextAlign.left,
+              style: FitnessAppTheme.title,
+            ),
+          ),
+          // va messo il grafico 2
         ],
       ),
     );

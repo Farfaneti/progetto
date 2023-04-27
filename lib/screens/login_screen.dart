@@ -81,16 +81,16 @@ Widget buildPassword() {
   );
 }
 
-Widget BuildForgotPassword() {
-  return Container(
-    alignment: Alignment.centerRight,
-    child: TextButton(
-      onPressed: () => print('Forgot Password Pressed'),
-      child: Text('Forgot Password',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-    ),
-  );
-}
+// Widget BuildForgotPassword() {
+//   return Container(
+//     alignment: Alignment.centerRight,
+//     child: TextButton(
+//       onPressed: () => print('Forgot Password Pressed'),
+//       child: Text('Forgot Password',
+//           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+//     ),
+//   );
+// }
 
 Widget buildLoginBtn() {
   return Container(
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<Login_screen> {
                         buildEmail(),
                         SizedBox(height: 20),
                         buildPassword(),
-                        BuildForgotPassword(),
+                        // BuildForgotPassword(),
                         buildLoginBtn()
                       ],
                     )),

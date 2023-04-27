@@ -1,7 +1,10 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
-String textMET= """ A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. 
+import '../../methods/theme.dart';
+
+String textMET =
+    """ A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. 
 It’s one way to describe the intensity of an exercise or activity.
 
 One MET is the energy you spend sitting at rest — your resting or basal metabolic rate. 
@@ -9,7 +12,8 @@ So, an activity with a MET value of 4 means you're exerting four times the energ
 
 To put it in perspective, a brisk walk at 3 or 4 miles per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. """;
 
-String textM1= """To better understand METs, it’s helpful to know a little about how your body uses energy.
+String textM1 =
+    """To better understand METs, it’s helpful to know a little about how your body uses energy.
 
 The cells in your muscles use oxygen to help create the energy needed to move your muscles. One MET is approximately 3.5 milliliters of oxygen consumed per kilogram (kg) of body weight per minute.
 
@@ -19,12 +23,13 @@ Energy expenditure may differ from person to person based on several factors, in
 
 For most healthy adults, MET values can be helpful in planning an exercise regimen, or at least gauging how much you’re getting out of your workout routine. """;
 
-String textM2= """MET-min is categorized as insufficient physical activity recommended by WHO with a cut-off of 0 to 600 MET-min, 
+String textM2 =
+    """MET-min is categorized as insufficient physical activity recommended by WHO with a cut-off of 0 to 600 MET-min, 
 moderate physical activity with a cut-off of 601–3000 MET-min per week and high physical activity with a cut-off of greater than 3000 MET-min per week. 
 Sedentary time is measured as sitting time per day. """;
 
-
-String textM3= """Moderate to high physical activity levels are associated with a lower blood pressure level. Awareness of the health benefits of physical activity is associated with a lower level of blood pressure, and people with positive attitudes
+String textM3 =
+    """Moderate to high physical activity levels are associated with a lower blood pressure level. Awareness of the health benefits of physical activity is associated with a lower level of blood pressure, and people with positive attitudes
 towards physical activity have 5 to 10 mmHg lower blood pressure levels compared to those who have negative attitudes toward taking part in physical activities.
 
 In a study of dose-response of physical activity in controlling blood pressure, reported that 61–90 minutes/week exercise was associated with a significant
@@ -37,21 +42,24 @@ Climie et al. had provided more insight into the association of domain-specific 
 The study reported that physical activity related to occupation was associated with worse neural baroreflex sensitivity. 
 In contrast, sports physical activity was associated with better neural baroreflex sensitivity. The findings indicate that different mechanisms of associations could be between domains of physical activity and blood pressure control.""";
 
-String references= """Associations of physical activity levels, and attitudes towards physical activity with blood pressure among adults with high blood pressure in Bangladesh """;
+String references =
+    """Associations of physical activity levels, and attitudes towards physical activity with blood pressure among adults with high blood pressure in Bangladesh """;
 
 class MetPage extends StatelessWidget {
-const MetPage({Key? key}) : 
-super(key: key);
-static const routename = 'Metabolic Equivalent of Task (MET)';
-@override
-Widget build(BuildContext context) {
-print('${MetPage.routename} built');
-return Scaffold(
-appBar: AppBar(
-title: Text(MetPage.routename),
-),
-
-body:  SingleChildScrollView(
+  const MetPage({Key? key}) : super(key: key);
+  static const routename = 'MET index';
+  @override
+  Widget build(BuildContext context) {
+    print('${MetPage.routename} built');
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          MetPage.routename,
+          style: FitnessAppTheme.headline2,
+        ),
+        backgroundColor: FitnessAppTheme.background,
+      ),
+      body: SingleChildScrollView(
           child: Column(children: [
         Card(
             shape:
@@ -61,12 +69,9 @@ body:  SingleChildScrollView(
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'Definition',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textMET,
@@ -76,7 +81,7 @@ body:  SingleChildScrollView(
                   overflow: TextOverflow.ellipsis,
                 ),
                 expanded: Text(
-                textMET,
+                  textMET,
                   style: TextStyle(fontSize: 14),
                 ),
               ),
@@ -89,12 +94,9 @@ body:  SingleChildScrollView(
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'How are calculated METs',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textM1,
@@ -117,12 +119,9 @@ body:  SingleChildScrollView(
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'MET-min cut-off',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textM2,
@@ -137,7 +136,7 @@ body:  SingleChildScrollView(
                 ),
               ),
             )),
-             Card(
+        Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             child: Padding(
@@ -145,12 +144,9 @@ body:  SingleChildScrollView(
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'Physical activity and blood pressure control',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
+                      style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textM3,
@@ -166,23 +162,18 @@ body:  SingleChildScrollView(
               ),
             )),
         Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-               child: Padding(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
-          child: Column(
-            children: [
-              Title(color: Colors.pink, child: Text('References')),
-              Text(references),
-            ],
-          ),
-               )
-        )
+              child: Column(
+                children: [
+                  Title(color: Colors.pink, child: Text('References')),
+                  Text(references),
+                ],
+              ),
+            ))
       ])),
     );
   } //build
 }
-
-  
-
-

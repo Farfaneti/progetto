@@ -13,16 +13,13 @@ class Contents extends StatelessWidget {
   Widget build(BuildContext context) {
     print('${Contents.routename} built');
     return Scaffold(
-      backgroundColor: FitnessAppTheme.background,
-      body:  SingleChildScrollView(
-        child: Column(children: <Widget>[
-      
-        Hypertension(),
-        METindex(),
-       
-      ]),
-      )
-    );
+        backgroundColor: FitnessAppTheme.background,
+        body: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            Hypertension(),
+            METindex(),
+          ]),
+        ));
   } //build
 }
 
@@ -42,22 +39,25 @@ class Hypertension extends StatelessWidget {
                   image: const AssetImage('assets/hypertension.jpg'),
                   height: 250,
                   fit: BoxFit.fill,
+                  child: InkWell(
+                    onTap: () {},
+                  ),
                 ),
               ],
             ),
-            Title(
-                color: FitnessAppTheme.darkText,
-                child: Text(
-                  'Hypertension',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
-                    fontSize: 24,
-                  ),
-                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Title(
+                  color: FitnessAppTheme.darkText,
+                  child: Text(
+                    'Hypertension',
+                    style: FitnessAppTheme.headline,
+                  )),
+            ),
             const SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.all(16).copyWith(bottom: 0),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0)
+                  .copyWith(bottom: 0),
               child: const Text(
                 'Hypertension is the major cause of premature death worldwide.  Aerobic exercise is an effective coadjuvant treatment for reducing ambulatory blood pressure in patients with hypertension.',
                 style: TextStyle(fontSize: 16),
@@ -71,7 +71,10 @@ class Hypertension extends StatelessWidget {
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => HypertensionPage())),
-                    child: const Text('Learn more'))
+                    child: const Text(
+                      'Learn more',
+                      style: FitnessAppTheme.subtitle,
+                    ))
               ],
             )
           ],
@@ -94,21 +97,29 @@ class METindex extends StatelessWidget {
                 image: const AssetImage('assets/Met.png'),
                 height: 250,
                 fit: BoxFit.fill,
+                child: InkWell(
+                  onTap: () {},
+                ),
               ),
             ]),
-            Title(
-                color: FitnessAppTheme.darkText,
-                child: Text(
-                  'Metabolic Equivalent of Task (MET)',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
-                    fontSize: 24,
-                  ),
-                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Title(
+                  color: FitnessAppTheme.darkText,
+                  child: Text(
+                    'Metabolic Equivalent of Task (MET)',
+                    style: FitnessAppTheme.headline,
+                    //TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    // color: FitnessAppTheme.nearlyDarkBlue,
+                    // fontSize: 24,
+                    //),
+                  )),
+            ),
             const SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.all(16).copyWith(bottom: 0),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0)
+                  .copyWith(bottom: 0),
               child: const Text(
                 '''A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. Aiming for at least 600 MET minutes a week is a good goal for optimal cardiovascular health.''',
                 style: TextStyle(fontSize: 16),
@@ -121,7 +132,10 @@ class METindex extends StatelessWidget {
                 TextButton(
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => MetPage())),
-                    child: const Text('Learn more'))
+                    child: const Text(
+                      'Learn more',
+                      style: FitnessAppTheme.subtitle,
+                    ))
               ],
             )
           ],
