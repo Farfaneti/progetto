@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/graphs_page.dart';
 import 'package:progetto/screens/homepage.dart';
@@ -17,6 +18,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: HomePage(
         title: 'HomePage',
+      ),
+      theme: ThemeData(
+        inputDecorationTheme: const InputDecorationTheme(
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: FitnessAppTheme.lightPurple)),
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: FitnessAppTheme.lightPurple,
+        ),
       ),
     );
   }

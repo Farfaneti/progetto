@@ -9,10 +9,6 @@ import '../methods/tab_icon_data.dart';
 import '../methods/theme.dart';
 import 'graphs_page.dart';
 
-//import 'package:flutter_login/flutter_login.dart';
-//import 'package:login_flow/pages/login.dart';
-// da importare quando è fatta la pagina di login
-
 class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
   static const route = '/home/';

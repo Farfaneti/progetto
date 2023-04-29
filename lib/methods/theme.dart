@@ -5,7 +5,7 @@ class FitnessAppTheme {
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
-  static const Color nearlyDarkBlue = Color.fromARGB(255, 139, 26, 201);
+  static const Color nearlyDarkBlue = Color.fromARGB(255, 113, 21, 163);
   static const Color purple = Color.fromARGB(255, 178, 86, 235);
   static const Color lightPurple = Color.fromARGB(255, 203, 151, 235);
 
@@ -60,7 +60,7 @@ class FitnessAppTheme {
   static const TextStyle headline2 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 24,
+    fontSize: 28,
     letterSpacing: 0.27,
     color: nearlyDarkBlue,
   );

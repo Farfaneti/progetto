@@ -140,7 +140,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Text(
                               getValue,
-                              style: const TextStyle(fontSize: 16, height: 1.4),
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  height: 1.4,
+                                  color: FitnessAppTheme.purple),
                             ))),
                     const Icon(
                       Icons.keyboard_arrow_right,
@@ -190,6 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     height: 1.4,
+                                    color: FitnessAppTheme.purple,
                                   ),
                                 ))))),
                 const Icon(

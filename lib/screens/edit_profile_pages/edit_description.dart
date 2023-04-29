@@ -70,6 +70,14 @@ class _EditDescriptionFormPageState extends State<EditDescriptionFormPage> {
                           controller: descriptionController,
                           textAlignVertical: TextAlignVertical.top,
                           decoration: const InputDecoration(
+                              // enabledBorder: UnderlineInputBorder(
+                              //   borderSide: BorderSide(
+                              //       color: FitnessAppTheme.lightPurple),
+                              // ),
+                              // focusedBorder: UnderlineInputBorder(
+                              //   borderSide: BorderSide(
+                              //       color: FitnessAppTheme.lightPurple),
+                              // ),
                               alignLabelWithHint: true,
                               //contentPadding: EdgeInsets.fromLTRB(8, 15, 8, 70),
                               hintMaxLines: 3,
