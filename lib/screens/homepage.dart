@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 2:
         return Contents();
       case 3:
-        return Contents();
+        return ProfilePage();
       default:
         return GraphPage();
     }
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         bottomNavigationBar: Container(
           color: FitnessAppTheme.background,
           child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
               child: GNav(
                 backgroundColor: FitnessAppTheme.background,
                 color: FitnessAppTheme.deactivatedText,
@@ -114,10 +114,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 },
                 padding: EdgeInsets.all(16),
                 tabs: [
-                  GButton(icon: Icons.home, text: 'Graphs'),
-                  GButton(icon: Icons.auto_graph_outlined, text: 'Analysis'),
-                  GButton(icon: Icons.description_outlined, text: 'Contents'),
-                  GButton(icon: Icons.account_circle, text: 'Profile'),
+                  GButton(
+                    icon: Icons.home,
+                    text: 'Graphs',
+                    textStyle: FitnessAppTheme.button,
+                  ),
+                  GButton(
+                    icon: Icons.auto_graph_outlined,
+                    text: 'Analysis',
+                    textStyle: FitnessAppTheme.button,
+                  ),
+                  GButton(
+                    icon: Icons.description_outlined,
+                    text: 'Contents',
+                    textStyle: FitnessAppTheme.button,
+                  ),
+                  GButton(
+                    icon: Icons.account_circle,
+                    text: 'Profile',
+                    textStyle: FitnessAppTheme.button,
+                  ),
                 ],
               )),
         ));
@@ -142,7 +158,7 @@ class NavigationDrawer extends StatelessWidget {
   }
 
   Widget buildHeader(BuildContext context) => Material(
-      color: Colors.pink.shade100,
+      color: FitnessAppTheme.lightPurple,
       child: InkWell(
         onTap: () {
           Navigator.pop(context);
@@ -161,20 +177,22 @@ class NavigationDrawer extends StatelessWidget {
             children: const [
               CircleAvatar(
                 radius: 52,
+                backgroundColor: FitnessAppTheme.background,
               ),
               SizedBox(height: 12),
               Text(
                 ' nome utente',
-                style: TextStyle(fontSize: 28, color: Colors.black),
+                style: TextStyle(fontSize: 28, color: FitnessAppTheme.darkText),
               ),
               Text(
                 'utente@mail.com',
-                style: TextStyle(fontSize: 16, color: Colors.black54),
+                style: TextStyle(fontSize: 16, color: FitnessAppTheme.darkText),
               ),
             ],
           ),
         ),
       ));
+
   Widget buildMenuItems(BuildContext context) => Container(
         padding: const EdgeInsets.all(24),
         child: Wrap(
@@ -182,7 +200,10 @@ class NavigationDrawer extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.info_outline),
-              title: const Text('Information'),
+              title: const Text(
+                'Information',
+                style: FitnessAppTheme.body1,
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.of(context).pushReplacement(
@@ -194,7 +215,10 @@ class NavigationDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.account_circle),
-              title: const Text('Profile'),
+              title: const Text(
+                'Profile',
+                style: FitnessAppTheme.body1,
+              ),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -206,7 +230,10 @@ class NavigationDrawer extends StatelessWidget {
             const Divider(color: Colors.black),
             ListTile(
               leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              title: const Text(
+                'Logout',
+                style: FitnessAppTheme.body1,
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.of(context).pushReplacement(

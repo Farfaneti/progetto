@@ -36,6 +36,9 @@ class HypertensionPage extends StatelessWidget {
     print('${HypertensionPage.routename} built');
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: FitnessAppTheme.grey,
+        ),
         title: const Text(
           HypertensionPage.routename,
           style: FitnessAppTheme.headline2,
@@ -47,6 +50,7 @@ class HypertensionPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -72,6 +76,7 @@ class HypertensionPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -97,6 +102,7 @@ class HypertensionPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -122,11 +128,17 @@ class HypertensionPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: Column(
                 children: [
-                  Title(color: Colors.pink, child: Text('References')),
+                  Title(
+                      color: Colors.pink,
+                      child: Text(
+                        'References',
+                        style: FitnessAppTheme.title,
+                      )),
                   Text(references),
                 ],
               ),

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
+import 'package:progetto/methods/theme.dart';
 
 import '../user/user.dart';
 
@@ -24,102 +24,85 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = UserData.myUser;
 
     return Scaffold(
-
-        body:ListView(
-          children: [
-            AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              toolbarHeight: 10,
-            ),
-            Column(
-              children: [
-                const Center(
-                    child: Padding(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          'User Profile',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            color: Color.fromRGBO(8, 8, 8, 1),
-                          ),
-                        ))),
-                        Center(
+      body: ListView(
+        children: [
+          AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            toolbarHeight: 10,
+          ),
+          Column(
+            children: [
+              const Center(
+                  child: Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        'User Profile',
+                        style: FitnessAppTheme.headline,
+                      ))),
+              Center(
                   child: CircleAvatar(
                       radius: 70, child: Image.asset('assets/avatar.png'))),
-                 Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const SizedBox(width: 10),
-                          const Text('Gender',
-                              style: TextStyle(
-                                  color: const Color.fromARGB(255, 140, 138, 138), fontSize: 17)),
-                          Radio(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const SizedBox(width: 10),
+                        const Text('Gender', style: FitnessAppTheme.subtitle),
+                        Radio(
+                          fillColor: MaterialStateColor.resolveWith((states) =>
+                              const Color.fromARGB(255, 140, 138, 138)),
+                          value: 1,
+                          groupValue: 1,
+                          onChanged: (val) {},
+                        ),
+                        const Text(
+                          'MALE',
+                          style: FitnessAppTheme.body1,
+                        ),
+                        Radio(
                             fillColor: MaterialStateColor.resolveWith(
-                                (states) => const Color.fromARGB(255, 140, 138, 138)),
-                            value: 1,
+                                (states) =>
+                                    const Color.fromARGB(255, 140, 138, 138)),
+                            value: 2,
                             groupValue: 1,
-                            onChanged: (val) {},
-                          ),
-                          const Text(
-                            'MALE',
-                            style: TextStyle(fontSize: 17.0),
-                          ),
-                          Radio(
-                              fillColor: MaterialStateColor.resolveWith(
-                                  (states) => const Color.fromARGB(255, 140, 138, 138)),
-                              value: 2,
-                              groupValue: 1,
-                              onChanged: (val) {}),
-                          const Text(
-                            'FEMALE',
-                            style: TextStyle(
-                              fontSize: 17.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                            onChanged: (val) {}),
+                        const Text(
+                          'FEMALE',
+                          style: FitnessAppTheme.body1,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            
-            ),
-                    
-             Row(
-                          mainAxisAlignment: MainAxisAlignment.center, 
-                          children: [ buildUserInfoDisplay(user.name, 'Name', EditNameFormPage()),
-                          ]
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildUserInfoDisplay(user.phone, 'Phone', EditPhoneFormPage()),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildUserInfoDisplay(user.email, 'Email', EditEmailFormPage()),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [buildAbout(user),
-               
-            ]
-            )
             ],
           ),
-          
-        );
-    
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            buildUserInfoDisplay(user.name, 'Name', EditNameFormPage()),
+          ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              buildUserInfoDisplay(user.phone, 'Phone', EditPhoneFormPage()),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              buildUserInfoDisplay(user.email, 'Email', EditEmailFormPage()),
+            ],
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            buildAbout(user),
+          ])
+        ],
+      ),
+    );
   }
 
   // Widget builds the display item with the proper formatting to display the user's info

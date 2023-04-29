@@ -7,6 +7,7 @@ class FitnessAppTheme {
   static const Color background = Color(0xFFF2F3F8);
   static const Color nearlyDarkBlue = Color.fromARGB(255, 139, 26, 201);
   static const Color purple = Color.fromARGB(255, 178, 86, 235);
+  static const Color lightPurple = Color.fromARGB(255, 203, 151, 235);
 
   static const Color nearlyBlue = Color.fromARGB(255, 154, 92, 170);
   static const Color nearlyBlack = Color.fromARGB(255, 45, 33, 51);
@@ -22,13 +23,21 @@ class FitnessAppTheme {
   static const String fontName = 'Roboto';
 
   static const TextTheme textTheme = TextTheme(
+    // ignore: deprecated_member_use
     headline4: display1,
+    // ignore: deprecated_member_use
     headline5: headline,
+    // ignore: deprecated_member_use
     headline6: title,
+    // ignore: deprecated_member_use
     subtitle2: subtitle,
+    // ignore: deprecated_member_use
     bodyText2: body2,
+    // ignore: deprecated_member_use
     bodyText1: body1,
+    // ignore: deprecated_member_use
     caption: caption,
+    button: button,
   );
 
   static const TextStyle display1 = TextStyle(
@@ -86,6 +95,14 @@ class FitnessAppTheme {
     fontSize: 16,
     letterSpacing: -0.05,
     color: darkText,
+  );
+
+  static const TextStyle button = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    letterSpacing: -0.05,
+    color: nearlyBlue,
   );
 
   static const TextStyle caption = TextStyle(

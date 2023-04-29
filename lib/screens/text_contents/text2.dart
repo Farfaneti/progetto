@@ -53,6 +53,9 @@ class MetPage extends StatelessWidget {
     print('${MetPage.routename} built');
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: FitnessAppTheme.grey,
+        ),
         title: const Text(
           MetPage.routename,
           style: FitnessAppTheme.headline2,
@@ -64,6 +67,7 @@ class MetPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -89,6 +93,7 @@ class MetPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -114,6 +119,7 @@ class MetPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -139,6 +145,7 @@ class MetPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -164,6 +171,7 @@ class MetPage extends StatelessWidget {
         Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shadowColor: FitnessAppTheme.purple,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: Column(
