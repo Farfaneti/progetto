@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import '../../methods/theme.dart';
 
 String textMET =
-    """ A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. 
+    '''A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. 
 It’s one way to describe the intensity of an exercise or activity.
 
 One MET is the energy you spend sitting at rest — your resting or basal metabolic rate. 
 So, an activity with a MET value of 4 means you're exerting four times the energy than you would if you were sitting still.
 
-To put it in perspective, a brisk walk at 3 or 4 miles per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. """;
+To put it in perspective, a brisk walk at 3 or 4 miles per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. ''';
 
 String textM1 =
     """To better understand METs, it’s helpful to know a little about how your body uses energy.
@@ -53,7 +53,7 @@ class MetPage extends StatelessWidget {
     print('${MetPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: FitnessAppTheme.grey,
         ),
         title: const Text(
@@ -79,14 +79,16 @@ class MetPage extends StatelessWidget {
                     )),
                 collapsed: Text(
                   textMET,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textMET,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -105,14 +107,16 @@ class MetPage extends StatelessWidget {
                     )),
                 collapsed: Text(
                   textM1,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textM1,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -131,14 +135,16 @@ class MetPage extends StatelessWidget {
                     )),
                 collapsed: Text(
                   textM2,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textM2,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -157,14 +163,16 @@ class MetPage extends StatelessWidget {
                     )),
                 collapsed: Text(
                   textM3,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textM3,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -176,8 +184,15 @@ class MetPage extends StatelessWidget {
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: Column(
                 children: [
-                  Title(color: Colors.pink, child: Text('References')),
-                  Text(references),
+                  Title(
+                      color: Colors.pink,
+                      child: const Text('References',
+                          style: FitnessAppTheme.body1)),
+                  Text(
+                    references,
+                    style: FitnessAppTheme.body1,
+                    textAlign: TextAlign.justify,
+                  ),
                 ],
               ),
             ))

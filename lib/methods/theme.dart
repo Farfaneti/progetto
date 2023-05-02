@@ -52,7 +52,7 @@ class FitnessAppTheme {
   static const TextStyle headline = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 24,
+    fontSize: 26,
     letterSpacing: 0.27,
     color: nearlyBlue,
   );
@@ -60,7 +60,7 @@ class FitnessAppTheme {
   static const TextStyle headline2 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 28,
+    fontSize: 30,
     letterSpacing: 0.27,
     color: nearlyDarkBlue,
   );
@@ -68,7 +68,7 @@ class FitnessAppTheme {
   static const TextStyle title = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 18,
+    fontSize: 22,
     letterSpacing: 0.18,
     color: purple,
   );
@@ -84,7 +84,7 @@ class FitnessAppTheme {
   static const TextStyle body2 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
-    fontSize: 14,
+    fontSize: 20,
     letterSpacing: 0.2,
     color: darkText,
   );
@@ -92,7 +92,7 @@ class FitnessAppTheme {
   static const TextStyle body1 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
-    fontSize: 16,
+    fontSize: 18,
     letterSpacing: -0.05,
     color: darkText,
   );
@@ -100,7 +100,7 @@ class FitnessAppTheme {
   static const TextStyle button = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 16,
+    fontSize: 18,
     letterSpacing: -0.05,
     color: nearlyBlue,
   );

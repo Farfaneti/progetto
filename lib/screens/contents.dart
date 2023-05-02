@@ -49,7 +49,7 @@ class Hypertension extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Title(
                   color: FitnessAppTheme.darkText,
-                  child: Text(
+                  child: const Text(
                     'Hypertension',
                     style: FitnessAppTheme.headline,
                   )),
@@ -60,7 +60,8 @@ class Hypertension extends StatelessWidget {
                   .copyWith(bottom: 0),
               child: const Text(
                 'Hypertension is the major cause of premature death worldwide.  Aerobic exercise is an effective coadjuvant treatment for reducing ambulatory blood pressure in patients with hypertension.',
-                style: TextStyle(fontSize: 16),
+                style: FitnessAppTheme.body2,
+                textAlign: TextAlign.justify,
               ),
             ),
             const SizedBox(height: 8),
@@ -106,14 +107,9 @@ class METindex extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Title(
                   color: FitnessAppTheme.darkText,
-                  child: Text(
+                  child: const Text(
                     'Metabolic Equivalent of Task (MET)',
                     style: FitnessAppTheme.headline,
-                    //TextStyle(
-                    // fontWeight: FontWeight.bold,
-                    // color: FitnessAppTheme.nearlyDarkBlue,
-                    // fontSize: 24,
-                    //),
                   )),
             ),
             const SizedBox(height: 8),
@@ -122,7 +118,8 @@ class METindex extends StatelessWidget {
                   .copyWith(bottom: 0),
               child: const Text(
                 '''A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. Aiming for at least 600 MET minutes a week is a good goal for optimal cardiovascular health.''',
-                style: TextStyle(fontSize: 16),
+                style: FitnessAppTheme.body2,
+                textAlign: TextAlign.justify,
               ),
             ),
             const SizedBox(height: 8),

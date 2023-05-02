@@ -36,7 +36,7 @@ class HypertensionPage extends StatelessWidget {
     print('${HypertensionPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: FitnessAppTheme.grey,
         ),
         title: const Text(
@@ -56,20 +56,22 @@ class HypertensionPage extends StatelessWidget {
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'Definition',
                       style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textHypertension,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textHypertension,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -82,20 +84,22 @@ class HypertensionPage extends StatelessWidget {
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'BP monitoring',
                       style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textH1,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textH1,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -108,20 +112,22 @@ class HypertensionPage extends StatelessWidget {
               child: ExpandablePanel(
                 header: Title(
                     color: Colors.black,
-                    child: Text(
+                    child: const Text(
                       'Exercise and BP',
                       style: FitnessAppTheme.title,
                     )),
                 collapsed: Text(
                   textH2,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
                   softWrap: true,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
                 ),
                 expanded: Text(
                   textH2,
-                  style: TextStyle(fontSize: 14),
+                  style: FitnessAppTheme.body2,
+                  textAlign: TextAlign.justify,
                 ),
               ),
             )),
@@ -135,11 +141,15 @@ class HypertensionPage extends StatelessWidget {
                 children: [
                   Title(
                       color: Colors.pink,
-                      child: Text(
+                      child: const Text(
                         'References',
-                        style: FitnessAppTheme.title,
+                        style: FitnessAppTheme.body1,
                       )),
-                  Text(references),
+                  Text(
+                    references,
+                    style: FitnessAppTheme.body1,
+                    textAlign: TextAlign.justify,
+                  ),
                 ],
               ),
             ))
