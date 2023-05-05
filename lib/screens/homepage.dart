@@ -234,7 +234,7 @@ class NavigationDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => Login_screen(),
+                    builder: (context) => LoginPage(),
                   ),
                 );
               },
