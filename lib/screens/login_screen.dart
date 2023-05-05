@@ -1,166 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login/flutter_login.dart';
+import 'package:progetto/methods/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter/services.dart';
+import 'homepage.dart';
 
-class Login_screen extends StatefulWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  static const routename = 'LoginPage';
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-Widget buildEmail() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      const Text(
-        'Email',
-        style: TextStyle(
-            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-              ]),
-          height: 60,
-          child: const TextField(
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.black87),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(
-                  Icons.email,
-                  color: Color.fromARGB(204, 219, 61, 233),
-                ),
-                hintText: 'Email',
-                hintStyle: TextStyle(color: Colors.black26)),
-          ))
-    ],
-  );
-}
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+    //Check if the user is already logged in before rendering the login page
+    _checkLogin();
+  }//initState
 
-Widget buildPassword() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      const Text(
-        'Password',
-        style: TextStyle(
-            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
-              ]),
-          height: 60,
-          child: const TextField(
-            obscureText: true,
-            style: TextStyle(color: Colors.black87),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: Color.fromARGB(204, 219, 61, 233),
-                ),
-                hintText: 'Password',
-                hintStyle: TextStyle(color: Colors.black26)),
-          ))
-    ],
-  );
-}
 
-// Widget BuildForgotPassword() {
-//   return Container(
-//     alignment: Alignment.centerRight,
-//     child: TextButton(
-//       onPressed: () => print('Forgot Password Pressed'),
-//       child: Text('Forgot Password',
-//           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-//     ),
-//   );
-// }
 
-Widget buildLoginBtn() {
-  return Container(
-      padding: EdgeInsets.symmetric(vertical: 25),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => print('Login Pressed'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-        child: const Text(
-          'LOGIN',
-          style: TextStyle(
-              color: Color.fromARGB(204, 219, 61, 233),
-              fontSize: 18,
-              fontWeight: FontWeight.bold),
-        ),
-      ));
-}
+  
 
-class _LoginScreenState extends State<Login_screen> {
+  void _checkLogin() async {
+    //Get the SharedPreference instance and check if the value of the 'username' filed is set or not
+    final sp = await SharedPreferences.getInstance();
+    if(sp.getString('username') != null){
+      //If 'username is set, push the HomePage
+      _toHomePage(context);
+    }//if
+  }//_checkLogin
+
+  Future<String> _loginUser(LoginData data) async {
+    if(data.name == 'bug@expert.com' && data.password == '5TrNgP5Wd'){
+
+      final sp = await SharedPreferences.getInstance();
+      sp.setString('username', data.name);
+
+      return '';
+    } else {
+      return 'Wrong credentials';
+    }
+  } 
+ // _loginUser
+  Future<String> _signUpUser(SignupData data) async {
+    return 'To be implemented';
+  } 
+ // _signUpUser
+  Future<String> _recoverPassword(String email) async {
+    return 'Recover password functionality needs to be implemented';
+  } 
+
+
+ // _recoverPassword
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                      Color.fromARGB(195, 188, 148, 213),
-                      Color.fromARGB(195, 179, 111, 221),
-                      Color.fromARGB(195, 166, 75, 222),
-                      Color.fromARGB(195, 152, 41, 221),
-                    ])),
-                child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 120),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Sign in',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold)),
-                        SizedBox(height: 50),
-                        buildEmail(),
-                        SizedBox(height: 20),
-                        buildPassword(),
-                        // BuildForgotPassword(),
-                        buildLoginBtn()
-                      ],
-                    )),
-              )
-            ],
-          ),
-        ),
-      ),
+    return FlutterLogin(
+      title: 'Sign in',
+      onLogin: _loginUser,
+      onSignup: _signUpUser,
+      onRecoverPassword: _recoverPassword,
+      onSubmitAnimationCompleted: () async{
+        _toHomePage(context);
+      },
+      theme: LoginTheme(primaryColor: FitnessAppTheme.lightPurple,
+      accentColor: Colors.white),
     );
-  }
-}
+  } // build
+  void _toHomePage(BuildContext context){
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(title: 'Homepage',)));
+  }//_toHomePage
+  
+  } // LoginScreen
