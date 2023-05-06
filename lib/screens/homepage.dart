@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Navigator.pop(context);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => Login_screen(),
+                  builder: (context) => LoginPage(),
                 ),
               );
             },
