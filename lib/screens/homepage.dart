@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:progetto/prof_1.dart';
+import 'package:progetto/account.dart';
 import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
