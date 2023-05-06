@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:progetto/prof_1.dart';
 import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/login_screen.dart';
-import 'package:progetto/screens/profile.dart';
-
-import '../methods/tab_icon_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../methods/theme.dart';
 import 'graphs_page.dart';
 
@@ -13,8 +12,10 @@ class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
   static const route = '/home/';
   final String title;
+  final String username;
 
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({Key? key, required this.title, required this.username})
+      : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,6 +26,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String? _selectAppBarTitle;
   String appBarTitle = 'Graph';
 
+  //String get username => null;
+
   Widget _selectPage({
     required int index,
   }) {
@@ -34,9 +37,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 1:
         return GraphPage();
       case 2:
-        return Contents();
+        return const Contents();
       case 3:
-        return ProfilePage();
+        return AccountPage(username: '',);
       default:
         return GraphPage();
     }
@@ -59,11 +62,100 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
+ String username='';
+
+  @override
+  void initState() {
+    super.initState();
+    _getUsername();
+  }
+
+  Future<void> _getUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    setState(() {
+      username = prefs.getString('username')?? ''; 
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFE4DFD4),
-        drawer: const NavigationDrawer(),
+        drawer: Drawer(
+          child: SingleChildScrollView(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              
+              SizedBox(
+                height: 80,
+                child: UserAccountsDrawerHeader(  
+                  accountName:Center(child: Text(username, style: FitnessAppTheme.subtitle,)),
+                  accountEmail: null,
+                  decoration: const BoxDecoration(
+                    backgroundBlendMode: BlendMode.colorBurn,
+                    color: FitnessAppTheme.lightText ,  
+                  ),
+                    
+                ),
+              ),
+              Container(
+      padding: const EdgeInsets.all(24),
+      child: Wrap(
+        runSpacing: 16,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text(
+              'Information',
+              style: FitnessAppTheme.body1,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Contents(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text(
+              'My account',
+              style: FitnessAppTheme.body1,
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AccountPage(username: '',),
+                ),
+              );
+            },
+          ),
+          const Divider(color: FitnessAppTheme.grey),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text(
+              'Logout',
+              style: FitnessAppTheme.body1,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => Login_screen(),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    ),
+            ],
+          )),
+        ),
         appBar: AppBar(
           title: Text(_selectTitle(index: _selectedIndex)),
           // (Text(
@@ -73,9 +165,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           iconTheme: const IconThemeData(color: FitnessAppTheme.nearlyBlack),
           elevation: 0,
           backgroundColor: FitnessAppTheme.background,
-          actions: [
+          actions: const [
             Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child:
                     // onPressed: () {
                     //Navigator.push(
@@ -95,7 +187,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         bottomNavigationBar: Container(
           color: FitnessAppTheme.background,
           child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
               child: GNav(
                 backgroundColor: FitnessAppTheme.background,
                 color: FitnessAppTheme.deactivatedText,
@@ -108,8 +200,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     _selectedIndex = index;
                   });
                 },
-                padding: EdgeInsets.all(16),
-                tabs: [
+                padding: const EdgeInsets.all(16),
+                tabs: const [
                   GButton(
                     icon: Icons.home,
                     text: 'Graphs',
@@ -136,110 +228,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 }
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          buildHeader(context),
-          buildMenuItems(context),
-        ],
-      )),
-    );
-  }
-
-  Widget buildHeader(BuildContext context) => Material(
-      color: FitnessAppTheme.lightPurple,
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ProfilePage(),
-            ),
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.only(
-            top: 24 + MediaQuery.of(context).padding.top,
-            bottom: 24,
-          ),
-          child: Column(
-            children: const [
-              CircleAvatar(
-                radius: 52,
-                backgroundColor: FitnessAppTheme.background,
-              ),
-              SizedBox(height: 12),
-              Text(
-                ' nome utente',
-                style: TextStyle(fontSize: 28, color: FitnessAppTheme.darkText),
-              ),
-              Text(
-                'utente@mail.com',
-                style: TextStyle(fontSize: 16, color: FitnessAppTheme.darkText),
-              ),
-            ],
-          ),
-        ),
-      ));
-
-  Widget buildMenuItems(BuildContext context) => Container(
-        padding: const EdgeInsets.all(24),
-        child: Wrap(
-          runSpacing: 16,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text(
-                'Information',
-                style: FitnessAppTheme.body1,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const Contents(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_circle),
-              title: const Text(
-                'Profile',
-                style: FitnessAppTheme.body1,
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
-                  ),
-                );
-              },
-            ),
-            const Divider(color: Colors.black),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text(
-                'Logout',
-                style: FitnessAppTheme.body1,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => Login_screen(),
-                  ),
-                );
-              },
-            )
-          ],
-        ),
-      );
-}
