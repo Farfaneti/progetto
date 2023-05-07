@@ -4,6 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:progetto/account.dart';
 import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/login_screen.dart';
+import 'package:progetto/screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../methods/theme.dart';
 import 'graphs_page.dart';
@@ -39,7 +40,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 2:
         return const Contents();
       case 3:
-        return AccountPage(username: '',);
+        return ProfilePage(
+          username: '',
+        );
       default:
         return GraphPage();
     }
@@ -62,7 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
- String username='';
+  String username = '';
 
   @override
   void initState() {
@@ -72,9 +75,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Future<void> _getUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     setState(() {
-      username = prefs.getString('username')?? ''; 
+      username = prefs.getString('username') ?? '';
     });
   }
 
@@ -87,72 +90,76 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              
               SizedBox(
-                height: 80,
-                child: UserAccountsDrawerHeader(  
-                  accountName:Center(child: Text(username, style: FitnessAppTheme.subtitle,)),
+                height: 150,
+                child: UserAccountsDrawerHeader(
+                  accountName: Center(
+                      child: Text(
+                    username,
+                    style: FitnessAppTheme.subtitle,
+                  )),
                   accountEmail: null,
                   decoration: const BoxDecoration(
                     backgroundBlendMode: BlendMode.colorBurn,
-                    color: FitnessAppTheme.lightText ,  
+                    color: FitnessAppTheme.lightText,
                   ),
-                    
                 ),
               ),
               Container(
-      padding: const EdgeInsets.all(24),
-      child: Wrap(
-        runSpacing: 16,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.info_outline),
-            title: const Text(
-              'Information',
-              style: FitnessAppTheme.body1,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const Contents(),
+                padding: const EdgeInsets.all(24),
+                child: Wrap(
+                  runSpacing: 16,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.info_outline),
+                      title: const Text(
+                        'Information',
+                        style: FitnessAppTheme.body1,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const Contents(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.account_circle),
+                      title: const Text(
+                        'My account',
+                        style: FitnessAppTheme.body1,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AccountPage(
+                              username: '',
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const Divider(color: FitnessAppTheme.grey),
+                    ListTile(
+                      leading: const Icon(Icons.logout),
+                      title: const Text(
+                        'Logout',
+                        style: FitnessAppTheme.body1,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                    )
+                  ],
                 ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text(
-              'My account',
-              style: FitnessAppTheme.body1,
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AccountPage(username: '',),
-                ),
-              );
-            },
-          ),
-          const Divider(color: FitnessAppTheme.grey),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text(
-              'Logout',
-              style: FitnessAppTheme.body1,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
-            },
-          )
-        ],
-      ),
-    ),
+              ),
             ],
           )),
         ),
@@ -187,7 +194,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         bottomNavigationBar: Container(
           color: FitnessAppTheme.background,
           child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
               child: GNav(
                 backgroundColor: FitnessAppTheme.background,
                 color: FitnessAppTheme.deactivatedText,
@@ -227,5 +235,3 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ));
   }
 }
-
-

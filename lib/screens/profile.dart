@@ -1,25 +1,26 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AccountPage extends StatefulWidget {
+import '../account.dart';
+
+class ProfilePage extends StatefulWidget {
   final String username;
-  AccountPage({super.key, required this.username});
+  ProfilePage({super.key, required this.username});
 
   @override
-  _AccountPageState createState() => _AccountPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
 //This class holds data related to the form.
-class _AccountPageState extends State<AccountPage> {
+class _ProfilePageState extends State<ProfilePage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
   String _username = '';
-  String _email = '';
-  int _age = 0;
+  int _height = 0;
+  int _weight = 0;
 
   @override
   void initState() {
@@ -32,16 +33,16 @@ class _AccountPageState extends State<AccountPage> {
     setState(() {
       _username = prefs.getString('username') ??
           ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
-      _email = prefs.getString('email') ?? '';
-      _age = prefs.getInt('age') ?? 0;
+      _height = prefs.getInt('height') ?? 0;
+      _weight = prefs.getInt('weight') ?? 0;
     });
   }
 
   Future<void> _saveUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', _username);
-    await prefs.setString('email', _email);
-    await prefs.setInt('age', _age);
+    await prefs.setInt('height', _height);
+    await prefs.setInt('weight', _weight);
     final username = prefs.getString('username') ?? '';
     Navigator.push(
       context,
@@ -53,8 +54,8 @@ class _AccountPageState extends State<AccountPage> {
   Future<void> _deleteUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('username');
-    prefs.remove('email');
-    prefs.remove('age');
+    prefs.remove('height');
+    prefs.remove('weight');
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -66,26 +67,11 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: FitnessAppTheme.background,
-        appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: FitnessAppTheme.nearlyBlack, //change your color here
-          ),
-          title: const Text('My Account'),
-          centerTitle: true,
-          titleTextStyle: FitnessAppTheme.headline2,
-          backgroundColor: FitnessAppTheme.background,
-        ),
         body: FutureBuilder(
             future: SharedPreferences.getInstance(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(children: [
-                  const SizedBox(height: 12),
-                  const CircleAvatar(
-                    radius: 52,
-                    backgroundColor: FitnessAppTheme.background,
-                    backgroundImage: AssetImage('assets/avatar.png'),
-                  ),
                   const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -99,7 +85,7 @@ class _AccountPageState extends State<AccountPage> {
                             initialValue: _username,
 
                             decoration: InputDecoration(
-                              labelText: 'Username',
+                              labelText: 'Name',
                               labelStyle: FitnessAppTheme.subtitle,
                               prefixIcon: const Icon(
                                 Icons.person,
@@ -135,12 +121,12 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
-                            initialValue: _email,
+                            initialValue: _height.toString(),
                             decoration: InputDecoration(
-                              labelText: 'Email',
+                              labelText: 'Height in cm',
                               labelStyle: FitnessAppTheme.subtitle,
                               prefixIcon: const Icon(
-                                Icons.email,
+                                Icons.height,
                                 color: FitnessAppTheme.lightPurple,
                               ),
                               border: OutlineInputBorder(
@@ -151,17 +137,16 @@ class _AccountPageState extends State<AccountPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please enter your email';
+                                return 'Please enter your height';
                               }
-                              if (!EmailValidator.validate(value)) {
-                                return 'Please enter a valid email: example@example.com';
+                              if (int.tryParse(value) == null) {
+                                return 'Please enter a valid height';
                               }
-
                               return null;
                             },
                             onChanged: (value) {
                               setState(() {
-                                _email = value;
+                                _height = int.tryParse(value) ?? 0;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -173,12 +158,12 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
-                            initialValue: _age.toString(),
+                            initialValue: _weight.toString(),
                             decoration: InputDecoration(
-                              labelText: 'Age',
+                              labelText: 'Weight in Kg',
                               labelStyle: FitnessAppTheme.subtitle,
                               prefixIcon: const Icon(
-                                Icons.numbers_rounded,
+                                Icons.monitor_weight,
                                 color: FitnessAppTheme.lightPurple,
                               ),
                               border: OutlineInputBorder(
@@ -189,16 +174,16 @@ class _AccountPageState extends State<AccountPage> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please enter your age';
+                                return 'Please enter your weight';
                               }
                               if (int.tryParse(value) == null) {
-                                return 'Please enter a valid age';
+                                return 'Please enter a valid weight';
                               }
                               return null;
                             },
                             onChanged: (value) {
                               setState(() {
-                                _age = int.tryParse(value) ?? 0;
+                                _weight = int.tryParse(value) ?? 0;
                               });
                             },
                             textAlign: TextAlign.center,

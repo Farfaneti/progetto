@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const HomePage(
-        title: 'HomePage', 
+        title: 'HomePage',
         username: '',
       ),
       theme: ThemeData(
@@ -26,6 +25,7 @@ class MyApp extends StatelessWidget {
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: FitnessAppTheme.lightPurple,
         ),
+        scaffoldBackgroundColor: FitnessAppTheme.background,
       ),
     );
   }
