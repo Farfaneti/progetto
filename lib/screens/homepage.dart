@@ -5,6 +5,7 @@ import 'package:progetto/account.dart';
 import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/login_screen.dart';
 import 'package:progetto/screens/profile.dart';
+import 'package:progetto/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../methods/theme.dart';
 import 'graphs_page.dart';
@@ -148,13 +149,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         'Logout',
                         style: FitnessAppTheme.body1,
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          ),
-                        );
+                      onTap: () async {
+                        bool reset = await Preferences().resetSettings();
+                        if (reset) {
+                          Navigator.pop(context);
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        }
                       },
                     )
                   ],
