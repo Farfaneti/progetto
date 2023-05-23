@@ -15,4 +15,7 @@ class ServerStrings {
   // static const purpleAirApiAuthUrl = 'v1/keys/';
   // static const purpleAirApiSesnorDataUrl = 'v1/sensors/';
   // static const sensorIdxMortise = '157049';
+
+  static String username = 'Re2JCHK5jL';
+  static String password = '12345678!';
 }

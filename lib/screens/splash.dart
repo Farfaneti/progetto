@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/screens/homepage.dart';
 import 'package:progetto/screens/login_screen.dart';
+import 'package:progetto/screens/onboarding/onboarding_impact.dart';
+import 'package:provider/provider.dart';
+
+import '../services/impact.dart';
+import '../utils/shared_preferences.dart';
 
 class Splash extends StatelessWidget {
   static const route = '/splash/';
@@ -16,13 +21,57 @@ class Splash extends StatelessWidget {
             )));
   } //_toHomePage
 
+ // Method for navigation SplashPage -> HomePage
+  void _toHomePage(BuildContext context) {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: ((context) => const HomePage(title: '', username: '',))));
+  } //_toHomePage
+
+  // Method for navigation SplashPage -> Impact
+  void _toImpactPage(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: ((context) => ImpactOnboarding())));
+  }
+
+ 
+
+  void _checkAuth(BuildContext context) async {
+    var prefs = Provider.of<Preferences>(context, listen: false);
+    String? username = prefs.username;
+    String? password = prefs.password;
+
+    // no user logged in the app
+    if (username == null || password == null) {
+      Future.delayed(const Duration(seconds: 1), () => _toLoginPage(context));
+    } else {
+      //ImpactService è in serveces/impact.dart
+      ImpactService service =
+          Provider.of<ImpactService>(context, listen: false);
+      bool responseAccessToken =  service.checkSavedToken(); //Check if there is a token
+      bool refreshAccessToken = service.checkSavedToken(refresh: true);
+
+      // if we have a valid token for impact, proceed
+      if (responseAccessToken || refreshAccessToken) {
+         Future.delayed(
+              const Duration(seconds: 1), () => _toHomePage(context));
+        } 
+      else {
+        Future.delayed(
+            const Duration(seconds: 1), () => _toImpactPage(context));
+      }
+       
+      
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () => _toLoginPage(context));
+    //Future.delayed(const Duration(seconds: 5), () => _toLoginPage(context));
+    Future.delayed(const Duration(seconds: 1), () => _checkAuth(context));
     return Material(
       child: Container(
         color: Color.fromARGB(255, 162, 113, 220),
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
