@@ -43,6 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
     await prefs.setInt('height', _height);
     await prefs.setInt('weight', _weight);
     final username = prefs.getString('nickname') ?? '';
+    final weight = prefs.getString('weight') ?? '';
+    final height = prefs.getString('height') ?? '';
     Navigator.push(
       context,
       MaterialPageRoute(
