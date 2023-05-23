@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../account.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String username;
-  ProfilePage({super.key, required this.username});
+  final String nickname;
+  ProfilePage({super.key, required this.nickname});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();

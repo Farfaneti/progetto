@@ -39,10 +39,10 @@ class _AccountPageState extends State<AccountPage> {
 
   Future<void> _saveUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _nickname);
+    await prefs.setString('nickname', _nickname);
     await prefs.setString('email', _email);
     await prefs.setInt('age', _age);
-    final username = prefs.getString('username') ?? '';
+    final nickname = prefs.getString('nickname') ?? '';
     Navigator.push(
       context,
       MaterialPageRoute(
