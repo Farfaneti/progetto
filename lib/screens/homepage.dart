@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return const Contents();
       case 3:
         return ProfilePage(
-          username: '',
+          nickname: '',
         );
       default:
         return GraphPage();
