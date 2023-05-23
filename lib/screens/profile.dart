@@ -18,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  String _username = '';
+  String _nickname = '';
   int _height = -1;
   int _weight = -1;
 
@@ -31,8 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _username = prefs.getString('username') ??
-          ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
+      _nickname = prefs.getString('nickname') ?? ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
       _height = prefs.getInt('height') ?? 0;
       _weight = prefs.getInt('weight') ?? 0;
     });
@@ -40,26 +39,26 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _saveUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _username);
+    await prefs.setString('nickname', _nickname);
     await prefs.setInt('height', _height);
     await prefs.setInt('weight', _weight);
-    final username = prefs.getString('username') ?? '';
+    final username = prefs.getString('nickname') ?? '';
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => HomePage(username: username, title: '')),
+          builder: (context) => HomePage(nickname: _nickname, title: '')),
     );
   }
 
   Future<void> _deleteUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('username');
+    prefs.remove('nickname');
     prefs.remove('height');
     prefs.remove('weight');
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => HomePage(username: '', title: '')),
+          builder: (context) => HomePage(nickname: '', title: '')),
     );
   }
 
@@ -82,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextFormField(
-                            initialValue: _username,
+                            initialValue: _nickname,
 
                             decoration: InputDecoration(
                               labelText: 'Name',
@@ -101,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please enter your username';
+                                return 'Please enter your nickname';
                               }
                               return null;
                             },
@@ -109,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               // La funzione onChanged viene chiamata ogni volta che l'utente modifica il testo del campo di input.
                               //La utilizzo per aggiornare lo stato del widget, cioè per aggiornare il valore di una variabile
                               setState(() {
-                                _username = value;
+                                _nickname = value;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -224,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   _deleteUserData();
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AccountPage(
-                                            username: '',
+                                            nickname: '',
                                           )));
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(

@@ -5,8 +5,8 @@ import 'package:progetto/screens/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountPage extends StatefulWidget {
-  final String username;
-  AccountPage({super.key, required this.username});
+  final String nickname;
+  AccountPage({super.key, required this.nickname});
 
   @override
   _AccountPageState createState() => _AccountPageState();
@@ -17,7 +17,7 @@ class _AccountPageState extends State<AccountPage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  String _username = '';
+  String _nickname = '';
   String _email = '';
   int _age = 0;
 
@@ -30,7 +30,7 @@ class _AccountPageState extends State<AccountPage> {
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _username = prefs.getString('username') ??
+      _nickname = prefs.getString('nickname') ??
           ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
       _email = prefs.getString('email') ?? '';
       _age = prefs.getInt('age') ?? 0;
@@ -39,26 +39,26 @@ class _AccountPageState extends State<AccountPage> {
 
   Future<void> _saveUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _username);
+    await prefs.setString('username', _nickname);
     await prefs.setString('email', _email);
     await prefs.setInt('age', _age);
     final username = prefs.getString('username') ?? '';
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => HomePage(username: username, title: '')),
+          builder: (context) => HomePage(nickname: _nickname, title: '')),
     );
   }
 
   Future<void> _deleteUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('username');
+    prefs.remove('nickname');
     prefs.remove('email');
     prefs.remove('age');
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => HomePage(username: '', title: '')),
+          builder: (context) => HomePage(nickname: '', title: '')),
     );
   }
 
@@ -96,7 +96,7 @@ class _AccountPageState extends State<AccountPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextFormField(
-                            initialValue: _username,
+                            initialValue: _nickname,
 
                             decoration: InputDecoration(
                               labelText: 'Username',
@@ -123,7 +123,7 @@ class _AccountPageState extends State<AccountPage> {
                               // La funzione onChanged viene chiamata ogni volta che l'utente modifica il testo del campo di input.
                               //La utilizzo per aggiornare lo stato del widget, cioè per aggiornare il valore di una variabile
                               setState(() {
-                                _username = value;
+                                _nickname = value;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -239,7 +239,7 @@ class _AccountPageState extends State<AccountPage> {
                                   _deleteUserData();
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AccountPage(
-                                            username: '',
+                                            nickname: '',
                                           )));
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(

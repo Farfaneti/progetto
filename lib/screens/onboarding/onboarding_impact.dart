@@ -172,7 +172,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                               const Duration(milliseconds: 300),
                               () => Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage(title: '', username: '',))));
+                                      builder: (context) => HomePage(title: '', nickname: '',))));
                         }
                       
                     },
