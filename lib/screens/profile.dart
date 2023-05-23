@@ -19,8 +19,8 @@ class _ProfilePageState extends State<ProfilePage> {
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
   String _username = '';
-  int _height = 0;
-  int _weight = 0;
+  int _height = -1;
+  int _weight = -1;
 
   @override
   void initState() {
