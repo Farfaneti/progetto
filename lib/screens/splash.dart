@@ -24,7 +24,7 @@ class Splash extends StatelessWidget {
  // Method for navigation SplashPage -> HomePage
   void _toHomePage(BuildContext context) {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: ((context) => const HomePage(title: '', username: '',))));
+        .pushReplacement(MaterialPageRoute(builder: ((context) => const HomePage(title: '', nickname: '',))));
   } //_toHomePage
 
   // Method for navigation SplashPage -> Impact

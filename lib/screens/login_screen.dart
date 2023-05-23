@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   } // build
   void _toHomePage(BuildContext context){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(username: 'username', title: 'homepage',)));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage(nickname: 'nickname', title: 'homepage',)));
   }//_toHomePage
   
   } // LoginScreen

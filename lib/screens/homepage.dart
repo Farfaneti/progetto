@@ -14,9 +14,9 @@ class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
   static const route = '/home/';
   final String title;
-  final String username;
+  final String nickname;
 
-  const HomePage({Key? key, required this.title, required this.username})
+  const HomePage({Key? key, required this.title, required this.nickname})
       : super(key: key);
 
   @override
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
-  String username = '';
+  String nickname = '';
 
   @override
   void initState() {
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      username = prefs.getString('username') ?? '';
+      nickname = prefs.getString('nickname') ?? '';
     });
   }
 
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: UserAccountsDrawerHeader(
                   accountName: Center(
                       child: Text(
-                    username,
+                    nickname,
                     style: FitnessAppTheme.subtitle,
                   )),
                   accountEmail: null,
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => AccountPage(
-                              username: '',
+                              nickname: '',
                             ),
                           ),
                         );

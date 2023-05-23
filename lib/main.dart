@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         home: const HomePage(
           title: 'HomePage',
-          username: '',
+          nickname: '',
         ),
         theme: ThemeData(
           inputDecorationTheme: const InputDecorationTheme(
