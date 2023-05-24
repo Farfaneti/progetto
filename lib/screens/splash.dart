@@ -44,17 +44,17 @@ class Splash extends StatelessWidget {
     // no user logged in the app
     if (username == null || password == null) {
       Future.delayed(const Duration(seconds: 1), () => _toLoginPage(context));
-    } else {
+    }// else {
       //ImpactService è in serveces/impact.dart
       ImpactService service =
           Provider.of<ImpactService>(context, listen: false);
       bool responseAccessToken =  service.checkSavedToken(); //Check if there is a token
       bool refreshAccessToken = service.checkSavedToken(refresh: true);
 
-      // if we have a valid token for impact, proceed
-      if (responseAccessToken || refreshAccessToken) {
-         Future.delayed(
-              const Duration(seconds: 1), () => _toHomePage(context));
+       //if we have a valid token for impact, proceed
+     if (responseAccessToken || refreshAccessToken) {
+        Future.delayed(
+             const Duration(seconds: 1), () => _toHomePage(context));
         } 
       else {
         Future.delayed(
@@ -62,7 +62,7 @@ class Splash extends StatelessWidget {
       }
        
       
-    }
+   // }
   }
 
   @override

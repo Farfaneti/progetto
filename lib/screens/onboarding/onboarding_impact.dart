@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 //import 'package:pollutrack/pages/home.dart';
@@ -80,7 +80,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Image.asset('assets/impact_logo.png'),
+              //Image.asset('assets/impact_logo.png'),
               const Text('Please authorize to use our app',
                   style: TextStyle(
                     fontSize: 16,
@@ -198,6 +198,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                         //SE NON è COMPILATA MANDO ALLA PROFILE PAGE
                         // Future.delayed(const Duration(seconds: 1), () => _checkProfile(context));
 
+                        //commenta questo e togli commento dalla riga sopra
                         Future.delayed(
                             const Duration(milliseconds: 300),
                             () => Navigator.of(context)

@@ -5,7 +5,7 @@ import 'package:progetto/screens/splash.dart';
 import 'package:progetto/services/impact.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'dart:ffi';
+
 
 void main() {
   runApp(const MyApp());
@@ -35,10 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         home: const Splash(),
-        //const HomePage(
-         // title: 'HomePage',
-         // nickname: '',
-        //),
+        //const HomePage(title: 'HomePage', nickname: '',),
         theme: ThemeData(
           inputDecorationTheme: const InputDecorationTheme(
             focusedBorder: UnderlineInputBorder(
