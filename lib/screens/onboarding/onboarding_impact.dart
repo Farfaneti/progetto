@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 //import 'package:pollutrack/pages/home.dart';
 //import 'package:pollutrack/pages/onboarding/purpleair_ob.dart';
@@ -6,11 +8,11 @@ import 'package:flutter/material.dart';
 //import 'package:provider/provider.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
+import 'package:progetto/screens/profile.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/impact.dart';
 import '../../utils/shared_preferences.dart';
-
 
 class ImpactOnboarding extends StatefulWidget {
   static const route = '/impact/';
@@ -26,7 +28,8 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
   static bool _passwordVisible = false;
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); //il comando crea una chiave globale _formKey associata a un widget FormState, che rappresenta lo stato di un widget Form e può essere utilizzata per accedere e manipolare l'oggetto FormState.
+  final _formKey = GlobalKey<
+      FormState>(); //il comando crea una chiave globale _formKey associata a un widget FormState, che rappresenta lo stato di un widget Form e può essere utilizzata per accedere e manipolare l'oggetto FormState.
 
   void _showPassword() {
     setState(() {
@@ -41,6 +44,32 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
     return logged;
   }
 
+  void _toProfilePage(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: ((context) => ProfilePage(
+              nickname: '',
+            ))));
+  } //_toProfilePage
+
+  void _checkProfile(BuildContext context) async {
+    var prefs = Provider.of<Preferences>(context, listen: false);
+    String? weight = prefs.weight;
+    String? height = prefs.height;
+
+    // no user logged in the app
+    if (weight == null || height == null) {
+      Future.delayed(const Duration(seconds: 1), () => _toProfilePage(context));
+    } else {
+      Future.delayed(
+          const Duration(milliseconds: 300),
+          () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => HomePage(
+                    title: '',
+                    nickname: '',
+                  ))));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +80,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Image.asset('assets/impact_logo.png'),
+              //Image.asset('assets/impact_logo.png'),
               const Text('Please authorize to use our app',
                   style: TextStyle(
                     fontSize: 16,
@@ -76,7 +105,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                   return null;
                 },
                 controller: userController,
-                cursorColor:  FitnessAppTheme.grey,
+                cursorColor: FitnessAppTheme.grey,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -114,7 +143,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                   return null;
                 },
                 controller: passwordController,
-                cursorColor:  FitnessAppTheme.grey,
+                cursorColor: FitnessAppTheme.grey,
                 obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -152,7 +181,6 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                   padding: const EdgeInsets.all(12.0),
                   child: ElevatedButton(
                     onPressed: () async {
-                      
                       bool? validation = await _loginImpact(userController.text,
                           passwordController.text, context);
                       if (!validation) {
@@ -166,15 +194,20 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                           duration: Duration(seconds: 2),
                         ));
                       } else {
-                        // QUI CONTROLLO CHE LA PAGINA PROFILE SIA COMPILATA, SE è COMPILATA ALLORA MANDO ALLA HOMEPAGE, 
+                        // QUI CONTROLLO CHE LA PAGINA PROFILE SIA COMPILATA, SE è COMPILATA ALLORA MANDO ALLA HOMEPAGE,
                         //SE NON è COMPILATA MANDO ALLA PROFILE PAGE
-                          Future.delayed(
-                              const Duration(milliseconds: 300),
-                              () => Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage(title: '', nickname: '',))));
-                        }
-                      
+                        // Future.delayed(const Duration(seconds: 1), () => _checkProfile(context));
+
+                        //commenta questo e togli commento dalla riga sopra
+                        Future.delayed(
+                            const Duration(milliseconds: 300),
+                            () => Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => HomePage(
+                                          title: '',
+                                          nickname: '',
+                                        ))));
+                      }
                     },
                     style: ButtonStyle(
                         //maximumSize: const MaterialStatePropertyAll(Size(50, 20)),

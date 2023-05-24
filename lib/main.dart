@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
+import 'package:progetto/screens/splash.dart';
 import 'package:progetto/services/impact.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -32,10 +34,8 @@ class MyApp extends StatelessWidget {
         //         Provider.of<Preferences>(context, listen: false)))
       ],
       child: MaterialApp(
-        home: const HomePage(
-          title: 'HomePage',
-          nickname: '',
-        ),
+        home: const Splash(),
+        //const HomePage(title: 'HomePage', nickname: '',),
         theme: ThemeData(
           inputDecorationTheme: const InputDecorationTheme(
             focusedBorder: UnderlineInputBorder(
