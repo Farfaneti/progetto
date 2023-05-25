@@ -195,16 +195,6 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                         // QUI CONTROLLO CHE LA PAGINA PROFILE SIA COMPILATA, SE è COMPILATA ALLORA MANDO ALLA HOMEPAGE,
                         //SE NON è COMPILATA MANDO ALLA PROFILE PAGE
                         Future.delayed(const Duration(seconds: 1), () => _checkProfile(context));
-
-                        //commenta questo e togli commento dalla riga sopra
-                        //Future.delayed(
-                            //const Duration(milliseconds: 300),
-                            //() => Navigator.of(context)
-                              //  .pushReplacement(MaterialPageRoute(
-                                 //   builder: (context) => const HomePage(
-                                   //       title: '',
-                                    //      nickname: '',
-                                    //    ))));
                       }
                     },
                     style: ButtonStyle(

@@ -26,7 +26,7 @@ class HomeProvider extends ChangeNotifier {
 
   bool doneInit = false;
 
-  HomeProvider( this.impactService) {
+  HomeProvider( this.impactService, {required bool lazy, required Scaffold Function(dynamic context, dynamic child) builder}) {
     _init();
   }
 
