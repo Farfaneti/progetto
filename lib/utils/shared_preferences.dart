@@ -47,6 +47,8 @@ class Preferences {
     }
   }
 
+
+
   // Here we define all the keys we will need in the Preferences. We will then access the value with the getter as Preferences.key
   // The getter allows us to forget the specific string used as key in the SharedPreferences and get a list of all saved preferences as variables of the class
   // Parte da cambiare a seconda di quello che ci serve prendere con il get
@@ -69,9 +71,10 @@ class Preferences {
   set impactUsername(String? newImpactUsername) =>
       _saveToDisk("impactUsername", newImpactUsername);
 
- String? get weight => _getFromDisk('weight');
-  set weight(String? newweight) => _saveToDisk("username", weight);
+//per salvare i campi peso e altezza della pagina profile
+ int? get weight => _getFromDisk('weight');
+  set weight(int? newweight) => _saveToDisk("weight", newweight);
 
-  String? get height=> _getFromDisk('height');
-  set height(String? newheight) => _saveToDisk("height", height);
+ int? get height=> _getFromDisk('height');
+  set height(int? newheight) => _saveToDisk("height", newheight);
 }

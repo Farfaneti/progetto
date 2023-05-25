@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../account.dart';
+import '../utils/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   final String nickname;
   ProfilePage({super.key, required this.nickname});
+
+  static const route = 'Profile';
+  static const routename = 'ProfilePage';
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -19,48 +24,25 @@ class _ProfilePageState extends State<ProfilePage> {
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
   String _nickname = '';
-  int _height = -1;
-  int _weight = -1;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
 
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _nickname = prefs.getString('nickname') ?? ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
-      _height = prefs.getInt('height') ?? 0;
-      _weight = prefs.getInt('weight') ?? 0;
+      _nickname = prefs.getString('nickname') ??
+          ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
     });
-  }
-
-  Future<void> _saveUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('nickname', _nickname);
-    await prefs.setInt('height', _height);
-    await prefs.setInt('weight', _weight);
-    final username = prefs.getString('nickname') ?? '';
-    final weight = prefs.getString('weight') ?? '';
-    final height = prefs.getString('height') ?? '';
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => HomePage(nickname: _nickname, title: '')),
-    );
-  }
-
-  Future<void> _deleteUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('nickname');
-    prefs.remove('height');
-    prefs.remove('weight');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => HomePage(nickname: '', title: '')),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final pref = Provider.of<Preferences>(context);
+
     return Scaffold(
         backgroundColor: FitnessAppTheme.background,
         body: FutureBuilder(
@@ -117,7 +99,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
-                            initialValue: _height.toString(),
+                            initialValue: pref.height != null
+                                ? pref.height.toString()
+                                : '',
                             decoration: InputDecoration(
                               labelText: 'Height in cm',
                               labelStyle: FitnessAppTheme.subtitle,
@@ -142,7 +126,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             onChanged: (value) {
                               setState(() {
-                                _height = int.tryParse(value) ?? 0;
+                                int newheight = int.tryParse(value) ?? 0;
+                                pref.height = newheight;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -154,7 +139,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
-                            initialValue: _weight.toString(),
+                            initialValue: pref.weight != null
+                                ? pref.weight.toString()
+                                : '',
                             decoration: InputDecoration(
                               labelText: 'Weight in Kg',
                               labelStyle: FitnessAppTheme.subtitle,
@@ -179,7 +166,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             onChanged: (value) {
                               setState(() {
-                                _weight = int.tryParse(value) ?? 0;
+                                int newweight = int.tryParse(value) ?? 0;
+                                pref.weight = newweight;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -198,12 +186,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // Validate returns true if the form is valid, or false otherwise.
                                   if (_formKey.currentState!.validate()) {
                                     // If the form is valid, display a snackbar and save the information in a database.
-                                    _saveUserData();
+
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text('Profile saved'),
                                       ),
                                     );
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomePage(
+                                                  title: '',
+                                                  nickname: '',
+                                                )));
                                   }
                                 },
                                 style: ButtonStyle(
@@ -212,28 +207,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           FitnessAppTheme.nearlyDarkBlue),
                                 ),
                                 child: const Text('Save'),
-                              ),
-                              const SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // If the form is valid, display a snackbar and save the information in a database.
-                                  _deleteUserData();
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AccountPage(
-                                            nickname: '',
-                                          )));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Profile deleted'),
-                                    ),
-                                  );
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          FitnessAppTheme.nearlyDarkBlue),
-                                ),
-                                child: const Text('Delete All'),
                               ),
                             ],
                           ),

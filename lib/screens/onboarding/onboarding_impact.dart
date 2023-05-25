@@ -53,8 +53,8 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
 
   void _checkProfile(BuildContext context) async {
     var prefs = Provider.of<Preferences>(context, listen: false);
-    String? weight = prefs.weight;
-    String? height = prefs.height;
+    int? weight = prefs.weight;
+    int? height = prefs.height;
 
     // no user logged in the app
     if (weight == null || height == null) {
@@ -63,7 +63,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
       Future.delayed(
           const Duration(milliseconds: 300),
           () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => HomePage(
+              builder: (context) => const HomePage(
                     title: '',
                     nickname: '',
                   ))));
@@ -73,7 +73,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FitnessAppTheme.grey,
+      backgroundColor: FitnessAppTheme.white,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -81,7 +81,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
           child: Column(
             children: <Widget>[
               //Image.asset('assets/impact_logo.png'),
-              const Text('Please authorize to use our app',
+              const Text('Please login in Impact to use our app',
                   style: TextStyle(
                     fontSize: 16,
                   )),
@@ -92,7 +92,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                 alignment: Alignment.topLeft,
                 child: Text('Username',
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FitnessAppTheme.grey)),
               ),
               const SizedBox(
                 height: 7,
@@ -130,7 +130,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                 alignment: Alignment.topLeft,
                 child: Text('Password',
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FitnessAppTheme.grey)),
               ),
               const SizedBox(
                 height: 7,
@@ -164,7 +164,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                       _passwordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.grey,
+                      color: FitnessAppTheme.lightPurple,
                     ),
                     onPressed: () {
                       _showPassword();
@@ -196,17 +196,17 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                       } else {
                         // QUI CONTROLLO CHE LA PAGINA PROFILE SIA COMPILATA, SE è COMPILATA ALLORA MANDO ALLA HOMEPAGE,
                         //SE NON è COMPILATA MANDO ALLA PROFILE PAGE
-                        // Future.delayed(const Duration(seconds: 1), () => _checkProfile(context));
+                        Future.delayed(const Duration(seconds: 1), () => _checkProfile(context));
 
                         //commenta questo e togli commento dalla riga sopra
-                        Future.delayed(
-                            const Duration(milliseconds: 300),
-                            () => Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => HomePage(
-                                          title: '',
-                                          nickname: '',
-                                        ))));
+                        //Future.delayed(
+                            //const Duration(milliseconds: 300),
+                            //() => Navigator.of(context)
+                              //  .pushReplacement(MaterialPageRoute(
+                                 //   builder: (context) => const HomePage(
+                                   //       title: '',
+                                    //      nickname: '',
+                                    //    ))));
                       }
                     },
                     style: ButtonStyle(
