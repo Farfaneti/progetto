@@ -2,11 +2,13 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
+import 'package:progetto/utils/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountPage extends StatefulWidget {
-  final String nickname;
-  AccountPage({super.key, required this.nickname});
+  
+  AccountPage({super.key});
 
   @override
   _AccountPageState createState() => _AccountPageState();
@@ -17,53 +19,12 @@ class _AccountPageState extends State<AccountPage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  String _nickname = '';
-  String _email = '';
-  int _age = 0;
+ 
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _nickname = prefs.getString('nickname') ??
-          ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
-      _email = prefs.getString('email') ?? '';
-      _age = prefs.getInt('age') ?? 0;
-    });
-  }
-
-  Future<void> _saveUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('nickname', _nickname);
-    await prefs.setString('email', _email);
-    await prefs.setInt('age', _age);
-    final nickname = prefs.getString('nickname') ?? '';
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => HomePage(nickname: _nickname, title: '')),
-    );
-  }
-
-  Future<void> _deleteUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('nickname');
-    prefs.remove('email');
-    prefs.remove('age');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => HomePage(nickname: '', title: '')),
-    );
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
+     final pref = Provider.of<Preferences>(context);
     return Scaffold(
         backgroundColor: FitnessAppTheme.background,
         appBar: AppBar(
@@ -75,11 +36,7 @@ class _AccountPageState extends State<AccountPage> {
           titleTextStyle: FitnessAppTheme.headline2,
           backgroundColor: FitnessAppTheme.background,
         ),
-        body: FutureBuilder(
-            future: SharedPreferences.getInstance(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(children: [
+        body:  Column(children: [
                   const SizedBox(height: 12),
                   const CircleAvatar(
                     radius: 52,
@@ -96,7 +53,10 @@ class _AccountPageState extends State<AccountPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextFormField(
-                            initialValue: _nickname,
+                            initialValue: pref.nickname != null
+                                ? pref.nickname
+                                : '',
+
 
                             decoration: InputDecoration(
                               labelText: 'Username',
@@ -123,7 +83,8 @@ class _AccountPageState extends State<AccountPage> {
                               // La funzione onChanged viene chiamata ogni volta che l'utente modifica il testo del campo di input.
                               //La utilizzo per aggiornare lo stato del widget, cioè per aggiornare il valore di una variabile
                               setState(() {
-                                _nickname = value;
+                                 String newnickname = value;
+                                pref.nickname = newnickname;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -135,7 +96,9 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
-                            initialValue: _email,
+                            initialValue: pref.email != null
+                                ? pref.email
+                                : '',
                             decoration: InputDecoration(
                               labelText: 'Email',
                               labelStyle: FitnessAppTheme.subtitle,
@@ -161,7 +124,8 @@ class _AccountPageState extends State<AccountPage> {
                             },
                             onChanged: (value) {
                               setState(() {
-                                _email = value;
+                                String newemail= value;
+                                pref.email=newemail;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -173,7 +137,9 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
-                            initialValue: _age.toString(),
+                            initialValue:  pref.age != null
+                                ? pref.age.toString()
+                                : '',
                             decoration: InputDecoration(
                               labelText: 'Age',
                               labelStyle: FitnessAppTheme.subtitle,
@@ -198,7 +164,8 @@ class _AccountPageState extends State<AccountPage> {
                             },
                             onChanged: (value) {
                               setState(() {
-                                _age = int.tryParse(value) ?? 0;
+                                int newage = int.tryParse(value) ?? 0;
+                                pref.age=newage;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -217,7 +184,7 @@ class _AccountPageState extends State<AccountPage> {
                                   // Validate returns true if the form is valid, or false otherwise.
                                   if (_formKey.currentState!.validate()) {
                                     // If the form is valid, display a snackbar and save the information in a database.
-                                    _saveUserData();
+                                   
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text('Profile saved'),
@@ -232,38 +199,17 @@ class _AccountPageState extends State<AccountPage> {
                                 ),
                                 child: const Text('Save'),
                               ),
-                              const SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // If the form is valid, display a snackbar and save the information in a database.
-                                  _deleteUserData();
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AccountPage(
-                                            nickname: '',
-                                          )));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Profile deleted'),
-                                    ),
-                                  );
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          FitnessAppTheme.nearlyDarkBlue),
-                                ),
-                                child: const Text('Delete All'),
-                              ),
-                            ],
-                          ),
+                              
                         ],
                       ),
-                    ),
+                        ]
                   )
-                ]);
-              } else {
-                return const CircularProgressIndicator();
-              }
-            }));
+                  ),
+                  ),
+        ]
+        )
+    );
   }
 }
+        
+ 
