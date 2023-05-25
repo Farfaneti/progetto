@@ -9,7 +9,14 @@ class Preferences {
   late SharedPreferences _pref;
 
   Future<bool> resetSettings() async {
-    return _pref.clear();
+     return _pref.clear();
+   
+  }
+
+  Future<bool> logOut() async{
+     _pref.remove('username');
+     _pref.remove('password');
+     return true;
   }
 
   //helper method to manage default values of preferences without the need to call the specific getType method of SharedPreferences

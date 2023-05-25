@@ -135,14 +135,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         style: FitnessAppTheme.body1,
                       ),
                       onTap: () async {
-                        bool reset = await Preferences().resetSettings();
+                        // bool reset = await pref.resetSettings();
+                        bool reset = await pref.logOut(); // questo comando elimina solo usename e password dalle shared preferences
                         if (reset) {
-                          Navigator.pop(context);
-                          Navigator.of(context).pushReplacement(
+                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
+                              builder: (context) => LoginPage(),));
                         }
                       },
                     )

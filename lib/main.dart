@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         home: const Splash(),
-        //const HomePage(title: 'HomePage', nickname: '',),
+        //const HomePage(title: ''),
         theme: ThemeData(
           inputDecorationTheme: const InputDecorationTheme(
             focusedBorder: UnderlineInputBorder(
