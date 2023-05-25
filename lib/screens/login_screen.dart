@@ -4,8 +4,10 @@ import 'package:progetto/methods/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/impact.dart';
 import '../utils/shared_preferences.dart';
 import 'homepage.dart';
+import 'onboarding/onboarding_impact.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -162,8 +164,22 @@ class _LoginState extends State<LoginPage> {
                             Provider.of<Preferences>(context, listen: false);
                         prefs.username = userController.text;
                         prefs.password = passwordController.text;
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const HomePage(title: '')));
+                       ImpactService service =
+          Provider.of<ImpactService>(context, listen: false);
+      bool responseAccessToken =  service.checkSavedToken(); //Check if there is a token
+      bool refreshAccessToken = service.checkSavedToken(refresh: true);
+
+       //if we have a valid token for impact, proceed
+     if (responseAccessToken || refreshAccessToken) {
+        Future.delayed(
+             const Duration(seconds: 1), () =>  Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: ((context) => const HomePage(title: '', ))))
+                  );} 
+      else {
+        Future.delayed(
+            const Duration(seconds: 1), () => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: ((context) => ImpactOnboarding()))));
+      }
                       }
                     },
                     style: ButtonStyle(
