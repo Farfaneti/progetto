@@ -163,7 +163,7 @@ class _LoginState extends State<LoginPage> {
                         prefs.username = userController.text;
                         prefs.password = passwordController.text;
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const HomePage(title: '', nickname: '')));
+                            builder: (context) => const HomePage(title: '')));
                       }
                     },
                     style: ButtonStyle(

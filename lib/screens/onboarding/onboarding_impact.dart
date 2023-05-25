@@ -46,9 +46,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
 
   void _toProfilePage(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: ((context) => ProfilePage(
-              nickname: '',
-            ))));
+        builder: ((context) => ProfilePage())));
   } //_toProfilePage
 
   void _checkProfile(BuildContext context) async {
@@ -65,7 +63,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
           () => Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const HomePage(
                     title: '',
-                    nickname: '',
+                    
                   ))));
     }
   }

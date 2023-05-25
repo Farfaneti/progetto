@@ -6,6 +6,7 @@ import 'package:progetto/screens/contents.dart';
 import 'package:progetto/screens/login_screen.dart';
 import 'package:progetto/screens/profile.dart';
 import 'package:progetto/utils/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../methods/theme.dart';
 import 'graphs_page.dart';
@@ -14,9 +15,9 @@ class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
   static const route = '/home/';
   final String title;
-  final String nickname;
 
-  const HomePage({Key? key, required this.title, required this.nickname})
+
+  const HomePage({Key? key, required this.title})
       : super(key: key);
 
   @override
@@ -41,9 +42,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 2:
         return const Contents();
       case 3:
-        return ProfilePage(
-          nickname: '',
-        );
+        return ProfilePage();
       default:
         return GraphPage();
     }
@@ -66,24 +65,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
-  String nickname = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _getUsername();
-  }
-
-  Future<void> _getUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      nickname = prefs.getString('nickname') ?? '';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+     final pref = Provider.of<Preferences>(context);
     return Scaffold(
         backgroundColor: const Color(0xFFE4DFD4),
         drawer: Drawer(
@@ -96,7 +81,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: UserAccountsDrawerHeader(
                   accountName: Center(
                       child: Text(
-                    nickname,
+                     pref.nickname ?? '',
                     style: FitnessAppTheme.subtitle,
                   )),
                   accountEmail: null,
@@ -136,7 +121,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => AccountPage(
-                              nickname: '',
+                           
                             ),
                           ),
                         );

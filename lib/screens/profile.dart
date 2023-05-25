@@ -8,8 +8,7 @@ import '../account.dart';
 import '../utils/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String nickname;
-  ProfilePage({super.key, required this.nickname});
+  ProfilePage({super.key});
 
   static const route = 'Profile';
   static const routename = 'ProfilePage';
@@ -23,21 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  String _nickname = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _nickname = prefs.getString('nickname') ??
-          ''; //legge il valore della chiave username dalle SharedPreferences e restituisce una stringa vuota se il valore non è stato trovato
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
         backgroundColor: FitnessAppTheme.background,
-        body: FutureBuilder(
-            future: SharedPreferences.getInstance(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(children: [
-                  const SizedBox(height: 12),
-                  Padding(
+        body  : Padding(
                     padding: const EdgeInsets.all(20.0),
                     // Build a Form widget using the _formKey created above.
                     child: Form(
@@ -60,7 +39,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextFormField(
-                            initialValue: _nickname,
+                            initialValue: pref.nickname != null
+                                ? pref.nickname
+                                : '',
 
                             decoration: InputDecoration(
                               labelText: 'Name',
@@ -87,7 +68,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               // La funzione onChanged viene chiamata ogni volta che l'utente modifica il testo del campo di input.
                               //La utilizzo per aggiornare lo stato del widget, cioè per aggiornare il valore di una variabile
                               setState(() {
-                                _nickname = value;
+                                String newnickname = value;
+                                pref.nickname = newnickname;
                               });
                             },
                             textAlign: TextAlign.center,
@@ -197,7 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             builder: (context) =>
                                                 const HomePage(
                                                   title: '',
-                                                  nickname: '',
+                                                  
                                                 )));
                                   }
                                 },
@@ -214,10 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   )
-                ]);
-              } else {
-                return const CircularProgressIndicator();
-              }
-            }));
-  }
-}
+                );
+              } 
+            }
+  

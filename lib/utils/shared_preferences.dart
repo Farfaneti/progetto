@@ -77,4 +77,13 @@ class Preferences {
 
  int? get height=> _getFromDisk('height');
   set height(int? newheight) => _saveToDisk("height", newheight);
+
+  int? get age => _getFromDisk('age');
+  set age(int? newage) => _saveToDisk("age", newage);
+
+  String? get nickname=> _getFromDisk('nickname');
+  set nickname(String? newnickname) => _saveToDisk("nickname", newnickname);
+
+  String? get email=> _getFromDisk('email');
+  set email(String? newemail) => _saveToDisk("email", newemail);
 }
