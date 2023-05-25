@@ -22,11 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
   int _height = -1;
   int _weight = -1;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
 
   Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
