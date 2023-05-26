@@ -108,7 +108,7 @@ class FitnessAppTheme {
   static const TextStyle caption = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
-    fontSize: 12,
+    fontSize: 16,
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );

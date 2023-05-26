@@ -4,7 +4,6 @@ import 'package:progetto/screens/login_screen.dart';
 import 'package:progetto/screens/onboarding/onboarding_impact.dart';
 import 'package:provider/provider.dart';
 
-
 import '../services/impact.dart';
 import '../utils/shared_preferences.dart';
 
@@ -17,15 +16,17 @@ class Splash extends StatelessWidget {
   // Method for navigation SplashPage -> Login
   void _toLoginPage(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => LoginPage(
+        builder: (context) => const LoginPage(
             //title: 'LoginPage',
             )));
   } //_toHomePage
 
- // Method for navigation SplashPage -> HomePage
+  // Method for navigation SplashPage -> HomePage
   void _toHomePage(BuildContext context) {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: ((context) => const HomePage(title: '', ))));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: ((context) => const HomePage(
+              title: '',
+            ))));
   } //_toHomePage
 
   // Method for navigation SplashPage -> Impact
@@ -33,8 +34,6 @@ class Splash extends StatelessWidget {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: ((context) => ImpactOnboarding())));
   }
-
- 
 
   void _checkAuth(BuildContext context) async {
     var prefs = Provider.of<Preferences>(context, listen: false);
@@ -44,25 +43,21 @@ class Splash extends StatelessWidget {
     // no user logged in the app
     if (username == null || password == null) {
       Future.delayed(const Duration(seconds: 1), () => _toLoginPage(context));
-    }
-    else {
+    } else {
       //ImpactService è in serveces/impact.dart
       ImpactService service =
           Provider.of<ImpactService>(context, listen: false);
-      bool responseAccessToken =  service.checkSavedToken(); //Check if there is a token
+      bool responseAccessToken =
+          service.checkSavedToken(); //Check if there is a token
       bool refreshAccessToken = service.checkSavedToken(refresh: true);
 
-       //if we have a valid token for impact, proceed
-     if (responseAccessToken || refreshAccessToken) {
-        Future.delayed(
-             const Duration(seconds: 1), () => _toHomePage(context));
-        } 
-      else {
+      //if we have a valid token for impact, proceed
+      if (responseAccessToken || refreshAccessToken) {
+        Future.delayed(const Duration(seconds: 1), () => _toHomePage(context));
+      } else {
         Future.delayed(
             const Duration(seconds: 1), () => _toImpactPage(context));
       }
-       
-      
     }
   }
 
@@ -72,18 +67,18 @@ class Splash extends StatelessWidget {
     Future.delayed(const Duration(seconds: 1), () => _checkAuth(context));
     return Material(
       child: Container(
-        color: Color.fromARGB(255, 162, 113, 220),
-        child: const Column(
+        color: const Color.fromARGB(255, 162, 113, 220),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
+            const Text(
               'AppName',
               style: TextStyle(
                   color: Color(0xFFE4DFD4),
                   fontSize: 40,
                   fontWeight: FontWeight.bold),
             ),
-            Center(
+            const Center(
               child: CircularProgressIndicator(
                 strokeWidth: 4,
                 valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF89453C)),

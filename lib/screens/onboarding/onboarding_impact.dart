@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 //import 'package:pollutrack/pages/home.dart';
 //import 'package:pollutrack/pages/onboarding/purpleair_ob.dart';
@@ -45,8 +43,8 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
   }
 
   void _toProfilePage(BuildContext context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: ((context) => ProfilePage())));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: ((context) => ProfilePage())));
   } //_toProfilePage
 
   void _checkProfile(BuildContext context) async {
@@ -63,7 +61,6 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
           () => Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const HomePage(
                     title: '',
-                    
                   ))));
     }
   }
@@ -71,26 +68,28 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FitnessAppTheme.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: FitnessAppTheme.background,
+      ),
+      backgroundColor: FitnessAppTheme.background,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              //Image.asset('assets/impact_logo.png'),
-              const Text('Please login in Impact to use our app',
-                  style: TextStyle(
-                    fontSize: 16,
-                  )),
+              Image.asset('assets/impact_logo.png'),
+              const Text(
+                'Please login in Impact to use our app',
+                style: FitnessAppTheme.body1,
+              ),
               const SizedBox(
                 height: 20,
               ),
               const Align(
                 alignment: Alignment.topLeft,
-                child: Text('Username',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FitnessAppTheme.grey)),
+                child: Text('Username', style: FitnessAppTheme.body1),
               ),
               const SizedBox(
                 height: 7,
@@ -103,22 +102,22 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                   return null;
                 },
                 controller: userController,
-                cursorColor: FitnessAppTheme.grey,
+                cursorColor: FitnessAppTheme.lightPurple,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: FitnessAppTheme.grey,
+                      color: FitnessAppTheme.purple,
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.person,
-                    color: Color(0xFF89453C),
+                    color: FitnessAppTheme.lightPurple,
                   ),
                   hintText: 'Username',
-                  hintStyle: const TextStyle(color: FitnessAppTheme.grey),
+                  hintStyle: FitnessAppTheme.caption,
                 ),
               ),
               const SizedBox(
@@ -126,9 +125,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
               ),
               const Align(
                 alignment: Alignment.topLeft,
-                child: Text('Password',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: FitnessAppTheme.grey)),
+                child: Text('Password', style: FitnessAppTheme.body1),
               ),
               const SizedBox(
                 height: 7,
@@ -141,20 +138,20 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                   return null;
                 },
                 controller: passwordController,
-                cursorColor: FitnessAppTheme.grey,
+                cursorColor: FitnessAppTheme.lightPurple,
                 obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: FitnessAppTheme.grey,
+                      color: FitnessAppTheme.purple,
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.lock,
-                    color: Color(0xFF89453C),
+                    color: FitnessAppTheme.lightPurple,
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -169,7 +166,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                     },
                   ),
                   hintText: 'Password',
-                  hintStyle: const TextStyle(color: FitnessAppTheme.grey),
+                  hintStyle: FitnessAppTheme.caption,
                 ),
               ),
               const Spacer(),
@@ -194,7 +191,8 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                       } else {
                         // QUI CONTROLLO CHE LA PAGINA PROFILE SIA COMPILATA, SE è COMPILATA ALLORA MANDO ALLA HOMEPAGE,
                         //SE NON è COMPILATA MANDO ALLA PROFILE PAGE
-                        Future.delayed(const Duration(seconds: 1), () => _checkProfile(context));
+                        Future.delayed(const Duration(seconds: 1),
+                            () => _checkProfile(context));
                       }
                     },
                     style: ButtonStyle(
@@ -208,7 +206,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF89453C))),
+                            FitnessAppTheme.purple)),
                     child: const Text('Authorize'),
                   ),
                 ),

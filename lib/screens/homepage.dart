@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:progetto/account.dart';
+import 'package:progetto/methods/theme.dart';
+import 'package:progetto/screens/analysis.dart';
 import 'package:progetto/screens/contents.dart';
-import 'package:progetto/screens/login_screen.dart';
 import 'package:progetto/screens/profile.dart';
 import 'package:progetto/screens/splash.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../methods/theme.dart';
 import 'graphs_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +16,7 @@ class HomePage extends StatefulWidget {
   static const route = '/home/';
   final String title;
 
-
-  const HomePage({Key? key, required this.title})
-      : super(key: key);
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -27,7 +24,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
-  String? _selectAppBarTitle;
   String appBarTitle = 'Graph';
 
   //String get username => null;
@@ -39,7 +35,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 0:
         return GraphPage();
       case 1:
-        return GraphPage();
+        return PressurePage();
       case 2:
         return const Contents();
       case 3:
@@ -66,10 +62,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-     final pref = Provider.of<Preferences>(context);
+    final pref = Provider.of<Preferences>(context);
     return Scaffold(
         backgroundColor: const Color(0xFFE4DFD4),
         drawer: Drawer(
@@ -82,7 +77,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: UserAccountsDrawerHeader(
                   accountName: Center(
                       child: Text(
-                     pref.nickname ?? '',
+                    pref.nickname ?? '',
                     style: FitnessAppTheme.subtitle,
                   )),
                   accountEmail: null,
@@ -121,9 +116,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => AccountPage(
-                           
-                            ),
+                            builder: (context) => AccountPage(),
                           ),
                         );
                       },
@@ -137,11 +130,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       onTap: () async {
                         // bool reset = await pref.resetSettings();
-                        bool reset = await pref.logOut(); // questo comando elimina solo usename e password dalle shared preferences
+                        bool reset = await pref
+                            .logOut(); // questo comando elimina solo usename e password dalle shared preferences
                         if (reset) {
-                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => Splash(),));
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) => Splash(),
+                          ));
                         }
                       },
                     )

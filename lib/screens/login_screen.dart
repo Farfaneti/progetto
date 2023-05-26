@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
   static const route = '/login/';
   static const routeDisplayName = 'LoginPage';
 
-
   @override
   State<LoginPage> createState() => _LoginState();
 }
@@ -34,39 +33,29 @@ class _LoginState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE4DFD4),
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: const Color(0xFFE4DFD4),
-      //   title: const Text('HyperMET',
-      //       style: TextStyle(
-      //           color: Color(0xFF83AA99),
-      //           fontSize: 28,
-      //           fontWeight: FontWeight.bold)),
-      // ),
+      backgroundColor: FitnessAppTheme.background,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: FitnessAppTheme.background,
+        title: const Text('Login', style: FitnessAppTheme.headline),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              const Text('Login',
-                  style: TextStyle(
-                      color: Color(0xFF89453C),
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold)),
-              const Text('Please login to use our app',
-                  style: TextStyle(
-                    fontSize: 16,
-                  )),
+              const Text(
+                'Please login to use our app',
+                style: FitnessAppTheme.body1,
+                textAlign: TextAlign.left,
+              ),
               const SizedBox(
                 height: 20,
               ),
               const Align(
                 alignment: Alignment.topLeft,
-                child: Text('Username',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Text('Username', style: FitnessAppTheme.body1),
               ),
               const SizedBox(
                 height: 7,
@@ -81,22 +70,22 @@ class _LoginState extends State<LoginPage> {
                   return null;
                 },
                 controller: userController,
-                cursorColor: const Color(0xFF83AA99),
+                cursorColor: FitnessAppTheme.lightPurple,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: Color(0xFF89453C),
+                      color: FitnessAppTheme.purple,
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.person,
-                    color: Color(0xFF89453C),
+                    color: FitnessAppTheme.lightPurple,
                   ),
                   hintText: 'Username',
-                  hintStyle: const TextStyle(color: Color(0xFF89453C)),
+                  hintStyle: FitnessAppTheme.caption,
                 ),
               ),
               const SizedBox(
@@ -104,9 +93,7 @@ class _LoginState extends State<LoginPage> {
               ),
               const Align(
                 alignment: Alignment.topLeft,
-                child: Text('Password',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Text('Password', style: FitnessAppTheme.body1),
               ),
               const SizedBox(
                 height: 7,
@@ -121,20 +108,20 @@ class _LoginState extends State<LoginPage> {
                   return null;
                 },
                 controller: passwordController,
-                cursorColor: const Color(0xFF83AA99),
+                cursorColor: FitnessAppTheme.lightPurple,
                 obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(
-                      color: Color(0xFF89453C),
+                      color: FitnessAppTheme.purple,
                     ),
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   prefixIcon: const Icon(
                     Icons.lock,
-                    color: Color(0xFF89453C),
+                    color: FitnessAppTheme.lightPurple,
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -149,7 +136,7 @@ class _LoginState extends State<LoginPage> {
                     },
                   ),
                   hintText: 'Password',
-                  hintStyle: const TextStyle(color: Color(0xFF89453C)),
+                  hintStyle: FitnessAppTheme.caption,
                 ),
               ),
               const Spacer(),
@@ -164,22 +151,30 @@ class _LoginState extends State<LoginPage> {
                             Provider.of<Preferences>(context, listen: false);
                         prefs.username = userController.text;
                         prefs.password = passwordController.text;
-                       ImpactService service =
-          Provider.of<ImpactService>(context, listen: false);
-      bool responseAccessToken =  service.checkSavedToken(); //Check if there is a token
-      bool refreshAccessToken = service.checkSavedToken(refresh: true);
+                        ImpactService service =
+                            Provider.of<ImpactService>(context, listen: false);
+                        bool responseAccessToken = service
+                            .checkSavedToken(); //Check if there is a token
+                        bool refreshAccessToken =
+                            service.checkSavedToken(refresh: true);
 
-       //if we have a valid token for impact, proceed
-     if (responseAccessToken || refreshAccessToken) {
-        Future.delayed(
-             const Duration(seconds: 1), () =>  Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: ((context) => const HomePage(title: '', ))))
-                  );} 
-      else {
-        Future.delayed(
-            const Duration(seconds: 1), () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: ((context) => ImpactOnboarding()))));
-      }
+                        //if we have a valid token for impact, proceed
+                        if (responseAccessToken || refreshAccessToken) {
+                          Future.delayed(
+                              const Duration(seconds: 1),
+                              () => Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: ((context) => const HomePage(
+                                            title: '',
+                                          )))));
+                        } else {
+                          Future.delayed(
+                              const Duration(seconds: 1),
+                              () => Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: ((context) =>
+                                          ImpactOnboarding()))));
+                        }
                       }
                     },
                     style: ButtonStyle(
@@ -193,7 +188,7 @@ class _LoginState extends State<LoginPage> {
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF89453C))),
+                            FitnessAppTheme.purple)),
                     child: const Text('Log In'),
                   ),
                 ),
