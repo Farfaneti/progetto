@@ -35,15 +35,15 @@ class _LoginState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE4DFD4),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFFE4DFD4),
-        title: const Text('HyperMET',
-            style: TextStyle(
-                color: Color(0xFF83AA99),
-                fontSize: 28,
-                fontWeight: FontWeight.bold)),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: const Color(0xFFE4DFD4),
+      //   title: const Text('HyperMET',
+      //       style: TextStyle(
+      //           color: Color(0xFF83AA99),
+      //           fontSize: 28,
+      //           fontWeight: FontWeight.bold)),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
