@@ -142,9 +142,9 @@ class ImpactService {
     for (var daydata in data) {
       String day = daydata['date'];
       for (var dataday in daydata['data']) {
-        var calories = dataday['calories'];
-        var duration= dataday['duration'];
-        String activityName= dataday['activityName'];
+        var calories = dataday['data']['calories'];
+        var duration= dataday['data']['duration'];
+        String activityName= dataday['data']['activityName'];
         String datetime = '$day';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
         exercise exnew = exercise(timestamp: timestamp, activityName: dataday['activityName'], calories : dataday['calories'], duration: dataday['duration']);

@@ -44,7 +44,8 @@ class Splash extends StatelessWidget {
     // no user logged in the app
     if (username == null || password == null) {
       Future.delayed(const Duration(seconds: 1), () => _toLoginPage(context));
-    }// else {
+    }
+    else {
       //ImpactService è in serveces/impact.dart
       ImpactService service =
           Provider.of<ImpactService>(context, listen: false);
@@ -62,7 +63,7 @@ class Splash extends StatelessWidget {
       }
        
       
-   // }
+    }
   }
 
   @override
