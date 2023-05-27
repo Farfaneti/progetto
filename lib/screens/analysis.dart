@@ -6,7 +6,7 @@ import '../methods/theme.dart';
 class PressurePage extends StatefulWidget {
   PressurePage({Key? key}) : super(key: key);
 
-  static const routename = 'GraphPage';
+  static const routename = 'PressurePage';
 
   @override
   State<PressurePage> createState() => _PressurePageState();
@@ -14,8 +14,8 @@ class PressurePage extends StatefulWidget {
 
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
-  TextEditingController controller = TextEditingController();
-  var pressure = 0;
+  late TextEditingController controller;
+  String pressure = '';
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _PressurePageState extends State<PressurePage> {
           ),
           // va messo il grafico 1
           //
-          Text('Pressure values'),
+          const Text('Pressure values'),
           Text('$pressure'),
         ],
       ),
@@ -73,6 +73,7 @@ class _PressurePageState extends State<PressurePage> {
         onPressed: () async {
           final pressure = await openDialog();
           if (pressure == null) return;
+          setState(() => this.pressure = pressure);
         },
         backgroundColor: FitnessAppTheme.purple,
         child: const Icon(Icons.add),
@@ -81,18 +82,19 @@ class _PressurePageState extends State<PressurePage> {
   }
 
   // Pop-up dialog method
-  Future<int?> openDialog() => showDialog<int>(
+  Future<String?> openDialog() => showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
             title: const Text(
               'Add blood pressure value',
               style: FitnessAppTheme.title,
             ),
-            content: const TextField(
-              //controller: controller,
-              keyboardType: TextInputType.numberWithOptions(),
+            content: TextFormField(
+              controller: controller,
+              keyboardType: const TextInputType.numberWithOptions(),
               autofocus: true,
-              decoration: InputDecoration(
+              onFieldSubmitted: (_) => submit(),
+              decoration: const InputDecoration(
                   hintText: 'Pressure', hintStyle: FitnessAppTheme.body1),
             ),
             actions: [
