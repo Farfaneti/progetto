@@ -8,6 +8,7 @@ class FitnessAppTheme {
   static const Color nearlyDarkBlue = Color.fromARGB(255, 113, 21, 163);
   static const Color purple = Color.fromARGB(255, 178, 86, 235);
   static const Color lightPurple = Color.fromARGB(255, 203, 151, 235);
+  static const Color cream = Color.fromARGB(255, 196, 176, 209);
 
   static const Color nearlyBlue = Color.fromARGB(255, 154, 92, 170);
   static const Color nearlyBlack = Color.fromARGB(255, 45, 33, 51);
