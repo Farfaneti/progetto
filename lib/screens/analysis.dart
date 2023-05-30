@@ -15,25 +15,15 @@ class PressurePage extends StatefulWidget {
 
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
-  late TextEditingController controller;
-  String pressure = '';
-
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
     });
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => PressureListPage(selectedDate: day),
+    ));
   }
 
   @override
@@ -90,10 +80,12 @@ class _PressurePageState extends State<PressurePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final pressure = await openDialog();
-          if (pressure == null) return;
-          setState(() => this.pressure = pressure);
+        onPressed: () {
+          // final pressure = await openDialog();
+          // if (pressure == null) return;
+          // setState(() => this.pressure = pressure);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const PressureRecordPage()));
         },
         backgroundColor: FitnessAppTheme.purple,
         child: const Icon(Icons.add),
