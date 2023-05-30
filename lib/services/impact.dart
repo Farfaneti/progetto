@@ -1,13 +1,16 @@
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:dio/dio.dart';
+import 'package:progetto/screens/entities.dart';
 import 'package:progetto/services/server_string.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 
 import '../models/db.dart';
 
 class ImpactService {
-  ImpactService(this.prefs);
+  ImpactService(this.prefs){
+    updateBearer();
+  }
   Preferences prefs;
 
   final Dio _dio = Dio(BaseOptions(baseUrl: ServerStrings.backendBaseUrl));
@@ -42,8 +45,7 @@ class ImpactService {
 
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
 
-
- //Check the iss claim
+    //Check the iss claim
     if (decodedToken['iss'] == null) {
       return false;
     } else {
@@ -90,7 +92,7 @@ class ImpactService {
     }
   }
 
-   Future<bool> refreshTokens() async {
+  Future<bool> refreshTokens() async {
     String? refToken = await retrieveSavedToken(true);
     try {
       Response response = await _dio.post(
@@ -133,26 +135,32 @@ class ImpactService {
     return r.data['data'][0]['username'];
   }
 
-  Future<List<exercise>> getDataFromDay(DateTime startTime) async {
+  Future<List<Ex>> getDataFromDay(DateTime startTime) async {
     await updateBearer();
     Response r = await _dio.get(
         'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
     List<dynamic> data = r.data['data'];
-    List<exercise> ex = [];
+    List<Ex> ex = [];
     for (var daydata in data) {
       String day = daydata['date'];
       for (var dataday in daydata['data']) {
-        var calories = dataday['data']['calories'];
-        var duration= dataday['data']['duration'];
-        String activityName= dataday['data']['activityName'];
-        String datetime = '$day';
+        var calories = dataday['data'][0]['calories'];
+        var duration = dataday['data'][0]['duration'];
+        String activityName = dataday['data'][0]['activityName'];
+        String hour = dataday['time'];
+        String datetime = '${day}T$hour';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        exercise exnew = exercise(timestamp: timestamp, activityName: dataday['activityName'], calories : dataday['calories'], duration: dataday['duration']);
+        Ex exnew = Ex(null, activityName, calories,
+            duration, timestamp);
         if (!ex.any((e) => e.timestamp.isAtSameMomentAs(exnew.timestamp))) {
           ex.add(exnew);
         }
+        print('Calories: $calories');
+        print('Duration: $duration');
+        print('Activity Name: $activityName');
       }
     }
+    
     var exlist = ex.toList()
       ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
     return exlist;

@@ -6,9 +6,12 @@ import 'package:progetto/services/impact.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
+import 'models/db.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final db = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  runApp(Provider<AppDatabase>.value(value: db, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,13 +32,11 @@ class MyApp extends StatelessWidget {
                   // We pass the newly created preferences to the service
                   Provider.of<Preferences>(context, listen: false),
                 )),
-        // Provider(
-        //     create: (context) => PurpleAirService(
-        //         Provider.of<Preferences>(context, listen: false)))
+              
       ],
       child: MaterialApp(
         home: const Splash(),
-        //const HomePage(title: ''),
+     
         theme: ThemeData(
           inputDecorationTheme: const InputDecorationTheme(
             focusedBorder: UnderlineInputBorder(

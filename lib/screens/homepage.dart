@@ -9,6 +9,9 @@ import 'package:progetto/screens/profile.dart';
 import 'package:progetto/screens/splash.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import '../models/db.dart';
+import '../provider/homeprovider.dart';
+import '../services/impact.dart';
 import 'graphs_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,8 +67,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final pref = Provider.of<Preferences>(context);
-    return Scaffold(
+      final pref = Provider.of<Preferences>(context);
+    return ChangeNotifierProvider<HomeProvider>(
+      create: (context) => HomeProvider(
+       
+          Provider.of<ImpactService>(context, listen: false),
+          Provider.of<AppDatabase>(context, listen: false)),
+      lazy: false,
+  
+    builder: (context, child) => Scaffold(
         backgroundColor: const Color(0xFFE4DFD4),
         drawer: Drawer(
           child: SingleChildScrollView(
@@ -215,6 +225,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ],
               )),
-        ));
+        ))
+    ); 
   }
 }
