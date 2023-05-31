@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progetto/screens/pressure_records.dart';
 import 'package:progetto/screens/widgets/body_measurement_view.dart';
 import 'package:progetto/screens/widgets/pressure_bar_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -9,22 +10,46 @@ class PressurePage extends StatefulWidget {
 
   static const routename = 'PressurePage';
 
-  @override
+ @override
   State<PressurePage> createState() => _PressurePageState();
-}
 
+}
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
+  late TextEditingController controller;
+  String pressure = '';
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
     });
-
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => PressureListPage(selectedDate: day),
-    ));
   }
+
+   
+
+
+
+  // void _onDaySelected(DateTime day, DateTime focusedDay) {
+  //   setState(() {
+  //     today = day;
+  //   });
+
+  //   Navigator.of(context).push(MaterialPageRoute(
+  //     builder: (context) => PressureListPage(selectedDate: day),
+  //   ));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +94,7 @@ class _PressurePageState extends State<PressurePage> {
               padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
               child: const Text('Pressure values'),
             ),
-            Text('$pressure'),
+     
 
             Padding(
               padding: const EdgeInsets.all(8.0),

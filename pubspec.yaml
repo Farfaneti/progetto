@@ -34,7 +34,7 @@ dependencies:
   intl: ^0.17.0
   graphic: ^1.0.1
   expandable: ^5.0.1 #expandable pannel text1/2
-  table_calendar: ^3.0.9
+  table_calendar: ^3.0.7
   google_nav_bar: ^5.0.6
   email_validator: ^2.0.1
   string_validator: ^0.3.0
