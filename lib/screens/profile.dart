@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
+import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../account.dart';
-import '../utils/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});

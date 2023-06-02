@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/text_contents/text1.dart';
 import 'package:progetto/screens/text_contents/text2.dart';
-
-import '../methods/theme.dart';
 
 class Contents extends StatelessWidget {
   const Contents({Key? key}) : super(key: key);

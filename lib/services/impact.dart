@@ -1,14 +1,14 @@
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:dio/dio.dart';
-import 'package:progetto/screens/entities.dart';
+import 'package:progetto/models/entities/entities.dart';
 import 'package:progetto/services/server_string.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 
 import '../models/db.dart';
 
 class ImpactService {
-  ImpactService(this.prefs){
+  ImpactService(this.prefs) {
     updateBearer();
   }
   Preferences prefs;
@@ -150,8 +150,7 @@ class ImpactService {
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        Ex exnew = Ex(null, activityName, calories,
-            duration, timestamp);
+        Ex exnew = Ex(null, activityName, calories, duration, timestamp);
         if (!ex.any((e) => e.timestamp.isAtSameMomentAs(exnew.timestamp))) {
           ex.add(exnew);
         }
@@ -160,7 +159,7 @@ class ImpactService {
         print('Activity Name: $activityName');
       }
     }
-    
+
     var exlist = ex.toList()
       ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
     return exlist;
