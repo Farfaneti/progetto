@@ -3,17 +3,24 @@ import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/text_contents/text1.dart';
 import 'package:progetto/screens/text_contents/text2.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class InfoPage extends StatelessWidget {
+class InfoPage extends StatefulWidget {
   InfoPage({Key? key}) : super(key: key);
 
   static const routename = 'InfoPage';
 
-  final List imageList = [
-    Image.asset('Screenshot1.png'),
-    Image.asset('Screenshot2.png'),
-    Image.asset('Screenshot3.png'),
-    Image.asset('Screenshot4.png'),
+  @override
+  State<InfoPage> createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
+  int activeIndex = 0;
+  final List<String> imageList = [
+    'assets/Screenshot1.png',
+    'assets/Screenshot2.png',
+    'assets/Screenshot3.png',
+    'assets/Screenshot4.png',
   ];
 
   @override
@@ -64,31 +71,51 @@ class InfoPage extends StatelessWidget {
 
             //inserire immagini tipo screenshot dell'app in uno slideshow widget
             Center(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: false,
-                  autoPlay: true,
-                ),
-                items: imageList
-                    .map((e) => ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: <Widget>[
-                              Image.network(
-                                e,
-                                width: 1050,
-                                height: 350,
-                                fit: BoxFit.cover,
-                              )
-                            ],
-                          ),
-                        ))
-                    .toList(),
+              child: Column(
+                children: [
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: 500,
+                      enlargeCenterPage: false,
+                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                      enableInfiniteScroll: false,
+                      autoPlay: false,
+                      pageSnapping: false,
+                      reverse: false,
+                      autoPlayInterval: Duration(seconds: 2),
+                      onPageChanged: (index, reason) =>
+                          setState(() => activeIndex = index),
+                    ),
+                    items: imageList
+                        .map((path) => ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                path,
+                                width: 220,
+                                height: 400,
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  buildIndicator(),
+                ],
               ),
             )
           ],
         )));
-  } //build
+  }
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+        activeIndex: activeIndex,
+        count: imageList.length,
+        effect: JumpingDotEffect(
+            dotColor: FitnessAppTheme.lightPurple,
+            dotHeight: 15,
+            dotWidth: 15,
+            activeDotColor: FitnessAppTheme.purple),
+      );
 }
