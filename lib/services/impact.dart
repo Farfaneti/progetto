@@ -139,14 +139,14 @@ class ImpactService {
     await updateBearer();
     Response r = await _dio.get(
         'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-    List<dynamic> data = r.data['data'];
+    List<dynamic> data = r.data['data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
     List<Ex> ex = [];
-    for (var daydata in data) {
+    for (var daydata in data) { 
       String day = daydata['date'];
-      for (var dataday in daydata['data']) {
-        var calories = dataday['data'][0]['calories'];
-        var duration = dataday['data'][0]['duration'];
-        String activityName = dataday['data'][0]['activityName'];
+      for (var dataday in daydata['data']) { //qui entro nel secondo data
+        var calories = dataday['calories'];
+        var duration = dataday['duration'];
+        String activityName = dataday['activityName'];
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
