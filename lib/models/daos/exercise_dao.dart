@@ -1,13 +1,13 @@
 import 'package:floor/floor.dart';
-import 'package:progetto/screens/exercise.dart';
-
+import 'package:progetto/models/entities/exercise.dart';
 
 //Here, we are saying that the following class defines a dao.
 
 @dao
 abstract class ExerciseDao {
   //Query #0: SELECT -> this allows to obtain all the entries of the HR table of a certain date
-  @Query('SELECT * FROM Ex WHERE dateTime between :startTime and :endTime ORDER BY dateTime ASC')
+  @Query(
+      'SELECT * FROM Ex WHERE dateTime between :startTime and :endTime ORDER BY dateTime ASC')
   Future<List<Ex>> findExercisebyDate(DateTime startTime, DateTime endTime);
 
   //Query #1: SELECT -> this allows to obtain all the entries of the exercise table

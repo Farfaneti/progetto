@@ -1,15 +1,12 @@
 import 'dart:async';
 
 import 'package:floor/floor.dart';
-import 'package:progetto/screens/exercise_dao.dart';
-import 'package:progetto/screens/pressure_dao.dart';
+import 'package:progetto/models/daos/exercise_dao.dart';
+import 'package:progetto/models/daos/pressure_dao.dart';
+import 'package:progetto/converters/date_timeconverter.dart';
+import 'package:progetto/models/entities/exercise.dart';
+import 'package:progetto/models/entities/pressure.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
-
-import '../screens/date_timeconverter.dart';
-import '../screens/exercise.dart';
-import '../screens/pressure.dart';
-
-
 
 //Here, we are importing the entities and the daos of the database
 

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart';
 import 'package:progetto/methods/theme.dart';
+import 'package:progetto/screens/homepage.dart';
+import 'package:progetto/screens/onboarding/onboarding_impact.dart';
+import 'package:progetto/services/impact.dart';
+import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../services/impact.dart';
-import '../utils/shared_preferences.dart';
-import 'homepage.dart';
-import 'onboarding/onboarding_impact.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:progetto/screens/pressure_records.dart';
+import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/widgets/body_measurement_view.dart';
 import 'package:progetto/screens/widgets/pressure_bar_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../methods/theme.dart';
 
 class PressurePage extends StatefulWidget {
   PressurePage({Key? key}) : super(key: key);
 
   static const routename = 'PressurePage';
 
- @override
+  @override
   State<PressurePage> createState() => _PressurePageState();
-
 }
+
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
   late TextEditingController controller;
@@ -36,10 +35,6 @@ class _PressurePageState extends State<PressurePage> {
       today = day;
     });
   }
-
-   
-
-
 
   // void _onDaySelected(DateTime day, DateTime focusedDay) {
   //   setState(() {
@@ -94,7 +89,6 @@ class _PressurePageState extends State<PressurePage> {
               padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
               child: const Text('Pressure values'),
             ),
-     
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -109,8 +103,8 @@ class _PressurePageState extends State<PressurePage> {
           // final pressure = await openDialog();
           // if (pressure == null) return;
           // setState(() => this.pressure = pressure);
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const PressureRecordPage()));
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (context) => const PressureRecordPage()));
         },
         backgroundColor: FitnessAppTheme.purple,
         child: const Icon(Icons.add),

@@ -1,14 +1,14 @@
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:dio/dio.dart';
-import 'package:progetto/screens/entities.dart';
+import 'package:progetto/models/entities/entities.dart';
 import 'package:progetto/services/server_string.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 
 import '../models/db.dart';
 
 class ImpactService {
-  ImpactService(this.prefs){
+  ImpactService(this.prefs) {
     updateBearer();
   }
   Preferences prefs;
@@ -139,20 +139,21 @@ class ImpactService {
     await updateBearer();
     Response r = await _dio.get(
         'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-    List<dynamic> data = r.data['data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
+    List<dynamic> data = r.data[
+        'data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
     List<Ex> ex = [];
-    for (var daydata in data) { 
+    for (var daydata in data) {
       String day = daydata['date'];
-      for (var dataday in daydata['data']) { //qui entro nel secondo data
+      for (var dataday in daydata['data']) {
+        //qui entro nel secondo data
         var calories = dataday['calories'];
         var duration = dataday['duration'];
         String activityName = dataday['activityName'];
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        Ex exnew = Ex(null, activityName, calories,
-            duration, timestamp);
-        if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
+        Ex exnew = Ex(null, activityName, calories, duration, timestamp);
+        if (!ex.any((e) => e.timestamp.isAtSameMomentAs(exnew.timestamp))) {
           ex.add(exnew);
         }
         print('Calories: $calories');
@@ -160,9 +161,8 @@ class ImpactService {
         print('Activity Name: $activityName');
       }
     }
-    
-    var exlist = ex.toList()
-      ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+
+    var exlist = ex.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return exlist;
   }
 

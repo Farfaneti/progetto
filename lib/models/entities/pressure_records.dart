@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:progetto/screens/pressure.dart';
+import 'package:progetto/models/entities/pressure.dart';
 import 'package:provider/provider.dart';
-import '../methods/theme.dart';
-import '../models/db.dart';
-import '../provider/homeprovider.dart';
-import 'homepage.dart';
+import '../../methods/theme.dart';
+import '../db.dart';
+import '../../provider/homeprovider.dart';
+import '../../screens/homepage.dart';
 
 class PressureRecordPage extends StatefulWidget {
   const PressureRecordPage({Key? key}) : super(key: key);
@@ -19,13 +19,10 @@ class PressureRecordPage extends StatefulWidget {
 class _PressureRecordState extends State<PressureRecordPage> {
   final _formKey = GlobalKey<FormState>();
   Completer<void> primaryCompleter = Completer<void>();
-  
 
   int? systolic;
   int? diastolic;
   late DateTime _selectedDateTime;
-  
-  
 
   @override
   void initState() {
@@ -188,12 +185,9 @@ class _PressureRecordState extends State<PressureRecordPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        
-                    }
-                       _savePressureRecord();
-                      },
-                  
+                      if (_formKey.currentState!.validate()) {}
+                      _savePressureRecord();
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           FitnessAppTheme.nearlyDarkBlue),
@@ -209,26 +203,25 @@ class _PressureRecordState extends State<PressureRecordPage> {
     );
   }
 
- void _savePressureRecord() async {
-  final currentContext = context; // Variabile locale per salvare il contesto corrente
-  final db= Provider.of<HomeProvider>(context, listen: false).db;
-                                
-  final pressureRecord =
-      Pressure(null, systolic!, diastolic!, _selectedDateTime);
-  await db.pressureDao.insertPressure(pressureRecord);
-  
+  void _savePressureRecord() async {
+    final currentContext =
+        context; // Variabile locale per salvare il contesto corrente
+    final db = Provider.of<HomeProvider>(context, listen: false).db;
+
+    final pressureRecord =
+        Pressure(null, systolic!, diastolic!, _selectedDateTime);
+    await db.pressureDao.insertPressure(pressureRecord);
+
     ScaffoldMessenger.of(currentContext).showSnackBar(
       const SnackBar(
         content: Text('Pressure record saved'),
       ),
     );
-    
-  
-  Navigator.of(currentContext).push(MaterialPageRoute(
-    builder: (context) => const HomePage(
-      title: '',
-    ),
-  ));
-}
 
+    Navigator.of(currentContext).push(MaterialPageRoute(
+      builder: (context) => const HomePage(
+        title: '',
+      ),
+    ));
+  }
 }
