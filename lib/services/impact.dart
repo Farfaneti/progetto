@@ -152,7 +152,7 @@ class ImpactService {
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
         Ex exnew = Ex(null, activityName, calories,
             duration, timestamp);
-        if (!ex.any((e) => e.timestamp.isAtSameMomentAs(exnew.timestamp))) {
+        if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
           ex.add(exnew);
         }
         print('Calories: $calories');
@@ -162,7 +162,7 @@ class ImpactService {
     }
     
     var exlist = ex.toList()
-      ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+      ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return exlist;
   }
 
