@@ -2,11 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:progetto/models/db.dart';
-import 'package:progetto/models/entities/entities.dart';
+
 import 'package:progetto/services/server_string.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 
+
 import '../models/daos/pressure_dao.dart';
+import '../models/entities/exercise.dart';
+import '../models/entities/pressure.dart';
 import '../services/impact.dart';
 
 // this is the change notifier. it will manage all the logic of the home page: fetching the correct data from the database
@@ -24,47 +27,73 @@ class HomeProvider extends ChangeNotifier {
   // selected day of data to be shown
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
 
-  DateTime lastFetch = DateTime.now().subtract(Duration(days: 2));
+
   final ImpactService impactService;
+  late DateTime lastFetch;
 
   bool doneInit = false;
 
-  HomeProvider(this.impactService, this.db) {
+  HomeProvider(this.impactService, this.db) { 
     _init();
   }
 
   // constructor of provider which manages the fetching of all data from the servers and then notifies the ui to build
   Future<void> _init() async {
     await _fetchAndCalculate();
-    getDataOfDay(showDate);
+    await getDataOfDay(showDate);
     doneInit = true;
     notifyListeners();
   }
 
+   Future<DateTime?> _getLastFetch() async {
+    var data = await db.exerciseDao.findAllExercise();
+    if (data.isEmpty) {
+      return null;
+    }
+    return data.last.dateTime;
+  }
+
   // method to fetch all data and calculate the exposure
   Future<void> _fetchAndCalculate() async {
+    lastFetch = await _getLastFetch() ??
+        DateTime.now().subtract(const Duration(days: 2));
+    // do nothing if already fetched
+    if (lastFetch.day == DateTime.now().subtract(const Duration(days: 1)).day) {
+      return;
+    }
     _exercisesDB = await impactService.getDataFromDay(lastFetch);
     for (var element in _exercisesDB) {
       db.exerciseDao.insertExercise(element);
     } // db add to the table
   }
 
-  // method to trigger a new data fetching
-  void refresh() {
-    _fetchAndCalculate();
-    getDataOfDay(showDate);
+   // method to trigger a new data fetching
+  Future<void> refresh() async {
+    await _fetchAndCalculate();
+    await getDataOfDay(showDate);
   }
 
-  // method to select only the data of the chosen day
+   // method to select only the data of the chosen day
   Future<void> getDataOfDay(DateTime showDate) async {
+    // check if the day we want to show has data
+    var firstDay = await db.exerciseDao.findFirstDayInDb();
+    var lastDay = await db.exerciseDao.findLastDayInDb();
+    if (showDate.isAfter(lastDay!.dateTime) ||
+        showDate.isBefore(firstDay!.dateTime)) return;
+        
     this.showDate = showDate;
     exercises = await db.exerciseDao.findExercisebyDate(
         DateUtils.dateOnly(showDate),
         DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
-
+    
+    pressure = await db.pressureDao.findPressurebyDate(
+        DateUtils.dateOnly(showDate),
+        DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
+    
     // after selecting all data we notify all consumers to rebuild
     notifyListeners();
   }
+ 
 
 //metod to calculate the Met min value of ONE DAY
   double calculateMETforDay(DateTime date, int weight) {
@@ -74,8 +103,8 @@ class HomeProvider extends ChangeNotifier {
       if (exercise.dateTime.year == date.year &&
           exercise.dateTime.month == date.month &&
           exercise.dateTime.day == date.day) {
-        double durationInHours = exercise.duration /
-            60; // Convert duration from minutes to hours   DA CONTROLLARE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        double durationInHours =
+            exercise.duration / 60; // Convert duration from minutes to hours   DA CONTROLLARE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         double met = exercise.calories / (weight / durationInHours) / 3.5;
         totalMET += met;
       }
@@ -84,14 +113,14 @@ class HomeProvider extends ChangeNotifier {
     return totalMET;
   }
 
-//restituisce la data corrispondente al lunedì della stessa settimana
-  DateTime getStartOfWeek(DateTime date) {
-    int difference = date.weekday - DateTime.monday;
-    if (difference < 0) {
-      difference += 7;
-    }
-    return date.subtract(Duration(days: difference));
+//restituisce la data corrispondente al lunedì della stessa settimana  
+DateTime getStartOfWeek(DateTime date) {
+  int difference = date.weekday - DateTime.monday;
+  if (difference < 0) {
+    difference += 7;
   }
+  return date.subtract(Duration(days: difference));
+}
 
 // calcolo del MET come somma dei Met di una settimana, usa il metodo sopra per trovare il lunedì della settimana attuale
   double calculateMETforWeek(DateTime date, int weight) {
@@ -110,7 +139,7 @@ class HomeProvider extends ChangeNotifier {
           double durationInHours =
               exercise.duration / 60; // Convert duration from minutes to hours
           double met = exercise.calories / (weight / durationInHours) / 3.5;
-          totalMET += met; //mantiene il valore del met del singolo giorno
+          totalMET += met; //mantiene il valore del met del singolo giorno 
           weekMETmin += met; // salva il valore del met dell'intera settimana
         }
       }
@@ -146,54 +175,58 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+
 // Function to calculate the daily average of pressure data for a specific day
-  Future<double> calculateDailySystolicPressureAverage(
-      DateTime specificDay, PressureDao pressureDao) async {
-    // Get the start and end time of the specific day
-    DateTime startTime =
-        DateTime(specificDay.year, specificDay.month, specificDay.day);
-    DateTime endTime = DateTime(
-        specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
+Future<double> calculateDailySystolicPressureAverage(
+    DateTime specificDay, PressureDao pressureDao) async {
+  // Get the start and end time of the specific day
+  DateTime startTime = DateTime(specificDay.year, specificDay.month, specificDay.day);
+  DateTime endTime = DateTime(specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
-    // Retrieve the pressure data for the specific day
-    List<Pressure> pressureList =
-        await pressureDao.findPressurebyDate(startTime, endTime);
+  // Retrieve the pressure data for the specific day
+  List<Pressure> pressureList =
+      await pressureDao.findPressurebyDate(startTime, endTime);
 
-    // Calculate the sum of systolic pressure values
-    int systolicSum = 0;
+  // Calculate the sum of systolic pressure values
+  int systolicSum = 0;
+  
 
-    for (Pressure pressure in pressureList) {
-      systolicSum += pressure.systolic;
-    }
-
-    // Calculate the average values
-    double systolicAverage = systolicSum / pressureList.length;
-
-    return systolicAverage;
+  for (Pressure pressure in pressureList) {
+    systolicSum += pressure.systolic;
+    
   }
 
-  Future<double> calculateDailyDiastolicPressureAverage(
-      DateTime specificDay, PressureDao pressureDao) async {
-    // Get the start and end time of the specific day
-    DateTime startTime =
-        DateTime(specificDay.year, specificDay.month, specificDay.day);
-    DateTime endTime = DateTime(
-        specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
+  // Calculate the average values
+  double systolicAverage = systolicSum / pressureList.length;
 
-    // Retrieve the pressure data for the specific day
-    List<Pressure> pressureList =
-        await pressureDao.findPressurebyDate(startTime, endTime);
+  return systolicAverage;
 
-    // Calculate the sum of  diastolic pressure values
-    int diastolicSum = 0;
+}
 
-    for (Pressure pressure in pressureList) {
-      diastolicSum += pressure.diastolic;
-    }
+Future<double> calculateDailyDiastolicPressureAverage(
+  DateTime specificDay, PressureDao pressureDao) async {
+  // Get the start and end time of the specific day
+  DateTime startTime = DateTime(specificDay.year, specificDay.month, specificDay.day);
+  DateTime endTime = DateTime(specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
-    // Calculate the average values
-    double diastolicAverage = diastolicSum / pressureList.length;
+  // Retrieve the pressure data for the specific day
+  List<Pressure> pressureList =
+      await pressureDao.findPressurebyDate(startTime, endTime);
 
-    return diastolicAverage;
+  // Calculate the sum of  diastolic pressure values
+  int diastolicSum = 0;
+  
+
+  for (Pressure pressure in pressureList) {
+    diastolicSum += pressure.diastolic;
+    
   }
+
+  // Calculate the average values
+  double diastolicAverage = diastolicSum / pressureList.length;
+
+  return diastolicAverage;
+}
+
+
 }
