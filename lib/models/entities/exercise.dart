@@ -14,15 +14,13 @@ class Ex {
   final int calories;
 
   //The duration of the exercise
-  final int duration;
+  final double duration;
 
   //When the exercise occured
   final DateTime dateTime;
 
   //Default constructor
-  Ex(this.id, this.activityName,this.calories, this.duration,this.dateTime);
+  Ex(this.id, this.activityName, this.calories, this.duration, this.dateTime);
 
   get timestamp => null;
-
- 
 } //Exercise

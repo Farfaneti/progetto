@@ -87,7 +87,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Ex` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `activityName` TEXT NOT NULL, `calories` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Ex` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `activityName` TEXT NOT NULL, `calories` INTEGER NOT NULL, `duration` REAL NOT NULL, `dateTime` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Pressure` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `systolic` INTEGER NOT NULL, `diastolic` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL)');
 
@@ -165,7 +165,7 @@ class _$ExerciseDao extends ExerciseDao {
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Ex WHERE dateTime between ?1 and ?2 ORDER BY dateTime ASC',
-        mapper: (Map<String, Object?> row) => Ex(row['id'] as int?, row['activityName'] as String, row['calories'] as int, row['duration'] as int, _dateTimeConverter.decode(row['dateTime'] as int)),
+        mapper: (Map<String, Object?> row) => Ex(row['id'] as int?, row['activityName'] as String, row['calories'] as int, row['duration'] as double, _dateTimeConverter.decode(row['dateTime'] as int)),
         arguments: [
           _dateTimeConverter.encode(startTime),
           _dateTimeConverter.encode(endTime)
@@ -179,31 +179,30 @@ class _$ExerciseDao extends ExerciseDao {
             row['id'] as int?,
             row['activityName'] as String,
             row['calories'] as int,
-            row['duration'] as int,
+            row['duration'] as double,
             _dateTimeConverter.decode(row['dateTime'] as int)));
   }
 
   @override
   Future<Ex?> findFirstDayInDb() async {
-    return _queryAdapter.query(
-        'SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1',
+    return _queryAdapter.query('SELECT * FROM Ex ORDER BY dateTime ASC LIMIT 1',
         mapper: (Map<String, Object?> row) => Ex(
             row['id'] as int?,
             row['activityName'] as String,
             row['calories'] as int,
-            row['duration'] as int,
+            row['duration'] as double,
             _dateTimeConverter.decode(row['dateTime'] as int)));
   }
 
   @override
   Future<Ex?> findLastDayInDb() async {
     return _queryAdapter.query(
-        'SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1',
+        'SELECT * FROM Ex ORDER BY dateTime DESC LIMIT 1',
         mapper: (Map<String, Object?> row) => Ex(
             row['id'] as int?,
             row['activityName'] as String,
             row['calories'] as int,
-            row['duration'] as int,
+            row['duration'] as double,
             _dateTimeConverter.decode(row['dateTime'] as int)));
   }
 

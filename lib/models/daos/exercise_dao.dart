@@ -26,9 +26,9 @@ abstract class ExerciseDao {
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateExercise(Ex exercisesData);
 
-  @Query('SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1')
+  @Query('SELECT * FROM Ex ORDER BY dateTime ASC LIMIT 1')
   Future<Ex?> findFirstDayInDb();
 
-  @Query('SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1')
+  @Query('SELECT * FROM Ex ORDER BY dateTime DESC LIMIT 1')
   Future<Ex?> findLastDayInDb();
 }//ExerciseDao
