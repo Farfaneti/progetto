@@ -184,6 +184,30 @@ class _$ExerciseDao extends ExerciseDao {
   }
 
   @override
+  Future<Ex?> findFirstDayInDb() async {
+    return _queryAdapter.query(
+        'SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1',
+        mapper: (Map<String, Object?> row) => Ex(
+            row['id'] as int?,
+            row['activityName'] as String,
+            row['calories'] as int,
+            row['duration'] as int,
+            _dateTimeConverter.decode(row['dateTime'] as int)));
+  }
+
+  @override
+  Future<Ex?> findLastDayInDb() async {
+    return _queryAdapter.query(
+        'SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1',
+        mapper: (Map<String, Object?> row) => Ex(
+            row['id'] as int?,
+            row['activityName'] as String,
+            row['calories'] as int,
+            row['duration'] as int,
+            _dateTimeConverter.decode(row['dateTime'] as int)));
+  }
+
+  @override
   Future<void> insertExercise(Ex exercisesData) async {
     await _exInsertionAdapter.insert(exercisesData, OnConflictStrategy.abort);
   }
