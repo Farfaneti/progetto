@@ -4,6 +4,8 @@ import 'package:progetto/screens/widgets/body_measurement_view.dart';
 import 'package:progetto/screens/widgets/pressure_bar_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../models/entities/pressure_records.dart';
+
 class PressurePage extends StatefulWidget {
   PressurePage({Key? key}) : super(key: key);
 
@@ -100,11 +102,9 @@ class _PressurePageState extends State<PressurePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // final pressure = await openDialog();
-          // if (pressure == null) return;
-          // setState(() => this.pressure = pressure);
-          // Navigator.of(context).push(MaterialPageRoute(
-          //     builder: (context) => const PressureRecordPage()));
+          
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const PressureRecordPage()));
         },
         backgroundColor: FitnessAppTheme.purple,
         child: const Icon(Icons.add),
@@ -112,36 +112,4 @@ class _PressurePageState extends State<PressurePage> {
     );
   }
 
-  // Pop-up dialog method
-  Future<String?> openDialog() => showDialog<String>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text(
-            'Add blood pressure value',
-            style: FitnessAppTheme.title,
-          ),
-          content: TextFormField(
-            controller: controller,
-            keyboardType: const TextInputType.numberWithOptions(),
-            autofocus: true,
-            onFieldSubmitted: (_) => submit(),
-            decoration: const InputDecoration(
-                hintText: 'Pressure', hintStyle: FitnessAppTheme.body1),
-          ),
-          actions: [
-            TextButton(
-              onPressed: submit,
-              child: const Text(
-                'Save',
-                style: FitnessAppTheme.button,
-              ),
-            )
-          ],
-        ),
-      );
-
-  void submit() {
-    Navigator.of(context).pop(controller.text);
-    controller.clear();
-  }
 }

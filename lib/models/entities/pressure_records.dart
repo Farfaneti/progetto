@@ -206,11 +206,10 @@ class _PressureRecordState extends State<PressureRecordPage> {
   void _savePressureRecord() async {
     final currentContext =
         context; // Variabile locale per salvare il contesto corrente
-    final db = Provider.of<HomeProvider>(context, listen: false).db;
-
-    final pressureRecord =
+   final pressureRecord =
         Pressure(null, systolic!, diastolic!, _selectedDateTime);
-    await db.pressureDao.insertPressure(pressureRecord);
+    await Provider.of<HomeProvider>(context, listen: false)
+                .insertPressure(pressureRecord);
 
     ScaffoldMessenger.of(currentContext).showSnackBar(
       const SnackBar(

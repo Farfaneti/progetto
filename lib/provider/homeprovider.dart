@@ -175,7 +175,26 @@ DateTime getStartOfWeek(DateTime date) {
     }
   }
 
+// METODI PER PRESSIONE
+ Future<List<Pressure>> findAllTodos() async{
+    final results = await db.pressureDao.findAllPressure();
+    return results;
+  }//findAllTodos
 
+  //This method wraps the insertTodo() method of the DAO. 
+  //Then, it notifies the listeners that something changed.
+  Future<void> insertPressure(Pressure pressure)async {
+    await db.pressureDao.insertPressure(pressure);
+    notifyListeners();
+  }//insertTodo
+
+  //This method wraps the deleteTodo() method of the DAO. 
+  //Then, it notifies the listeners that something changed.
+  Future<void> removePressure(Pressure pressure) async{
+    await db.pressureDao.deletePressure(pressure);
+    notifyListeners();
+  }//removeTodo
+  
 // Function to calculate the daily average of pressure data for a specific day
 Future<double> calculateDailySystolicPressureAverage(
     DateTime specificDay, PressureDao pressureDao) async {
