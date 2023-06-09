@@ -85,7 +85,7 @@ class _PressureRecordState extends State<PressureRecordPage> {
                   labelText: 'Systolic pressure in mmHg',
                   labelStyle: FitnessAppTheme.subtitle,
                   prefixIcon: const Icon(
-                    Icons.height,
+                    Icons.medical_services_rounded,
                     color: FitnessAppTheme.lightPurple,
                   ),
                   border: OutlineInputBorder(
@@ -219,7 +219,7 @@ class _PressureRecordState extends State<PressureRecordPage> {
 
     Navigator.of(currentContext).push(MaterialPageRoute(
       builder: (context) => const HomePage(
-        title: '',
+        title: 'Analysis',
       ),
     ));
   }

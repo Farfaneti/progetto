@@ -275,7 +275,7 @@ class _$PressureDao extends PressureDao {
     DateTime endTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM Ex WHERE dateTime between ?1 and ?2 ORDER BY dateTime ASC',
+        'SELECT * FROM Pressure WHERE dateTime between ?1 and ?2 ORDER BY dateTime ASC',
         mapper: (Map<String, Object?> row) => Pressure(row['id'] as int?, row['systolic'] as int, row['diastolic'] as int, _dateTimeConverter.decode(row['dateTime'] as int)),
         arguments: [
           _dateTimeConverter.encode(startTime),
@@ -296,7 +296,7 @@ class _$PressureDao extends PressureDao {
   @override
   Future<Pressure?> findFirstDayInDb() async {
     return _queryAdapter.query(
-        'SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1',
+        'SELECT * FROM Pressure ORDER BY dateTime ASC LIMIT 1',
         mapper: (Map<String, Object?> row) => Pressure(
             row['id'] as int?,
             row['systolic'] as int,
@@ -307,7 +307,7 @@ class _$PressureDao extends PressureDao {
   @override
   Future<Pressure?> findLastDayInDb() async {
     return _queryAdapter.query(
-        'SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1',
+        'SELECT * FROM Pressure ORDER BY dateTime DESC LIMIT 1',
         mapper: (Map<String, Object?> row) => Pressure(
             row['id'] as int?,
             row['systolic'] as int,

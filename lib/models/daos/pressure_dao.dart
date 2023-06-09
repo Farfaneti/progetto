@@ -7,7 +7,7 @@ import 'package:progetto/models/entities/pressure.dart';
 abstract class PressureDao {
   //Query #0: SELECT -> this allows to obtain all the entries of the HR table of a certain date
   @Query(
-      'SELECT * FROM Ex WHERE dateTime between :startTime and :endTime ORDER BY dateTime ASC')
+      'SELECT * FROM Pressure WHERE dateTime between :startTime and :endTime ORDER BY dateTime ASC')
   Future<List<Pressure>> findPressurebyDate(
       DateTime startTime, DateTime endTime);
 
@@ -27,9 +27,9 @@ abstract class PressureDao {
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updatePressure(Pressure pressureData);
 
-  @Query('SELECT * FROM Exposure ORDER BY dateTime ASC LIMIT 1')
+  @Query('SELECT * FROM Pressure ORDER BY dateTime ASC LIMIT 1')
   Future<Pressure?> findFirstDayInDb();
 
-  @Query('SELECT * FROM Exposure ORDER BY dateTime DESC LIMIT 1')
+  @Query('SELECT * FROM Pressure ORDER BY dateTime DESC LIMIT 1')
   Future<Pressure?> findLastDayInDb();
 }//PressureDao
