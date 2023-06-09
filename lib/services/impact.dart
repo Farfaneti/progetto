@@ -155,12 +155,14 @@ class ImpactService {
         String datetime = '${day}T$hour';
         DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
         Ex exnew = Ex(null, activityName, calories, duration, timestamp);
-        if (!ex.any((e) => e.timestamp.isAtSameMomentAs(exnew.timestamp))) {
+        if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
           ex.add(exnew);
         }
         print('Calories: $calories');
         print('Duration: $duration');
         print('Activity Name: $activityName');
+        print('timestamp: $timestamp');
+        print('Ex: $exnew');
       }
     }
 

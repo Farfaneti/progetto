@@ -53,7 +53,7 @@ class HomeProvider extends ChangeNotifier {
     return data.last.dateTime;
   }
 
-  // method to fetch all data and calculate the exposure
+  // method to fetch all data 
   Future<void> _fetchAndCalculate() async {
     lastFetch = await _getLastFetch() ??
         DateTime.now().subtract(const Duration(days: 2));
@@ -176,7 +176,7 @@ DateTime getStartOfWeek(DateTime date) {
   }
 
 // METODI PER PRESSIONE
- Future<List<Pressure>> findAllTodos() async{
+ Future<List<Pressure>> findAllPressure() async{
     final results = await db.pressureDao.findAllPressure();
     return results;
   }//findAllTodos
@@ -197,14 +197,18 @@ DateTime getStartOfWeek(DateTime date) {
   
 // Function to calculate the daily average of pressure data for a specific day
 Future<double> calculateDailySystolicPressureAverage(
-    DateTime specificDay, PressureDao pressureDao) async {
+    DateTime specificDay) async {
   // Get the start and end time of the specific day
   DateTime startTime = DateTime(specificDay.year, specificDay.month, specificDay.day);
   DateTime endTime = DateTime(specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
   // Retrieve the pressure data for the specific day
   List<Pressure> pressureList =
-      await pressureDao.findPressurebyDate(startTime, endTime);
+      await db.pressureDao.findPressurebyDate(startTime, endTime);
+
+      if (pressureList.isEmpty) {
+    return 0; // Return 0 if no data is available
+  }
 
   // Calculate the sum of systolic pressure values
   int systolicSum = 0;
@@ -223,15 +227,17 @@ Future<double> calculateDailySystolicPressureAverage(
 }
 
 Future<double> calculateDailyDiastolicPressureAverage(
-  DateTime specificDay, PressureDao pressureDao) async {
+  DateTime specificDay) async {
   // Get the start and end time of the specific day
   DateTime startTime = DateTime(specificDay.year, specificDay.month, specificDay.day);
   DateTime endTime = DateTime(specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
   // Retrieve the pressure data for the specific day
   List<Pressure> pressureList =
-      await pressureDao.findPressurebyDate(startTime, endTime);
-
+      await db.pressureDao.findPressurebyDate(startTime, endTime);
+ if (pressureList.isEmpty) {
+    return 0; // Return 0 if no data is available
+  }
   // Calculate the sum of  diastolic pressure values
   int diastolicSum = 0;
   
@@ -246,6 +252,8 @@ Future<double> calculateDailyDiastolicPressureAverage(
 
   return diastolicAverage;
 }
+
+
 
 
 }
