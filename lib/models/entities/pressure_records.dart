@@ -62,7 +62,8 @@ class _PressureRecordState extends State<PressureRecordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pressure Record'),
+        title: Text('New Pressure Record'),
+        backgroundColor: FitnessAppTheme.purple,
       ),
       backgroundColor: FitnessAppTheme.background,
       body: Padding(
