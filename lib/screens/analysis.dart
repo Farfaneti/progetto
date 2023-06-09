@@ -11,7 +11,7 @@ import '../models/entities/pressure_records.dart';
 import '../provider/homeprovider.dart';
 
 class PressurePage extends StatefulWidget {
-  PressurePage({Key? key}) : super(key: key);
+  const PressurePage({Key? key}) : super(key: key);
 
   static const routename = 'PressurePage';
 

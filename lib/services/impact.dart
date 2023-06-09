@@ -128,12 +128,6 @@ class ImpactService {
     }
   }
 
-  // Future<void> getPatient() async {
-  //   await updateBearer();
-  //   Response r = await _dio.get('study/v1/patients/active');
-  //   prefs.impactUsername = r.data['data'][0]['username'];
-  //   return r.data['data'][0]['username'];
-  // }
   String userImpact= 'Jpefaq6m58';
 
   Future<List<Ex>> getDataFromDay(DateTime startTime) async {
@@ -148,8 +142,9 @@ class ImpactService {
       String day = daydata['date'];
       for (var dataday in daydata['data']) {
         //qui entro nel secondo data
-        var calories = dataday['calories'];
-        var duration = dataday['duration'];
+        var calories = dataday['calories']; //è in Kcal
+        var duration = dataday['duration']/60000;//è in millisecondi la converto in minuti
+        duration = double.parse(duration.toStringAsFixed(4));
         String activityName = dataday['activityName'];
         String hour = dataday['time'];
         String datetime = '${day}T$hour';
@@ -162,7 +157,7 @@ class ImpactService {
         print('Duration: $duration');
         print('Activity Name: $activityName');
         print('timestamp: $timestamp');
-        print('Ex: $exnew');
+        
       }
     }
 
