@@ -1,16 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:progetto/models/db.dart';
 
 import 'package:progetto/services/server_string.dart';
 import 'package:progetto/utils/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 
 import '../models/daos/pressure_dao.dart';
 import '../models/entities/exercise.dart';
 import '../models/entities/pressure.dart';
 import '../services/impact.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 // this is the change notifier. it will manage all the logic of the home page: fetching the correct data from the database
 // and on startup fetching the data from the online services
@@ -19,6 +22,8 @@ class HomeProvider extends ChangeNotifier {
   late List<Ex> exercises;
   late List<Pressure> pressure;
   final AppDatabase db;
+ 
+  
 
   // data fetched from external services or db
   late List<Ex> _exercisesDB;
@@ -94,25 +99,6 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
  
-
-//metod to calculate the Met min value of ONE DAY
-  double calculateMETforDay(DateTime date, int weight) {
-    double totalMET = 0;
-
-    for (var exercise in exercises) {
-      if (exercise.dateTime.year == date.year &&
-          exercise.dateTime.month == date.month &&
-          exercise.dateTime.day == date.day) {
-        double durationInHours =
-            exercise.duration / 60; // Convert duration from minutes to hours   DA CONTROLLARE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        double met = exercise.calories / (weight / durationInHours) / 3.5;
-        totalMET += met;
-      }
-    }
-
-    return totalMET;
-  }
-
 //restituisce la data corrispondente al lunedì della stessa settimana  
 DateTime getStartOfWeek(DateTime date) {
   int difference = date.weekday - DateTime.monday;
@@ -123,77 +109,114 @@ DateTime getStartOfWeek(DateTime date) {
 }
 
 // calcolo del MET come somma dei Met di una settimana, usa il metodo sopra per trovare il lunedì della settimana attuale
-  double calculateMETforWeek(DateTime date, int weight) {
+  Future<double> calculateMETforWeek(DateTime date, int weight) async {
     DateTime startDate = getStartOfWeek(date);
     Map<String, double> weeklyMET = {};
     DateTime currentDate = startDate;
     double weekMETmin = 0;
+    double met_min=0;
+    double weekMETmin_perc=0;
+
+    List<Ex> exercises= await db.exerciseDao.findAllExercise();
+     if (exercises.isEmpty) {
+    return 0;
+  }
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;
+      
 
       for (var exercise in exercises) {
         if (exercise.dateTime.year == currentDate.year &&
-            exercise.dateTime.month == currentDate.month &&
-            exercise.dateTime.day == currentDate.day) {
+          exercise.dateTime.month == currentDate.month &&
+          exercise.dateTime.day == currentDate.day) {
+       
           double durationInHours =
               exercise.duration / 60; // Convert duration from minutes to hours
-          double met = exercise.calories / (weight / durationInHours) / 3.5;
-          totalMET += met; //mantiene il valore del met del singolo giorno 
-          weekMETmin += met; // salva il valore del met dell'intera settimana
-        }
+          double met = exercise.calories / (weight * durationInHours)/3.5;
+          met_min= met*(exercise.duration);
+          totalMET += met_min; //mantiene il valore del met del singolo giorno 
+          weekMETmin += met_min; // salva il valore del met dell'intera settimana
+          }
       }
 
       String dayName = _getDayName(currentDate.weekday);
       weeklyMET[dayName] = totalMET;
 
       currentDate = currentDate.add(Duration(days: 1));
-    }
+      
+      weekMETmin_perc=weekMETmin/4000;
+       if (weekMETmin_perc > 1) {
+      weekMETmin_perc = 1;
+       }
 
-    return weekMETmin; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
+    }
+     weekMETmin_perc = double.parse(weekMETmin_perc.toStringAsFixed(2));
+    return weekMETmin_perc; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
     //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
   }
 
   String _getDayName(int weekday) {
     switch (weekday) {
       case 1:
-        return 'Monday';
+        return 'Mon';
       case 2:
-        return 'Tuesday';
+        return 'Tue';
       case 3:
-        return 'Wednesday';
+        return 'Wed';
       case 4:
-        return 'Thursday';
+        return 'Thu';
       case 5:
-        return 'Friday';
+        return 'Fri';
       case 6:
-        return 'Saturday';
+        return 'Sat';
       case 7:
-        return 'Sunday';
+        return 'Sun';
       default:
         return '';
     }
   }
 
-// METODI PER PRESSIONE
- Future<List<Pressure>> findAllPressure() async{
-    final results = await db.pressureDao.findAllPressure();
-    return results;
-  }//findAllTodos
+    Future<Map<String, double>> METforWeek(DateTime date, int weight) async {
+    DateTime startDate = getStartOfWeek(date);
+    Map<String, double> weeklyMET = {};
+    DateTime currentDate = startDate;
+    double weekMETmin = 0;
+    double met_min=0;
 
-  //This method wraps the insertTodo() method of the DAO. 
-  //Then, it notifies the listeners that something changed.
-  Future<void> insertPressure(Pressure pressure)async {
-    await db.pressureDao.insertPressure(pressure);
-    notifyListeners();
-  }//insertTodo
+    List<Ex> exercises= await db.exerciseDao.findAllExercise();
+  
 
-  //This method wraps the deleteTodo() method of the DAO. 
-  //Then, it notifies the listeners that something changed.
-  Future<void> removePressure(Pressure pressure) async{
-    await db.pressureDao.deletePressure(pressure);
-    notifyListeners();
-  }//removeTodo
+    for (int i = 0; i < 7; i++) {
+      double totalMET = 0;
+      
+
+      for (var exercise in exercises) {
+        if (exercise.dateTime.year == currentDate.year &&
+          exercise.dateTime.month == currentDate.month &&
+          exercise.dateTime.day == currentDate.day) {
+       
+          double durationInHours =
+              exercise.duration / 60; // Convert duration from minutes to hours
+          double met = exercise.calories / (weight * durationInHours)/3.5;
+          met_min= met*(exercise.duration);
+          totalMET += met_min; //mantiene il valore del met del singolo giorno 
+          }
+      
+       totalMET = double.parse(totalMET.toStringAsFixed(2));
+      String dayName = _getDayName(currentDate.weekday);
+      weeklyMET[dayName] = totalMET;
+    
+      currentDate = currentDate.add(Duration(days: 1));
+      }
+      
+    }
+    
+    return weeklyMET; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
+    //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
+  }
+
+
   
 // Function to calculate the daily average of pressure data for a specific day
 Future<double> calculateDailySystolicPressureAverage(
@@ -252,7 +275,24 @@ Future<double> calculateDailyDiastolicPressureAverage(
 
   return diastolicAverage;
 }
+// METODI PER PRESSIONE
+ Future<List<Pressure>> findAllPressure() async{
+    final results = await db.pressureDao.findAllPressure();
+    return results;
+  }//findAllTodos
 
+  Future<void> insertPressure(Pressure pressure)async {
+    await db.pressureDao.insertPressure(pressure);
+    notifyListeners();
+  }//insertTodo
+
+  //This method wraps the deleteTodo() method of the DAO. 
+  //Then, it notifies the listeners that something changed.
+  Future<void> removePressure(Pressure pressure) async{
+    await db.pressureDao.deletePressure(pressure);
+    notifyListeners();
+  }//removeTodo
+  
 
 
 

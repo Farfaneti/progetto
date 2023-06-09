@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:progetto/screens/widgets/bar_model.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/homeprovider.dart';
+import '../../utils/shared_preferences.dart';
+
 
 class BarChart extends StatelessWidget {
   BarChart({Key? key}) : super(key: key);
   final Color customColor = Color.fromARGB(255, 113, 21, 163);
 
-  List<charts.Series<BarMmodel, String>> _createSampleData() {
-    final data = [
-      // qui bisogna mettere i dati veri
-      BarMmodel("MON", 20),
-      BarMmodel("TUE", 23),
-      BarMmodel("WED", 29),
-      BarMmodel("THU", 30),
-      BarMmodel("FRI", 29),
-      BarMmodel("SAT", 23),
-      BarMmodel("SUN", 20),
-    ];
+  List<charts.Series<BarMmodel, String>> _createSampleData(List<BarMmodel> data) {
     return [
       charts.Series<BarMmodel, String>(
         data: data,
@@ -30,13 +24,36 @@ class BarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      width: 350,
-      child: charts.BarChart(
-        _createSampleData(),
-        animate: true,
-      ),
-    );
-  }
+    final pref = Provider.of<Preferences>(context);
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    return FutureBuilder<Map<String, double>>(
+    future: homeProvider.METforWeek(DateTime.now(), pref.weight ?? 0), // Replace DateTime.now() and 70 with appropriate values
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        final data = snapshot.data!.entries.map((entry) {
+          return BarMmodel(entry.key, entry.value);
+        }).toList();
+
+   return Container(
+          height: 300,
+          width: 350,
+          child: charts.BarChart(
+            _createSampleData(data),
+            animate: true,
+          ),
+        );
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else {
+        return CircularProgressIndicator();
+      }
+    },
+  );
+}
+}
+class BarMmodel {
+  final String day;
+  final double value;
+  BarMmodel(this.day, this.value);
 }

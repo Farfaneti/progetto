@@ -62,10 +62,12 @@ class _PressureRecordState extends State<PressureRecordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pressure Record'),
+        title: Text('New Pressure Record'),
+        backgroundColor: FitnessAppTheme.purple,
       ),
       backgroundColor: FitnessAppTheme.background,
-      body: Padding(
+      body: SingleChildScrollView( 
+      child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
         child: Form(
           key: _formKey,
@@ -185,9 +187,17 @@ class _PressureRecordState extends State<PressureRecordPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
                       _savePressureRecord();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please fill in all the fields'),
+      ),
+    );
+  }
                     },
+                    
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           FitnessAppTheme.nearlyDarkBlue),
@@ -200,12 +210,14 @@ class _PressureRecordState extends State<PressureRecordPage> {
           ),
         ),
       ),
+      )
     );
   }
 
   void _savePressureRecord() async {
     final currentContext =
         context; // Variabile locale per salvare il contesto corrente
+  
    final pressureRecord =
         Pressure(null, systolic!, diastolic!, _selectedDateTime);
     await Provider.of<HomeProvider>(context, listen: false)

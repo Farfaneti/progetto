@@ -90,14 +90,14 @@ Widget build(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Duration: ${exercise.duration}',
+                        'Duration (min): ${exercise.duration}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'Calories: ${exercise.calories}',
+                        'Calories (Kcal): ${exercise.calories}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
