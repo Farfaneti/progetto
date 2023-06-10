@@ -80,7 +80,7 @@ class HomeProvider extends ChangeNotifier {
     double met_min = 0;
     double weekMETmin_perc = 0;
 
-    List<Ex> exercises = await db.exerciseDao.findAllExercise();
+    List<Ex> exercises = await db.exerciseDao.findExercisebyDate(currentDate,date);
     if (exercises.isEmpty) {
       return 0;
     }
@@ -145,7 +145,7 @@ class HomeProvider extends ChangeNotifier {
    
     
 
-    List<Ex> exercises = await db.exerciseDao.findAllExercise();
+    List<Ex> exercises = await db.exerciseDao.findExercisebyDate(currentDate,date);
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;

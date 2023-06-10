@@ -61,9 +61,7 @@ class _LoginState extends State<LoginPage> {
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Username is required';
-                  } else if (value != 'Re2JCHK5jL') {
-                    return 'Username is wrong';
-                  }
+                  } 
                   return null;
                 },
                 controller: userController,
@@ -99,9 +97,7 @@ class _LoginState extends State<LoginPage> {
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Password is required';
-                  } else if (value != '12345678!') {
-                    return 'Password is wrong';
-                  }
+                  } 
                   return null;
                 },
                 controller: passwordController,
@@ -143,7 +139,19 @@ class _LoginState extends State<LoginPage> {
                   padding: const EdgeInsets.all(12.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if ( userController.text!= 'Re2JCHK5jL' ||passwordController.text!='12345678!'){
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(8),
+                          content: Text('Wrong Credentials'),
+                          duration: Duration(seconds: 2)
+                            )
+                            );
+
+                      }
+                      else if (_formKey.currentState!.validate()) {
                         var prefs =
                             Provider.of<Preferences>(context, listen: false);
                         prefs.username = userController.text;

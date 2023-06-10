@@ -14,7 +14,7 @@ class BarChart extends StatelessWidget {
     return [
       charts.Series<BarMmodel, String>(
         data: data,
-        id: 'sales',
+        id: 'MET-min',
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(customColor),
         domainFn: (BarMmodel barModeel, _) => barModeel.day,
         measureFn: (BarMmodel barModeel, _) => barModeel.value,
