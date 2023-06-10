@@ -1,19 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:progetto/models/db.dart';
-
-import 'package:progetto/services/server_string.dart';
-import 'package:progetto/utils/shared_preferences.dart';
-import 'package:provider/provider.dart';
-
-
-import '../models/daos/pressure_dao.dart';
 import '../models/entities/exercise.dart';
 import '../models/entities/pressure.dart';
 import '../services/impact.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 // this is the change notifier. it will manage all the logic of the home page: fetching the correct data from the database
 // and on startup fetching the data from the online services
@@ -22,8 +13,6 @@ class HomeProvider extends ChangeNotifier {
   late List<Ex> exercises;
   late List<Pressure> pressure;
   final AppDatabase db;
- 
-  
 
   // data fetched from external services or db
   late List<Ex> _exercisesDB;
@@ -32,81 +21,55 @@ class HomeProvider extends ChangeNotifier {
   // selected day of data to be shown
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
 
-
   final ImpactService impactService;
   late DateTime lastFetch;
 
-  bool doneInit = false;
-
-  HomeProvider(this.impactService, this.db) { 
+  HomeProvider(this.impactService, this.db) {
     _init();
   }
 
   // constructor of provider which manages the fetching of all data from the servers and then notifies the ui to build
   Future<void> _init() async {
-    await _fetchAndCalculate();
-    await getDataOfDay(showDate);
-    doneInit = true;
+    await _fetch();
     notifyListeners();
   }
 
-   Future<DateTime?> _getLastFetch() async {
-    var data = await db.exerciseDao.findAllExercise();
-    if (data.isEmpty) {
+  Future<DateTime?> _getLastFetch() async {
+    var data = await db.exerciseDao.findLastDayInDb();
+    if (data == null) {
       return null;
     }
-    return data.last.dateTime;
+    return data.dateTime;
   }
 
-  // method to fetch all data 
-  Future<void> _fetchAndCalculate() async {
+  // method to fetch all data
+  Future<void> _fetch() async {
     lastFetch = await _getLastFetch() ??
-        DateTime.now().subtract(const Duration(days: 2));
+        DateTime.now().subtract(const Duration(days: 3));
     // do nothing if already fetched
     if (lastFetch.day == DateTime.now().subtract(const Duration(days: 1)).day) {
       return;
     }
+    lastFetch = lastFetch.add(const Duration(
+        days:
+            1)); //aggiungo un giorno, perchè così risolvo il problema che c'è se per 1 giorno non si allena
     _exercisesDB = await impactService.getDataFromDay(lastFetch);
+    if (_exercisesDB.isEmpty) {
+      return;
+    }
     for (var element in _exercisesDB) {
       db.exerciseDao.insertExercise(element);
     } // db add to the table
   }
 
-   // method to trigger a new data fetching
-  Future<void> refresh() async {
-    await _fetchAndCalculate();
-    await getDataOfDay(showDate);
+//restituisce la data corrispondente al lunedì della stessa settimana
+  DateTime getStartOfWeek(DateTime date) {
+    int difference = date.weekday - DateTime.monday;
+    if (difference < 0) {
+      difference += 7;
+    }
+    return date.subtract(Duration(days: difference));
   }
-
-   // method to select only the data of the chosen day
-  Future<void> getDataOfDay(DateTime showDate) async {
-    // check if the day we want to show has data
-    var firstDay = await db.exerciseDao.findFirstDayInDb();
-    var lastDay = await db.exerciseDao.findLastDayInDb();
-    if (showDate.isAfter(lastDay!.dateTime) ||
-        showDate.isBefore(firstDay!.dateTime)) return;
-        
-    this.showDate = showDate;
-    exercises = await db.exerciseDao.findExercisebyDate(
-        DateUtils.dateOnly(showDate),
-        DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
-    
-    pressure = await db.pressureDao.findPressurebyDate(
-        DateUtils.dateOnly(showDate),
-        DateTime(showDate.year, showDate.month, showDate.day, 23, 59));
-    
-    // after selecting all data we notify all consumers to rebuild
-    notifyListeners();
-  }
- 
-//restituisce la data corrispondente al lunedì della stessa settimana  
-DateTime getStartOfWeek(DateTime date) {
-  int difference = date.weekday - DateTime.monday;
-  if (difference < 0) {
-    difference += 7;
-  }
-  return date.subtract(Duration(days: difference));
-}
 
 // calcolo del MET come somma dei Met di una settimana, usa il metodo sopra per trovare il lunedì della settimana attuale
   Future<double> calculateMETforWeek(DateTime date, int weight) async {
@@ -114,44 +77,42 @@ DateTime getStartOfWeek(DateTime date) {
     Map<String, double> weeklyMET = {};
     DateTime currentDate = startDate;
     double weekMETmin = 0;
-    double met_min=0;
-    double weekMETmin_perc=0;
+    double met_min = 0;
+    double weekMETmin_perc = 0;
 
-    List<Ex> exercises= await db.exerciseDao.findAllExercise();
-     if (exercises.isEmpty) {
-    return 0;
-  }
+    List<Ex> exercises = await db.exerciseDao.findAllExercise();
+    if (exercises.isEmpty) {
+      return 0;
+    }
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;
-      
 
       for (var exercise in exercises) {
         if (exercise.dateTime.year == currentDate.year &&
-          exercise.dateTime.month == currentDate.month &&
-          exercise.dateTime.day == currentDate.day) {
-       
+            exercise.dateTime.month == currentDate.month &&
+            exercise.dateTime.day == currentDate.day) {
           double durationInHours =
               exercise.duration / 60; // Convert duration from minutes to hours
-          double met = exercise.calories / (weight * durationInHours)/3.5;
-          met_min= met*(exercise.duration);
-          totalMET += met_min; //mantiene il valore del met del singolo giorno 
-          weekMETmin += met_min; // salva il valore del met dell'intera settimana
-          }
+          double met = exercise.calories / (weight * durationInHours);
+          met_min = met * (exercise.duration);
+          totalMET += met_min; //mantiene il valore del met del singolo giorno
+          weekMETmin +=
+              met_min; // salva il valore del met dell'intera settimana
+        }
       }
 
       String dayName = _getDayName(currentDate.weekday);
       weeklyMET[dayName] = totalMET;
 
       currentDate = currentDate.add(Duration(days: 1));
-      
-      weekMETmin_perc=weekMETmin/4000;
-       if (weekMETmin_perc > 1) {
-      weekMETmin_perc = 1;
-       }
 
+      weekMETmin_perc = weekMETmin / 4000;
+      if (weekMETmin_perc > 1) {
+        weekMETmin_perc = 1;
+      }
     }
-     weekMETmin_perc = double.parse(weekMETmin_perc.toStringAsFixed(2));
+    weekMETmin_perc = double.parse(weekMETmin_perc.toStringAsFixed(2));
     return weekMETmin_perc; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
     //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
   }
@@ -177,123 +138,113 @@ DateTime getStartOfWeek(DateTime date) {
     }
   }
 
-    Future<Map<String, double>> METforWeek(DateTime date, int weight) async {
+  Future<Map<String, double>> METforWeek(DateTime date, int weight) async {
     DateTime startDate = getStartOfWeek(date);
     Map<String, double> weeklyMET = {};
     DateTime currentDate = startDate;
     double weekMETmin = 0;
-    double met_min=0;
+    double met_min = 0;
 
-    List<Ex> exercises= await db.exerciseDao.findAllExercise();
-  
+    List<Ex> exercises = await db.exerciseDao.findAllExercise();
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;
-      
 
       for (var exercise in exercises) {
         if (exercise.dateTime.year == currentDate.year &&
-          exercise.dateTime.month == currentDate.month &&
-          exercise.dateTime.day == currentDate.day) {
-       
+            exercise.dateTime.month == currentDate.month &&
+            exercise.dateTime.day == currentDate.day) {
           double durationInHours =
               exercise.duration / 60; // Convert duration from minutes to hours
-          double met = exercise.calories / (weight * durationInHours)/3.5;
-          met_min= met*(exercise.duration);
-          totalMET += met_min; //mantiene il valore del met del singolo giorno 
-          }
-      
-       totalMET = double.parse(totalMET.toStringAsFixed(2));
-      String dayName = _getDayName(currentDate.weekday);
-      weeklyMET[dayName] = totalMET;
-    
-      currentDate = currentDate.add(Duration(days: 1));
+          double met = exercise.calories / (weight * durationInHours);
+          met_min = met * (exercise.duration);
+          totalMET += met_min; //mantiene il valore del met del singolo giorno
+        }
+
+        totalMET = double.parse(totalMET.toStringAsFixed(2));
+        String dayName = _getDayName(currentDate.weekday);
+        weeklyMET[dayName] = totalMET;
+
+        currentDate = currentDate.add(Duration(days: 1));
       }
-      
     }
-    
+
     return weeklyMET; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
     //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
   }
 
-
-  
 // Function to calculate the daily average of pressure data for a specific day
-Future<double> calculateDailySystolicPressureAverage(
-    DateTime specificDay) async {
-  // Get the start and end time of the specific day
-  DateTime startTime = DateTime(specificDay.year, specificDay.month, specificDay.day);
-  DateTime endTime = DateTime(specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
+  Future<double> calculateDailySystolicPressureAverage(
+      DateTime specificDay) async {
+    // Get the start and end time of the specific day
+    DateTime startTime =
+        DateTime(specificDay.year, specificDay.month, specificDay.day);
+    DateTime endTime = DateTime(
+        specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
-  // Retrieve the pressure data for the specific day
-  List<Pressure> pressureList =
-      await db.pressureDao.findPressurebyDate(startTime, endTime);
+    // Retrieve the pressure data for the specific day
+    List<Pressure> pressureList =
+        await db.pressureDao.findPressurebyDate(startTime, endTime);
 
-      if (pressureList.isEmpty) {
-    return 0; // Return 0 if no data is available
+    if (pressureList.isEmpty) {
+      return 0; // Return 0 if no data is available
+    }
+
+    // Calculate the sum of systolic pressure values
+    int systolicSum = 0;
+
+    for (Pressure pressure in pressureList) {
+      systolicSum += pressure.systolic;
+    }
+
+    // Calculate the average values
+    double systolicAverage = systolicSum / pressureList.length;
+
+    return systolicAverage;
   }
 
-  // Calculate the sum of systolic pressure values
-  int systolicSum = 0;
-  
+  Future<double> calculateDailyDiastolicPressureAverage(
+      DateTime specificDay) async {
+    // Get the start and end time of the specific day
+    DateTime startTime =
+        DateTime(specificDay.year, specificDay.month, specificDay.day);
+    DateTime endTime = DateTime(
+        specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
-  for (Pressure pressure in pressureList) {
-    systolicSum += pressure.systolic;
-    
+    // Retrieve the pressure data for the specific day
+    List<Pressure> pressureList =
+        await db.pressureDao.findPressurebyDate(startTime, endTime);
+    if (pressureList.isEmpty) {
+      return 0; // Return 0 if no data is available
+    }
+    // Calculate the sum of  diastolic pressure values
+    int diastolicSum = 0;
+
+    for (Pressure pressure in pressureList) {
+      diastolicSum += pressure.diastolic;
+    }
+
+    // Calculate the average values
+    double diastolicAverage = diastolicSum / pressureList.length;
+
+    return diastolicAverage;
   }
 
-  // Calculate the average values
-  double systolicAverage = systolicSum / pressureList.length;
-
-  return systolicAverage;
-
-}
-
-Future<double> calculateDailyDiastolicPressureAverage(
-  DateTime specificDay) async {
-  // Get the start and end time of the specific day
-  DateTime startTime = DateTime(specificDay.year, specificDay.month, specificDay.day);
-  DateTime endTime = DateTime(specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
-
-  // Retrieve the pressure data for the specific day
-  List<Pressure> pressureList =
-      await db.pressureDao.findPressurebyDate(startTime, endTime);
- if (pressureList.isEmpty) {
-    return 0; // Return 0 if no data is available
-  }
-  // Calculate the sum of  diastolic pressure values
-  int diastolicSum = 0;
-  
-
-  for (Pressure pressure in pressureList) {
-    diastolicSum += pressure.diastolic;
-    
-  }
-
-  // Calculate the average values
-  double diastolicAverage = diastolicSum / pressureList.length;
-
-  return diastolicAverage;
-}
 // METODI PER PRESSIONE
- Future<List<Pressure>> findAllPressure() async{
+  Future<List<Pressure>> findAllPressure() async {
     final results = await db.pressureDao.findAllPressure();
     return results;
-  }//findAllTodos
+  } //findAllTodos
 
-  Future<void> insertPressure(Pressure pressure)async {
+  Future<void> insertPressure(Pressure pressure) async {
     await db.pressureDao.insertPressure(pressure);
     notifyListeners();
-  }//insertTodo
+  } //insertTodo
 
-  //This method wraps the deleteTodo() method of the DAO. 
+  //This method wraps the deleteTodo() method of the DAO.
   //Then, it notifies the listeners that something changed.
-  Future<void> removePressure(Pressure pressure) async{
+  Future<void> removePressure(Pressure pressure) async {
     await db.pressureDao.deletePressure(pressure);
     notifyListeners();
-  }//removeTodo
-  
-
-
-
+  } //removeTodo
 }
