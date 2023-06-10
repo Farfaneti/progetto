@@ -25,31 +25,32 @@ class BarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pref = Provider.of<Preferences>(context);
-    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    final homeProvider = Provider.of<HomeProvider>(context);
 
-    return FutureBuilder<Map<String, double>>(
-    future: homeProvider.METforWeek(DateTime.now(), pref.weight ?? 0), // Replace DateTime.now() and 70 with appropriate values
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        final data = snapshot.data!.entries.map((entry) {
-          return BarMmodel(entry.key, entry.value);
-        }).toList();
-
-   return Container(
-          height: 300,
-          width: 350,
-          child: charts.BarChart(
-            _createSampleData(data),
-            animate: true,
-          ),
-        );
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else {
-        return CircularProgressIndicator();
-      }
-    },
-  );
+    return  FutureBuilder<Map<String, double>>(
+      future: homeProvider.METforWeek(DateTime.now(), pref.weight ?? 0), 
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!.entries.map((entry) {
+            return BarMmodel(entry.key, entry.value);
+          }).toList();
+    
+       return SizedBox(
+            height: 300,
+            width: 350,
+            child: charts.BarChart(
+              _createSampleData(data),
+              animate: true,
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+      );
+   
 }
 }
 class BarMmodel {

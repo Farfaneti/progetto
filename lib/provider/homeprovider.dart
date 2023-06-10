@@ -45,7 +45,7 @@ class HomeProvider extends ChangeNotifier {
   // method to fetch all data
   Future<void> _fetch() async {
     lastFetch = await _getLastFetch() ??
-        DateTime.now().subtract(const Duration(days: 3));
+        DateTime.now().subtract(const Duration(days: 6));
     // do nothing if already fetched
     if (lastFetch.day == DateTime.now().subtract(const Duration(days: 1)).day) {
       return;
@@ -142,13 +142,14 @@ class HomeProvider extends ChangeNotifier {
     DateTime startDate = getStartOfWeek(date);
     Map<String, double> weeklyMET = {};
     DateTime currentDate = startDate;
-    double weekMETmin = 0;
-    double met_min = 0;
+   
+    
 
     List<Ex> exercises = await db.exerciseDao.findAllExercise();
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;
+     
 
       for (var exercise in exercises) {
         if (exercise.dateTime.year == currentDate.year &&
@@ -157,20 +158,27 @@ class HomeProvider extends ChangeNotifier {
           double durationInHours =
               exercise.duration / 60; // Convert duration from minutes to hours
           double met = exercise.calories / (weight * durationInHours);
-          met_min = met * (exercise.duration);
+          double met_min = met * (exercise.duration);
           totalMET += met_min; //mantiene il valore del met del singolo giorno
+           
         }
-
+        
         totalMET = double.parse(totalMET.toStringAsFixed(2));
+       
+        print('totmet=$totalMET');
         String dayName = _getDayName(currentDate.weekday);
         weeklyMET[dayName] = totalMET;
 
-        currentDate = currentDate.add(Duration(days: 1));
+     
       }
+      currentDate = currentDate.add(Duration(days: 1));
     }
+
+    print('$weeklyMET');
 
     return weeklyMET; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
     //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
+   
   }
 
 // Function to calculate the daily average of pressure data for a specific day

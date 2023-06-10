@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import '../analysis.dart';
+
+import '../graphs_page.dart';
 
 
-class GroupedBarChart extends StatelessWidget {
-  final List<charts.Series<PressureValues, String>> seriesList;
-  final bool animate;
 
-  GroupedBarChart({
+class METBarChart extends StatelessWidget {
+
+    final List<charts.Series<BarMmodel, String>> metmodel;
+    
+    METBarChart({
     Key? key,
-    required this.seriesList,
-    required this.animate,
+    required this.metmodel,
+    
   }) : super(key: key);
 
     @override
   Widget build(BuildContext context) {
     return charts.BarChart(
-      seriesList,
-      animate: animate,
+      metmodel,
+      animate: true,
       barGroupingType: charts.BarGroupingType.grouped,
       behaviors: [charts.SeriesLegend()],
     );
   }
 }
-    
-
-
-
-
-
-
-  
