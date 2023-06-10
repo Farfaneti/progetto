@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-
-import '../../models/daos/pressure_dao.dart';
-import '../../models/entities/pressure.dart';
-import '../../provider/homeprovider.dart';
 import '../analysis.dart';
 
 

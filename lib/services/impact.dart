@@ -132,9 +132,19 @@ class ImpactService {
 
   Future<List<Ex>> getDataFromDay(DateTime startTime) async {
     await updateBearer();
-    Response r = await _dio.get(
+    Response r;
+    if (DateFormat('y-M-d').format(startTime)==DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1))))
+     {
+      r = await _dio.get('data/v1/exercise/patients/$userImpact/day/${DateFormat('y-M-d').format(startTime)}/');
+     } 
+      
+    else 
+    {
+      r = await _dio.get(
        'data/v1/exercise/patients/$userImpact/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
        // 'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+    
+    }
     List<dynamic> data = r.data[
         'data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
     List<Ex> ex = [];

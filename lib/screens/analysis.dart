@@ -52,7 +52,7 @@ class _PressurePageState extends State<PressurePage> {
     List<PressureValues> diastolicBP = [];
      
 
-    for (int i = 1; i <= 7; i++) {
+    for (int i = 0; i < 7; i++) {
       DateTime currentDate = DateTime.now().subtract(Duration(days: i));
       double systolicAverage = await homeProvider.calculateDailySystolicPressureAverage(currentDate);
       double diastolicAverage = await homeProvider.calculateDailyDiastolicPressureAverage(currentDate);
