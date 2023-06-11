@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import '../../methods/theme.dart';
 
 String textMET =
+testo-MET
     '''The MET, or Metabolic Equivalent of Task, expresses the ratio between the metabolic rate during a specific activity and the resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. 
 
 1 MET represents the amount of energy used when a person is at rest, it is set by convention at 3.5 mL of oxygen per kg per minute. So, an activity with a MET value of 4 means you're exerting four times the energy than you would if you were sitting still.
+
 
 To put it in perspective, a brisk walk at 5 or 6 km per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. ''';
 
@@ -65,6 +67,7 @@ class MetPage extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             shadowColor: FitnessAppTheme.purple,
+            color: FitnessAppTheme.nearlyWhite,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -93,6 +96,7 @@ class MetPage extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             shadowColor: FitnessAppTheme.purple,
+            color: FitnessAppTheme.nearlyWhite,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -121,6 +125,7 @@ class MetPage extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             shadowColor: FitnessAppTheme.purple,
+            color: FitnessAppTheme.nearlyWhite,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -149,6 +154,7 @@ class MetPage extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             shadowColor: FitnessAppTheme.purple,
+            color: FitnessAppTheme.nearlyWhite,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: ExpandablePanel(
@@ -177,6 +183,7 @@ class MetPage extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             shadowColor: FitnessAppTheme.purple,
+            color: FitnessAppTheme.nearlyWhite,
             child: Padding(
               padding: const EdgeInsets.all(16).copyWith(bottom: 16),
               child: Column(
