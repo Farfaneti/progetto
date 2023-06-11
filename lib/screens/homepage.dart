@@ -28,7 +28,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
-  String appBarTitle = 'Graph';
+  String appBarTitle = 'MET';
 
   //String get username => null;
 
