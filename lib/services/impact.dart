@@ -132,12 +132,16 @@ class ImpactService {
 
   Future<List<Ex>> getDataFromDay(DateTime startTime) async {
     await updateBearer();
+
+   if (DateTime.now().subtract(const Duration(days: 1)).difference(startTime).inDays > 7) {
+    startTime = DateTime.now().subtract(const Duration(days: 7));
+   }
     Response r;
     if (DateFormat('y-M-d').format(startTime)==DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1))))
      {
       r = await _dio.get('data/v1/exercise/patients/$userImpact/day/${DateFormat('y-M-d').format(startTime)}/');
      } 
-      
+    
     else 
     {
       r = await _dio.get(
