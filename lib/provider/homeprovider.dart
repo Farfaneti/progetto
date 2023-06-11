@@ -80,7 +80,8 @@ class HomeProvider extends ChangeNotifier {
     double met_min = 0;
     double weekMETmin_perc = 0;
 
-    List<Ex> exercises = await db.exerciseDao.findExercisebyDate(currentDate,date);
+    List<Ex> exercises =
+        await db.exerciseDao.findExercisebyDate(currentDate, date);
     if (exercises.isEmpty) {
       return 0;
     }
@@ -142,14 +143,12 @@ class HomeProvider extends ChangeNotifier {
     DateTime startDate = getStartOfWeek(date);
     Map<String, double> weeklyMET = {};
     DateTime currentDate = startDate;
-   
-    
 
-    List<Ex> exercises = await db.exerciseDao.findExercisebyDate(currentDate,date);
+    List<Ex> exercises =
+        await db.exerciseDao.findExercisebyDate(currentDate, date);
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;
-     
 
       for (var exercise in exercises) {
         if (exercise.dateTime.year == currentDate.year &&
@@ -160,16 +159,13 @@ class HomeProvider extends ChangeNotifier {
           double met = exercise.calories / (weight * durationInHours);
           double met_min = met * (exercise.duration);
           totalMET += met_min; //mantiene il valore del met del singolo giorno
-           
         }
-        
+
         totalMET = double.parse(totalMET.toStringAsFixed(2));
-       
+
         print('totmet=$totalMET');
         String dayName = _getDayName(currentDate.weekday);
         weeklyMET[dayName] = totalMET;
-
-     
       }
       currentDate = currentDate.add(Duration(days: 1));
     }
@@ -178,7 +174,6 @@ class HomeProvider extends ChangeNotifier {
 
     return weeklyMET; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
     //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
-   
   }
 
 // Function to calculate the daily average of pressure data for a specific day
@@ -211,6 +206,33 @@ class HomeProvider extends ChangeNotifier {
     return systolicAverage;
   }
 
+  Future<int> calculateDailyMaxSystolicPressure(DateTime specificDay) async {
+    // Get the start and end time of the specific day
+    DateTime startTime =
+        DateTime(specificDay.year, specificDay.month, specificDay.day);
+    DateTime endTime = DateTime(
+        specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
+
+    // Retrieve the pressure data for the specific day
+    List<Pressure> pressureList =
+        await db.pressureDao.findPressurebyDate(startTime, endTime);
+
+    if (pressureList.isEmpty) {
+      return 0; // Return 0 if no data is available
+    }
+
+    // Find the maximum systolic pressure value
+    int maxSystolic = pressureList[0].systolic;
+
+    for (Pressure pressure in pressureList) {
+      if (pressure.systolic > maxSystolic) {
+        maxSystolic = pressure.systolic;
+      }
+    }
+
+    return maxSystolic;
+  }
+
   Future<double> calculateDailyDiastolicPressureAverage(
       DateTime specificDay) async {
     // Get the start and end time of the specific day
@@ -236,6 +258,33 @@ class HomeProvider extends ChangeNotifier {
     double diastolicAverage = diastolicSum / pressureList.length;
 
     return diastolicAverage;
+  }
+
+  Future<int> calculateDailyMaxDiastolicPressure(DateTime specificDay) async {
+    // Get the start and end time of the specific day
+    DateTime startTime =
+        DateTime(specificDay.year, specificDay.month, specificDay.day);
+    DateTime endTime = DateTime(
+        specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
+
+    // Retrieve the pressure data for the specific day
+    List<Pressure> pressureList =
+        await db.pressureDao.findPressurebyDate(startTime, endTime);
+
+    if (pressureList.isEmpty) {
+      return 0; // Return 0 if no data is available
+    }
+
+    // Find the maximum diastolic pressure value
+    int maxDiastolic = pressureList[0].diastolic;
+
+    for (Pressure pressure in pressureList) {
+      if (pressure.diastolic > maxDiastolic) {
+        maxDiastolic = pressure.diastolic;
+      }
+    }
+
+    return maxDiastolic;
   }
 
 // METODI PER PRESSIONE

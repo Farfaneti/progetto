@@ -17,7 +17,8 @@ class PercentageIndicator extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: FutureBuilder<double>(
-          future: homeProvider.calculateMETforWeek(DateTime.now(), pref.weight ?? 0),
+          future: homeProvider.calculateMETforWeek(
+              DateTime.now(), pref.weight ?? 0),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var percent = snapshot.data!;
@@ -27,12 +28,16 @@ class PercentageIndicator extends StatelessWidget {
                 radius: 200,
                 lineWidth: 35,
                 percent: percent,
-                progressColor:  _getProgressColor(percent),
-                backgroundColor: FitnessAppTheme.cream,
+                progressColor: _getProgressColor(percent),
+                backgroundColor: Colors.black12,
                 circularStrokeCap: CircularStrokeCap.round,
                 center: Text(
-                  '${percent*100} %',
-                  style: FitnessAppTheme.title,
+                  '${percent * 100}%',
+                  style: TextStyle(
+                      color: Colors.black45,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold),
                 ),
               );
             } else if (snapshot.hasError) {
@@ -47,12 +52,12 @@ class PercentageIndicator extends StatelessWidget {
   }
 
   Color _getProgressColor(double percent) {
-  if (percent >= 0.75) {
-    return Colors.green; // Colore verde se percent >= 0.75
-  } else if (percent >= 0.15) {
-    return Colors.orange; // Colore arancione se 0.15 <= percent < 0.75
-  } else {
-    return Colors.red; // Altrimenti, colore rosso
+    if (percent >= 0.75) {
+      return Colors.green; // Colore verde se percent >= 0.75
+    } else if (percent >= 0.15) {
+      return Colors.orange; // Colore arancione se 0.15 <= percent < 0.75
+    } else {
+      return Colors.red; // Altrimenti, colore rosso
+    }
   }
-}
 }

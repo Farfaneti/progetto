@@ -145,11 +145,11 @@ class HypertensionPage extends StatelessWidget {
                       color: Colors.pink,
                       child: const Text(
                         'References',
-                        style: FitnessAppTheme.body1,
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       )),
                   Text(
                     references,
-                    style: FitnessAppTheme.body1,
+                    style: const TextStyle(fontStyle: FontStyle.italic),
                     textAlign: TextAlign.justify,
                   ),
                 ],

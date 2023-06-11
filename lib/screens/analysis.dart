@@ -22,7 +22,6 @@ class PressurePage extends StatefulWidget {
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
   late TextEditingController controller;
-  
 
   @override
   void initState() {
@@ -36,7 +35,6 @@ class _PressurePageState extends State<PressurePage> {
     super.dispose();
   }
 
-
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
@@ -47,23 +45,26 @@ class _PressurePageState extends State<PressurePage> {
     ));
   }
 
-   Future<List<charts.Series<PressureValues, String>>> _createPressureData(HomeProvider homeProvider) async {
+  Future<List<charts.Series<PressureValues, String>>> _createPressureData(
+      HomeProvider homeProvider) async {
     List<PressureValues> systolicBP = [];
     List<PressureValues> diastolicBP = [];
-     
 
     for (int i = 0; i < 7; i++) {
       DateTime currentDate = DateTime.now().subtract(Duration(days: i));
-      double systolicAverage = await homeProvider.calculateDailySystolicPressureAverage(currentDate);
-      double diastolicAverage = await homeProvider.calculateDailyDiastolicPressureAverage(currentDate);
-      
-      systolicBP.add(PressureValues(_getDayName(currentDate.weekday), systolicAverage));
-      diastolicBP.add(PressureValues(_getDayName(currentDate.weekday), diastolicAverage));
+      double systolicAverage =
+          await homeProvider.calculateDailySystolicPressureAverage(currentDate);
+      double diastolicAverage = await homeProvider
+          .calculateDailyDiastolicPressureAverage(currentDate);
 
+      systolicBP.add(
+          PressureValues(_getDayName(currentDate.weekday), systolicAverage));
+      diastolicBP.add(
+          PressureValues(_getDayName(currentDate.weekday), diastolicAverage));
     }
 
-      systolicBP = systolicBP.reversed.toList();
-      diastolicBP = diastolicBP.reversed.toList();
+    systolicBP = systolicBP.reversed.toList();
+    diastolicBP = diastolicBP.reversed.toList();
 
     Color customColor = Color.fromARGB(255, 113, 21, 163);
     Color customColor2 = Color.fromARGB(255, 208, 148, 241);
@@ -89,7 +90,7 @@ class _PressurePageState extends State<PressurePage> {
   static String _getDayName(int weekday) {
     switch (weekday) {
       case DateTime.monday:
-              return 'Mon';
+        return 'Mon';
       case DateTime.tuesday:
         return 'Tue';
       case DateTime.wednesday:
@@ -106,9 +107,6 @@ class _PressurePageState extends State<PressurePage> {
         return '';
     }
   }
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +130,6 @@ class _PressurePageState extends State<PressurePage> {
               onDaySelected: _onDaySelected,
               calendarFormat: CalendarFormat.week,
             ),
-
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -146,52 +143,84 @@ class _PressurePageState extends State<PressurePage> {
               future: _createPressureData(homeProvider),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Show a loading indicator while data is being fetched
+                  return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}'); // Show an error message if fetching data fails
+                  return Text('Error: ${snapshot.error}');
                 } else {
                   final chartSeriesList = snapshot.data;
 
-                  // Use the chartSeriesList to build the chart
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                     width: 350,
-                     height: 200,
-                      child: GroupedBarChart(
-                        animate: true, // Provide the appropriate value for animate
-                        seriesList: chartSeriesList ?? [], // Use the obtained chartSeriesList
+                      width: 350,
+                      height: 200,
+                      child: charts.BarChart(
+                        chartSeriesList ?? [],
+                        animate: true,
+                        customSeriesRenderers: [
+                          charts.BarTargetLineRendererConfig<String>(
+                            // ID for the renderer. This is used to associate specific renderer configuration with the series.
+                            customRendererId: 'customTargetLine',
+                            groupingType: charts.BarGroupingType.grouped,
+                          ),
+                        ],
+                        behaviors: [
+                          charts.SeriesLegend(),
+                          charts.DomainHighlighter(),
+                        ],
+                        primaryMeasureAxis: charts.NumericAxisSpec(
+                          tickProviderSpec:
+                              charts.StaticNumericTickProviderSpec(
+                            [
+                              charts.TickSpec(90,
+                                  label: '90',
+                                  style: charts.TextStyleSpec(
+                                      color: charts.ColorUtil.fromDartColor(
+                                          FitnessAppTheme.lightPurple))),
+                              charts.TickSpec(140,
+                                  label: '140',
+                                  style: charts.TextStyleSpec(
+                                      color: charts.ColorUtil.fromDartColor(
+                                          FitnessAppTheme.nearlyDarkBlue))),
+                            ],
+                          ),
+                          renderSpec: charts.GridlineRendererSpec(
+                            lineStyle: charts.LineStyleSpec(
+                              color: charts.ColorUtil.fromDartColor(
+                                  Colors.grey.withOpacity(0.4)),
+                            ),
+                            labelStyle: charts.TextStyleSpec(
+                              color:
+                                  charts.ColorUtil.fromDartColor(Colors.grey),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                 
                   );
                 }
               },
             ),
-
-      
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(child: const BodyMeasurementView()),
             )
-            // scommentare questo se si vuole mettere un widget con dentro valori medi
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const PressureRecordPage()));
+            builder: (context) => const PressureRecordPage(),
+          ));
         },
         backgroundColor: FitnessAppTheme.purple,
         child: const Icon(Icons.add),
       ),
     );
   }
-
 }
+
 class PressureValues {
   final String day;
   final double pressure;

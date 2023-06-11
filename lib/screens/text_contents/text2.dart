@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../methods/theme.dart';
 
 String textMET =
-testo-MET
     '''The MET, or Metabolic Equivalent of Task, expresses the ratio between the metabolic rate during a specific activity and the resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. 
 
 1 MET represents the amount of energy used when a person is at rest, it is set by convention at 3.5 mL of oxygen per kg per minute. So, an activity with a MET value of 4 means you're exerting four times the energy than you would if you were sitting still.
@@ -12,10 +11,10 @@ testo-MET
 
 To put it in perspective, a brisk walk at 5 or 6 km per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. ''';
 
-String textM1 = 
-"""To calculate the MET based on calories burned and a person's weight, you need to know the activity performed and its intensity in terms of calories burned. 
+String textM1 =
+    """To calculate the MET based on calories burned and a person's weight, you need to know the activity performed and its intensity in terms of calories burned. 
 MET = Total calories burned / (Person's weight (kg) x Duration of the activity (hours)).  """;
-    //"""To better understand METs, it’s helpful to know a little about how your body uses energy.
+//"""To better understand METs, it’s helpful to know a little about how your body uses energy.
 
 //The cells in your muscles use oxygen to help create the energy needed to move your muscles. One MET is approximately 3.5 milliliters of oxygen consumed per kilogram (kg) of body weight per minute.
 
@@ -37,8 +36,8 @@ reduction in SBP compared to 30–60 min/week physical activity.
 Another study reported that any physical activity was associated with health benefit and 150–300 min/week of moderate-intensity activity were associated with substantial health benefits. 
 International physical activity guidelines recommend that adults should engage in at least 30 minutes a day of at least moderate-intensity activity. """;
 
-//Climie et al. had provided more insight into the association of domain-specific physical activity with cardiovascular diseases through a large cross-sectional. 
-//The study reported that physical activity related to occupation was associated with worse neural baroreflex sensitivity. 
+//Climie et al. had provided more insight into the association of domain-specific physical activity with cardiovascular diseases through a large cross-sectional.
+//The study reported that physical activity related to occupation was associated with worse neural baroreflex sensitivity.
 //In contrast, sports physical activity was associated with better neural baroreflex sensitivity. The findings indicate that different mechanisms of associations could be between domains of physical activity and blood pressure control.""";
 
 String references =

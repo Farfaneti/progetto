@@ -54,15 +54,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }) {
     switch (index) {
       case 0:
-        return 'Graph';
+        return 'MET';
       case 1:
-        return 'Analysis';
+        return 'Blood Pressure';
       case 2:
         return 'Contents';
       case 3:
         return 'Profile';
       default:
-        return 'Graph';
+        return 'MET';
     }
   }
 
@@ -205,12 +205,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     tabs: const [
                       GButton(
                         icon: Icons.home,
-                        text: 'Graphs',
+                        text: 'MET',
                         textStyle: FitnessAppTheme.button,
                       ),
                       GButton(
                         icon: Icons.auto_graph_outlined,
-                        text: 'Analysis',
+                        text: 'Blood Pressure',
                         textStyle: FitnessAppTheme.button,
                       ),
                       GButton(
