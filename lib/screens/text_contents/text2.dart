@@ -8,7 +8,7 @@ String textMET =
 
 1 MET represents the amount of energy used when a person is at rest, it is set by convention at 3.5 mL of oxygen per kg per minute. So, an activity with a MET value of 4 means you're exerting four times the energy than you would if you were sitting still.
 
-To put it in perspective, a brisk walk at 3 or 4 miles per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. ''';
+To put it in perspective, a brisk walk at 5 or 6 km per hour has a value of 4 METs. Jumping rope, which is a more vigorous activity, has a MET value of 12.3. ''';
 
 String textM1 = 
 """To calculate the MET based on calories burned and a person's weight, you need to know the activity performed and its intensity in terms of calories burned. 
@@ -24,12 +24,10 @@ MET = Total calories burned / (Person's weight (kg) x Duration of the activity (
 //For most healthy adults, MET values can be helpful in planning an exercise regimen, or at least gauging how much you’re getting out of your workout routine. """;
 
 String textM2 =
-    """MET-min (MET in minutes) is categorized as insufficient physical activity recommended by WHO with a cut-off of 0 to 600 MET-min, 
-moderate physical activity with a cut-off of 601–3000 MET-min per week and high physical activity with a cut-off of greater than 3000 MET-min per week. """;
+    """MET-min (MET in minutes) is categorized as insufficient physical activity recommended by WHO with a cut-off of 0 to 600 MET-min, moderate physical activity with a cut-off of 601–3000 MET-min per week and high physical activity with a cut-off of greater than 3000 MET-min per week. """;
 
 String textM3 =
-    """Moderate to high physical activity levels are associated with a lower blood pressure level. Awareness of the health benefits of physical activity is associated with a lower level of blood pressure, and people with positive attitudes
-towards physical activity have 5 to 10 mmHg lower blood pressure levels compared to those who have negative attitudes toward taking part in physical activities.
+    """Moderate to high physical activity levels are associated with a lower blood pressure level. Awareness of the health benefits of physical activity is associated with a lower level of blood pressure, and people with positive attitudes towards physical activity have 5 to 10 mmHg lower blood pressure levels compared to those who have negative attitudes toward taking part in physical activities.
 
 In a study of dose-response of physical activity in controlling blood pressure, reported that 61–90 minutes/week exercise was associated with a significant
 reduction in SBP compared to 30–60 min/week physical activity. 
