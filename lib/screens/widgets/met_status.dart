@@ -10,7 +10,7 @@ class METStatusBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
@@ -21,15 +21,12 @@ class METStatusBox extends StatelessWidget {
                 color: Colors.red,
                 size: 60,
               ),
-              Text(
-                '< 15%',
-                style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color:  Colors.red,
-                )
-                
-              )
+              Text('< 15%',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.red,
+                  ))
             ],
           ),
           Column(
@@ -40,14 +37,12 @@ class METStatusBox extends StatelessWidget {
                 color: Colors.orange,
                 size: 60,
               ),
-              Text(
-                '15-75%',
-                style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color:  Colors.orange,
-                )
-              )
+              Text('15-75%',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.orange,
+                  ))
             ],
           ),
           Column(
@@ -58,14 +53,12 @@ class METStatusBox extends StatelessWidget {
                 color: Colors.green,
                 size: 60,
               ),
-              Text(
-                 '> 75%',
-                style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color:  Colors.green,
-                )
-              )
+              Text('> 75%',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.green,
+                  ))
             ],
           )
           // _buildMETStatus(Icon(icon: Icon.smile, color: ), '<600', Colors.red),
