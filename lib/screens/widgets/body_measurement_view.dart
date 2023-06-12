@@ -96,7 +96,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
@@ -151,7 +151,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14,
                                       color: maxSysPressure < 140
-                                          ? Colors.black
+                                          ? FitnessAppTheme.nearlyDarkBlue
                                           : Colors.red,
                                     ),
                                   ),
@@ -178,7 +178,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
@@ -233,7 +233,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14,
                                       color: maxDiasPressure < 90
-                                          ? Colors.black
+                                          ? FitnessAppTheme.lightPurple
                                           : Colors.red,
                                     ),
                                   ),
@@ -267,9 +267,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            '${pref.height}cm',
+                            '${pref.height} cm',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: FitnessAppTheme.fontName,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -299,9 +299,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            '${pref.weight}kg',
+                            '${pref.weight} kg',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: FitnessAppTheme.fontName,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,

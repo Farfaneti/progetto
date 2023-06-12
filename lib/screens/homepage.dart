@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       GButton(
                         icon: Icons.auto_graph_outlined,
-                        text: 'Blood Pressure',
+                        text: 'Pressure',
                         textStyle: FitnessAppTheme.button,
                       ),
                       GButton(
