@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progetto/methods/theme.dart';
 import 'package:progetto/provider/homeprovider.dart';
 import 'package:progetto/screens/exercise_list.dart';
 import 'package:progetto/screens/widgets/bar_chart.dart';
@@ -8,9 +9,6 @@ import 'package:progetto/screens/widgets/percentage_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import '../methods/theme.dart';
-import '../methods/title_view.dart';
-import '../utils/shared_preferences.dart';
 
 class GraphPage extends StatefulWidget {
   GraphPage({Key? key}) : super(key: key);

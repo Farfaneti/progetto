@@ -3,17 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/provider/homeprovider.dart';
-import 'package:progetto/screens/analysis.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class BodyMeasurementView extends StatefulWidget {
-  final AnimationController? animationController;
-  final Animation<double>? animation;
+  // final AnimationController? animationController;
+  // final Animation<double>? animation;
 
-  const BodyMeasurementView(
-      {Key? key, this.animationController, this.animation})
-      : super(key: key);
+  const BodyMeasurementView({Key? key}) : super(key: key);
 
   @override
   State<BodyMeasurementView> createState() => _BodyMeasurementViewState();
@@ -25,24 +22,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
   bool isMaxSysBpNormal = true;
   bool isMaxDiasBpNormal = true;
 
-  String _getBPMessage() {
-    if (isMaxSysBpNormal && isMaxDiasBpNormal) {
-      return 'Your max BP values are normal';
-    } else if (!isMaxSysBpNormal && isMaxDiasBpNormal) {
-      return 'Your Systolic BP is high';
-    } else if (isMaxSysBpNormal && !isMaxDiasBpNormal) {
-      return 'Your Diastolic BP is high';
-    } else {
-      return 'Both Systolic and Diastolic BP are high';
-    }
-  }
-
-  Color _getBPMessageColor() {
-    if (isMaxSysBpNormal && isMaxDiasBpNormal) {
-      return Colors.black;
-    } else {
-      return Colors.red;
-    }
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -58,27 +40,13 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
     // Calculate the maximum systolic pressure for the specific day
     DateTime specificDay =
         DateTime.now(); // Replace with your desired specific day
-    homeProvider
-        .calculateDailyMaxSystolicPressure(specificDay)
-        .then((maxSysPressure) async {
-      setState(() {
-        systolicMax = maxSysPressure.toDouble();
-        isMaxSysBpNormal =
-            maxSysPressure < 140; // Controlla se il valore è < 140
-      });
-    });
+    // Calculate the maximum systolic pressure for the specific day
+    Future<int> maxSysPressureFuture =
+        homeProvider.calculateDailyMaxSystolicPressure(specificDay);
 
-    // Calculate the maximum diastolic pressure for the specific day
-    // Replace with your desired specific day
-    homeProvider
-        .calculateDailyMaxDiastolicPressure(specificDay)
-        .then((maxDiasPressure) async {
-      setState(() {
-        diastolicMax = maxDiasPressure.toDouble();
-        isMaxDiasBpNormal =
-            maxDiasPressure < 90; // Controlla se il valore è < 90
-      });
-    });
+// Calculate the maximum diastolic pressure for the specific day
+    Future<int> maxDiasPressureFuture =
+        homeProvider.calculateDailyMaxDiastolicPressure(specificDay);
 
     return Container(
       //animation: animationController!,
@@ -87,7 +55,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
         padding:
             const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
         child: Container(
-          height: 300,
+          height: 260,
           decoration: BoxDecoration(
             color: FitnessAppTheme.white,
             borderRadius: const BorderRadius.only(
@@ -113,7 +81,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                     const Padding(
                       padding: EdgeInsets.only(left: 4, bottom: 8, top: 16),
                       child: Text(
-                        'Todays Max Systolic BP',
+                        "Today's Max Systolic BP",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: FitnessAppTheme.fontName,
@@ -123,66 +91,79 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                             color: FitnessAppTheme.darkText),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 4, bottom: 3),
-                              child: Text(
-                                '${systolicMax}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 26,
-                                  color: FitnessAppTheme.nearlyDarkBlue,
+                    FutureBuilder<int>(
+                        future: maxSysPressureFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            int maxSysPressure = snapshot.data ?? 0;
+
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 4, bottom: 3),
+                                      child: Text(
+                                        '${maxSysPressure.toStringAsFixed(0)}',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontFamily: FitnessAppTheme.fontName,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 26,
+                                          color: FitnessAppTheme.nearlyDarkBlue,
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, bottom: 4),
+                                      child: Text(
+                                        'mmHg',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: FitnessAppTheme.fontName,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          letterSpacing: -0.2,
+                                          color: FitnessAppTheme.nearlyDarkBlue,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 8, bottom: 4),
-                              child: Text(
-                                'mmHg',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  letterSpacing: -0.2,
-                                  color: FitnessAppTheme.nearlyDarkBlue,
+                                Container(
+                                  width: 90,
+                                  height: 20,
+                                  child: Text(
+                                    maxSysPressure < 140 ? 'Normal' : 'High',
+                                    style: TextStyle(
+                                      fontFamily: FitnessAppTheme.fontName,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: maxSysPressure < 140
+                                          ? Colors.black
+                                          : Colors.red,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 90,
-                          height: 50,
-                          child: Text(
-                            isMaxSysBpNormal
-                                ? 'Your max Systolic BP value is normal'
-                                : 'Your max Systolic BP value is high',
-                            style: TextStyle(
-                              fontFamily: FitnessAppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              color:
-                                  isMaxSysBpNormal ? Colors.black : Colors.red,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                              ],
+                            );
+                          }
+                        }),
                     const Padding(
                       padding: EdgeInsets.only(left: 4, bottom: 8, top: 16),
                       child: Text(
-                        'Todays Max Diastolic BP',
+                        "Today's Max Diastolic BP",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: FitnessAppTheme.fontName,
@@ -192,62 +173,75 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                             color: FitnessAppTheme.darkText),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 4, bottom: 3),
-                              child: Text(
-                                '${diastolicMax}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 26,
-                                  color: FitnessAppTheme.lightPurple,
+                    FutureBuilder<int>(
+                        future: maxDiasPressureFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            int maxDiasPressure = snapshot.data ?? 0;
+
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 4, bottom: 3),
+                                      child: Text(
+                                        '${maxDiasPressure.toStringAsFixed(0)}',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontFamily: FitnessAppTheme.fontName,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 26,
+                                          color: FitnessAppTheme.lightPurple,
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, bottom: 4),
+                                      child: Text(
+                                        'mmHg',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: FitnessAppTheme.fontName,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          letterSpacing: -0.2,
+                                          color: FitnessAppTheme.lightPurple,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 8, bottom: 4),
-                              child: Text(
-                                'mmHg',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  letterSpacing: -0.2,
-                                  color: FitnessAppTheme.lightPurple,
+                                Container(
+                                  width: 90,
+                                  height: 20,
+                                  child: Text(
+                                    maxDiasPressure < 90 ? 'Normal' : 'High',
+                                    style: TextStyle(
+                                      fontFamily: FitnessAppTheme.fontName,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: maxDiasPressure < 90
+                                          ? Colors.black
+                                          : Colors.red,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 90,
-                          height: 50,
-                          child: Text(
-                            isMaxDiasBpNormal
-                                ? 'Your max Diastolic BP value is normal'
-                                : 'Your max Diastolic BP value is high',
-                            style: TextStyle(
-                              fontFamily: FitnessAppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              color:
-                                  isMaxSysBpNormal ? Colors.black : Colors.red,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                              ],
+                            );
+                          }
+                        })
                   ],
                 ),
               ),

@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     child: UserAccountsDrawerHeader(
                       accountName: Center(
                           child: Text(
-                        pref.nickname ?? '',
+                        'Hello, ${pref.nickname ?? ''}',
                         style: FitnessAppTheme.subtitle,
                       )),
                       accountEmail: null,
