@@ -14,7 +14,7 @@ class MET {
   final DateTime dateTime;
   
   //exercise id (foreigner key)
-  final int exID;
+  final int? exID;
 
   //Default constructor
   MET(this.id, this.met, this.dateTime, this.exID);

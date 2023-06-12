@@ -89,11 +89,11 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Ex` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `activityName` TEXT NOT NULL, `calories` INTEGER NOT NULL, `duration` REAL NOT NULL, `dateTime` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Ex` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `activityName` TEXT NOT NULL, `calories` INTEGER NOT NULL, `duration` REAL NOT NULL, `dateTime` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Pressure` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `systolic` INTEGER NOT NULL, `diastolic` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `MET` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `met` REAL NOT NULL, `dateTime` INTEGER NOT NULL, `exID` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `MET` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `met` REAL NOT NULL, `dateTime` INTEGER NOT NULL, `exID` INTEGER)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -174,7 +174,7 @@ class _$ExerciseDao extends ExerciseDao {
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Ex WHERE dateTime between ?1 and ?2 ORDER BY dateTime ASC',
-        mapper: (Map<String, Object?> row) => Ex(row['id'] as int, row['activityName'] as String, row['calories'] as int, row['duration'] as double, _dateTimeConverter.decode(row['dateTime'] as int)),
+        mapper: (Map<String, Object?> row) => Ex(row['id'] as int?, row['activityName'] as String, row['calories'] as int, row['duration'] as double, _dateTimeConverter.decode(row['dateTime'] as int)),
         arguments: [
           _dateTimeConverter.encode(startTime),
           _dateTimeConverter.encode(endTime)
@@ -185,7 +185,7 @@ class _$ExerciseDao extends ExerciseDao {
   Future<List<Ex>> findAllExercise() async {
     return _queryAdapter.queryList('SELECT * FROM Ex',
         mapper: (Map<String, Object?> row) => Ex(
-            row['id'] as int,
+            row['id'] as int?,
             row['activityName'] as String,
             row['calories'] as int,
             row['duration'] as double,
@@ -196,7 +196,7 @@ class _$ExerciseDao extends ExerciseDao {
   Future<Ex?> findFirstDayInDb() async {
     return _queryAdapter.query('SELECT * FROM Ex ORDER BY dateTime ASC LIMIT 1',
         mapper: (Map<String, Object?> row) => Ex(
-            row['id'] as int,
+            row['id'] as int?,
             row['activityName'] as String,
             row['calories'] as int,
             row['duration'] as double,
@@ -208,7 +208,7 @@ class _$ExerciseDao extends ExerciseDao {
     return _queryAdapter.query(
         'SELECT * FROM Ex ORDER BY dateTime DESC LIMIT 1',
         mapper: (Map<String, Object?> row) => Ex(
-            row['id'] as int,
+            row['id'] as int?,
             row['activityName'] as String,
             row['calories'] as int,
             row['duration'] as double,
@@ -396,7 +396,7 @@ class _$MetDao extends MetDao {
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM MET WHERE dateTime between ?1 and ?2 ORDER BY dateTime ASC',
-        mapper: (Map<String, Object?> row) => MET(row['id'] as int?, row['met'] as double, _dateTimeConverter.decode(row['dateTime'] as int), row['exID'] as int),
+        mapper: (Map<String, Object?> row) => MET(row['id'] as int?, row['met'] as double, _dateTimeConverter.decode(row['dateTime'] as int), row['exID'] as int?),
         arguments: [
           _dateTimeConverter.encode(startTime),
           _dateTimeConverter.encode(endTime)
@@ -410,7 +410,7 @@ class _$MetDao extends MetDao {
             row['id'] as int?,
             row['met'] as double,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['exID'] as int));
+            row['exID'] as int?));
   }
 
   @override
