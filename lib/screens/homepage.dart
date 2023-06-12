@@ -19,8 +19,10 @@ class HomePage extends StatefulWidget {
   static const routename = 'Home Page';
   static const route = '/home/';
   final String title;
+  final int initialIndex;
 
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({Key? key, required this.title, this.initialIndex = 0})
+      : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -29,6 +31,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
   String appBarTitle = 'MET';
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex; // Add this line
+  }
 
   //String get username => null;
 
@@ -39,7 +47,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 0:
         return GraphPage();
       case 1:
-        return PressurePage();
+        return const PressurePage();
       case 2:
         return const Contents();
       case 3:
@@ -56,7 +64,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 0:
         return 'MET';
       case 1:
-        return 'Blood Pressure';
+        return 'Pressure';
       case 2:
         return 'Contents';
       case 3:
@@ -144,7 +152,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             if (reset) {
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
-                                builder: (context) => Splash(),
+                                builder: (context) => const Splash(),
                               ));
                             }
                           },
@@ -168,15 +176,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               actions: const [
                 Padding(
                     padding: EdgeInsets.all(8.0),
-                    child:
-                        // onPressed: () {
-                        //Navigator.push(
-                        //     context,
-                        //MaterialPageRoute(
-                        //fullscreenDialog: true,
-                        //builder: (context) => ProfilePage()));
-                        //},
-                        Icon(
+                    child: Icon(
                       MdiIcons.accountCircle,
                       size: 40,
                       color: FitnessAppTheme.background,

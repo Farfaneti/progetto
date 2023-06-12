@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:progetto/models/entities/pressure.dart';
 import 'package:progetto/screens/analysis.dart';
+import 'package:progetto/screens/profile.dart';
 import 'package:provider/provider.dart';
 import '../../methods/theme.dart';
 import '../db.dart';
@@ -63,7 +64,7 @@ class _PressureRecordState extends State<PressureRecordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('New Pressure Record'),
+          title: const Text('New Pressure Record'),
           backgroundColor: FitnessAppTheme.purple,
         ),
         backgroundColor: FitnessAppTheme.background,
@@ -75,9 +76,9 @@ class _PressureRecordState extends State<PressureRecordPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Text(
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
                       'Add your systolic pressure, diastolic pressure and date of registration:',
                       style: FitnessAppTheme.body1,
                     ),
@@ -165,7 +166,7 @@ class _PressureRecordState extends State<PressureRecordPage> {
                               .format(_selectedDateTime)
                           : '',
                     ),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Date and Time',
                     ),
                     readOnly: true,
@@ -228,6 +229,16 @@ class _PressureRecordState extends State<PressureRecordPage> {
       ),
     );
 
-    Navigator.of(currentContext).pop();
+    // ignore: use_build_context_synchronously
+    // Navigator.pop(context, pressureRecord);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+          title: 'Home',
+          initialIndex: 1, // Set the initial index to 1
+        ),
+      ),
+    );
   }
 }
