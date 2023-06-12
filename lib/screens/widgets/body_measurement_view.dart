@@ -145,7 +145,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                   width: 90,
                                   height: 20,
                                   child: Text(
-                                    maxSysPressure < 140 ? 'Normal' : 'High',
+                                    maxSysPressure < 140
+                                        ? 'Normal value'
+                                        : 'High value',
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
                                       fontWeight: FontWeight.w500,
@@ -227,7 +229,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                   width: 90,
                                   height: 20,
                                   child: Text(
-                                    maxDiasPressure < 90 ? 'Normal' : 'High',
+                                    maxDiasPressure < 90
+                                        ? 'Normal value'
+                                        : 'High value',
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
                                       fontWeight: FontWeight.w500,
