@@ -74,7 +74,7 @@ class _GraphPageState extends State<GraphPage> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              'Weekly MET levels',
+              'Weekly MET-min levels',
               textAlign: TextAlign.left,
               style: FitnessAppTheme.title,
             ),

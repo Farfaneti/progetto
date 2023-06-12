@@ -65,6 +65,8 @@ class _$AppDatabase extends AppDatabase {
 
   PressureDao? _pressureDaoInstance;
 
+  MetDao? _metDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -90,6 +92,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `Ex` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `activityName` TEXT NOT NULL, `calories` INTEGER NOT NULL, `duration` REAL NOT NULL, `dateTime` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Pressure` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `systolic` INTEGER NOT NULL, `diastolic` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `MET` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `value` REAL NOT NULL, `dateTime` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -105,6 +109,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   PressureDao get pressureDao {
     return _pressureDaoInstance ??= _$PressureDao(database, changeListener);
+  }
+
+  @override
+  MetDao get metDao {
+    return _metDaoInstance ??= _$MetDao(database, changeListener);
   }
 }
 
@@ -330,6 +339,89 @@ class _$PressureDao extends PressureDao {
   @override
   Future<void> deletePressure(Pressure pressureData) async {
     await _pressureDeletionAdapter.delete(pressureData);
+  }
+}
+
+class _$MetDao extends MetDao {
+  _$MetDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _mETInsertionAdapter = InsertionAdapter(
+            database,
+            'MET',
+            (MET item) => <String, Object?>{
+                  'id': item.id,
+                  'value': item.value,
+                  'dateTime': _dateTimeConverter.encode(item.dateTime)
+                }),
+        _mETUpdateAdapter = UpdateAdapter(
+            database,
+            'MET',
+            ['id'],
+            (MET item) => <String, Object?>{
+                  'id': item.id,
+                  'value': item.value,
+                  'dateTime': _dateTimeConverter.encode(item.dateTime)
+                }),
+        _mETDeletionAdapter = DeletionAdapter(
+            database,
+            'MET',
+            ['id'],
+            (MET item) => <String, Object?>{
+                  'id': item.id,
+                  'value': item.value,
+                  'dateTime': _dateTimeConverter.encode(item.dateTime)
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<MET> _mETInsertionAdapter;
+
+  final UpdateAdapter<MET> _mETUpdateAdapter;
+
+  final DeletionAdapter<MET> _mETDeletionAdapter;
+
+  @override
+  Future<List<MET>> findMetbyDate(
+    DateTime startTime,
+    DateTime endTime,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM MET WHERE dateTime between ?1 and ?2 ORDER BY dateTime ASC',
+        mapper: (Map<String, Object?> row) => MET(row['id'] as int?, row['value'] as double, _dateTimeConverter.decode(row['dateTime'] as int)),
+        arguments: [
+          _dateTimeConverter.encode(startTime),
+          _dateTimeConverter.encode(endTime)
+        ]);
+  }
+
+  @override
+  Future<List<MET>> findAllMet() async {
+    return _queryAdapter.queryList('SELECT * FROM MET',
+        mapper: (Map<String, Object?> row) => MET(
+            row['id'] as int?,
+            row['value'] as double,
+            _dateTimeConverter.decode(row['dateTime'] as int)));
+  }
+
+  @override
+  Future<void> insertMet(MET met) async {
+    await _mETInsertionAdapter.insert(met, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateMet(MET met) async {
+    await _mETUpdateAdapter.update(met, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteMet(MET met) async {
+    await _mETDeletionAdapter.delete(met);
   }
 }
 

@@ -102,6 +102,7 @@ class HomeProvider extends ChangeNotifier {
               met_min; // salva il valore del met dell'intera settimana
         }
       }
+      
 
       String dayName = _getDayName(currentDate.weekday);
       weeklyMET[dayName] = totalMET;

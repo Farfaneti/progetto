@@ -10,45 +10,61 @@ class METStatusBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
             children: [
               Icon(
-                MdiIcons.emoticonAngry,
+                Icons.sentiment_dissatisfied,
+                //MdiIcons.emoticonAngry,
                 color: Colors.red,
                 size: 60,
               ),
               Text(
-                '<600',
-                style: FitnessAppTheme.body2,
+                '< 15%',
+                style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color:  Colors.red,
+                )
+                
               )
             ],
           ),
           Column(
             children: [
               Icon(
-                MdiIcons.emoticonNeutral,
+                Icons.sentiment_satisfied,
+                //MdiIcons.emoticonNeutral,
                 color: Colors.orange,
                 size: 60,
               ),
               Text(
-                '[600-3000]',
-                style: FitnessAppTheme.body2,
+                '15-75%',
+                style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color:  Colors.orange,
+                )
               )
             ],
           ),
           Column(
             children: [
               Icon(
-                MdiIcons.emoticonHappy,
+                Icons.sentiment_very_satisfied,
+                //MdiIcons.emoticonHappy,
                 color: Colors.green,
                 size: 60,
               ),
               Text(
-                '>3000',
-                style: FitnessAppTheme.body2,
+                 '> 75%',
+                style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color:  Colors.green,
+                )
               )
             ],
           )
