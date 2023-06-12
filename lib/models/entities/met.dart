@@ -7,12 +7,15 @@ class MET {
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
-  //The carbohydrates content of the meal
-  final double value;
+  //The met-min value of the exercise
+  final double met;
 
-  //When the meal occured
+  //When the exercise occured
   final DateTime dateTime;
+  
+  //exercise id (foreigner key)
+  final int exID;
 
   //Default constructor
-  MET(this.id, this.value, this.dateTime);
+  MET(this.id, this.met, this.dateTime, this.exID);
 }

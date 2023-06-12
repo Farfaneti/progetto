@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:progetto/models/db.dart';
+import 'package:progetto/models/entities/met.dart';
 import '../models/entities/exercise.dart';
 import '../models/entities/pressure.dart';
 import '../services/impact.dart';
@@ -12,11 +13,12 @@ class HomeProvider extends ChangeNotifier {
   // data to be used by the UI
   late List<Ex> exercises;
   late List<Pressure> pressure;
+   late List<MET> met;
   final AppDatabase db;
 
   // data fetched from external services or db
   late List<Ex> _exercisesDB;
-  late List<Pressure> _pressure;
+
 
   // selected day of data to be shown
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
@@ -158,8 +160,10 @@ class HomeProvider extends ChangeNotifier {
           double durationInHours =
               exercise.duration / 60; // Convert duration from minutes to hours
           double met = exercise.calories / (weight * durationInHours);
-          double met_min = met * (exercise.duration);
+          double met_min = met * (exercise.duration);          
           totalMET += met_min; //mantiene il valore del met del singolo giorno
+          final metDB =MET(null, met_min , exercise.dateTime, exercise.id);
+          insertMet(metDB);  // qui aggiungo il met-min relativo all'esercizio, nel db, onConflict.abort, cioè tiene solo la prima versione che viene inserita nel db
         }
 
         totalMET = double.parse(totalMET.toStringAsFixed(2));
@@ -292,17 +296,30 @@ class HomeProvider extends ChangeNotifier {
   Future<List<Pressure>> findAllPressure() async {
     final results = await db.pressureDao.findAllPressure();
     return results;
-  } //findAllTodos
+  } //findAllPressure
 
   Future<void> insertPressure(Pressure pressure) async {
     await db.pressureDao.insertPressure(pressure);
     notifyListeners();
-  } //insertTodo
+  } //insertPressure
 
   //This method wraps the deleteTodo() method of the DAO.
   //Then, it notifies the listeners that something changed.
   Future<void> removePressure(Pressure pressure) async {
     await db.pressureDao.deletePressure(pressure);
     notifyListeners();
-  } //removeTodo
+  } //removePressure
+
+  // METODI PER MET
+  Future<List<MET>> findAllMet() async {
+    final results = await db.metDao.findAllMet();
+    return results;
+  } //findAllPressure
+
+  Future<void> insertMet(MET met) async {
+    await db.metDao.insertMet(met);
+    notifyListeners();
+  } //insertPressure
+
+  
 }
