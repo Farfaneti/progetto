@@ -21,19 +21,7 @@ class PressurePage extends StatefulWidget {
 
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
-  late TextEditingController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+ 
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
@@ -203,7 +191,7 @@ class _PressurePageState extends State<PressurePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(child: const BodyMeasurementView()),
+              child: const BodyMeasurementView(),
             )
           ],
         ),

@@ -79,21 +79,40 @@ Widget build(BuildContext context) {
               return Card(
                 color: FitnessAppTheme.background, // Colore di sfondo personalizzato
                 child: ListTile(
-                  title: Text(
-                    'Systolic: ${pressure.systolic}, Diastolic: ${pressure.diastolic}',
+                  title: const Text( 'Blood Pressure:',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: FitnessAppTheme.grey, // Colore del testo personalizzato
                     ),
                   ),
-                  subtitle: Text(
+                   subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                   
+                   Text( 'Systolic: ${pressure.systolic} mmHg',
+                    style: const TextStyle(
+                     
+                      fontSize: 16,
+                      color: FitnessAppTheme.grey, // Colore del testo personalizzato
+                    ),
+                  ),
+                  Text( 'Diastolic: ${pressure.diastolic} mmHg',
+                    style: const TextStyle(
+                     
+                      fontSize: 16,
+                      color: FitnessAppTheme.grey, // Colore del testo personalizzato
+                    ),
+                  ),
+                   Text(
                     'Date: ${pressure.dateTime}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: FitnessAppTheme.nearlyBlue, // Colore del testo personalizzato
                     ),
                   ),
+                    ]
+                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => deletePressure(pressure),

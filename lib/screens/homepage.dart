@@ -41,9 +41,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 1:
         return PressurePage();
       case 2:
-        return const Contents();
+      return ProfilePage();
+        
       case 3:
-        return ProfilePage();
+        return const Contents();
       default:
         return GraphPage();
     }
@@ -58,9 +59,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       case 1:
         return 'Blood Pressure';
       case 2:
-        return 'Contents';
-      case 3:
         return 'Profile';
+      case 3: 
+        return 'Contents';
       default:
         return 'MET';
     }
@@ -86,13 +87,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     child: UserAccountsDrawerHeader(
                       accountName: Center(
                           child: Text(
-                        'Hello, ${pref.nickname ?? ''}',
+                        'Hello ${pref.nickname ?? ''}',
                         style: FitnessAppTheme.subtitle,
                       )),
                       accountEmail: null,
                       decoration: const BoxDecoration(
-                        backgroundBlendMode: BlendMode.colorBurn,
-                        color: FitnessAppTheme.lightText,
+                       
+                        color: FitnessAppTheme.cream,
                       ),
                     ),
                   ),
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             style: FitnessAppTheme.body1,
                           ),
                           onTap: () {
-                            Navigator.pop(context);
+                           
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => InfoPage(),
@@ -213,16 +214,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         text: 'Pressure',
                         textStyle: FitnessAppTheme.button,
                       ),
+                       GButton(
+                        icon: Icons.account_circle,
+                        text: 'Profile',
+                        textStyle: FitnessAppTheme.button,
+                      ),
                       GButton(
                         icon: Icons.description_outlined,
                         text: 'Contents',
                         textStyle: FitnessAppTheme.button,
                       ),
-                      GButton(
-                        icon: Icons.account_circle,
-                        text: 'Profile',
-                        textStyle: FitnessAppTheme.button,
-                      ),
+                     
                     ],
                   )),
             )));
