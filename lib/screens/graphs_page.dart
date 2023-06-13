@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/provider/homeprovider.dart';
 import 'package:progetto/screens/exercise_list.dart';
@@ -32,6 +33,17 @@ class _GraphPageState extends State<GraphPage> {
     ));
   }
 
+
+String getStartOfTheWeek(DateTime date) {
+    DateTime startOfTheWeek = date.subtract(Duration(days: date.weekday - 1));
+    return DateFormat('MMMM d').format(startOfTheWeek);
+  }
+
+  String getEndOfTheWeek(DateTime date) {
+    DateTime endOfTheWeek = date.add(Duration(days: DateTime.daysPerWeek - date.weekday));
+    return DateFormat('MMMM d').format(endOfTheWeek);
+  }
+  
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
@@ -61,6 +73,18 @@ class _GraphPageState extends State<GraphPage> {
               style: FitnessAppTheme.title,
             ),
           ),
+          Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                '${getStartOfTheWeek(DateTime.now())} - ${getEndOfTheWeek(DateTime.now())}', // Aggiunta della settimana corrente
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: FitnessAppTheme.lightPurple
+                ),
+              ),
+            ),
           // va messo il grafico 2
           const Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
