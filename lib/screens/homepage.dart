@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return ChangeNotifierProvider<HomeProvider>(
         create: (context) => HomeProvider(
             Provider.of<ImpactService>(context, listen: false),
-            Provider.of<AppDatabase>(context, listen: false)),
+            Provider.of<AppDatabase>(context, listen: false),
+            Provider.of<Preferences>(context, listen: false)),
         lazy: false,
         builder: (context, child) => Scaffold(
             backgroundColor: const Color(0xFFE4DFD4),

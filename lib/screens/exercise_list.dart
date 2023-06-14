@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
+import 'package:progetto/models/entities/met.dart';
 
 
 
@@ -25,7 +26,8 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
   late DateTime startTime;
   late DateTime endTime;
   List<Ex> exerciseList = [];
-bool isEmpty = false;
+  List<MET> metList = [];
+  bool isEmpty = false;
 
   @override
   void initState() {
@@ -39,27 +41,29 @@ bool isEmpty = false;
 
   void fetchExerciseData() async {
     final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-    final exerciseDao = database.exerciseDao;
+  
+    final metData= await database.metDao.findMetbyDate(startTime, endTime);
 
 
-    final exercise = await exerciseDao.findExercisebyDate(startTime, endTime);
+    final exercise = await database.exerciseDao.findExercisebyDate(startTime, endTime);
     setState(() {
       exerciseList = exercise;
        isEmpty = exercise.isEmpty;
+       metList=metData;
     });
   }
 
 
-  void deleteExercise(Ex exercise) async {
-    final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-    final exerciseDao = database.exerciseDao;
+  // void deleteExercise(Ex exercise) async {
+  //   final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  //   final exerciseDao = database.exerciseDao;
 
 
-    await exerciseDao.deleteExercise(exercise);
-    setState(() {
-      exerciseList.remove(exercise);
-    });
-  }
+  //   await exerciseDao.deleteExercise(exercise);
+  //   setState(() {
+  //     exerciseList.remove(exercise);
+  //   });
+  // }
 
 
  @override
@@ -77,6 +81,8 @@ Widget build(BuildContext context) {
             itemCount: exerciseList.length,
             itemBuilder: (context, index) {
               final exercise = exerciseList[index];
+              final met= metList[index];
+              final metmin = double.parse(met.met.toStringAsFixed(2));
               return Card(
                 child: ListTile(
                   title: Text(
@@ -104,6 +110,13 @@ Widget build(BuildContext context) {
                         ),
                       ),
                       Text(
+                        'MET-min: ${metmin}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text(
                         'Date: ${exercise.dateTime}',
                         style: TextStyle(
                           fontSize: 14,
@@ -112,10 +125,10 @@ Widget build(BuildContext context) {
                       ),
                     ],
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => deleteExercise(exercise),
-                  ),
+                  // trailing: IconButton(
+                  //   icon: const Icon(Icons.delete),
+                  //   onPressed: () => deleteExercise(exercise),
+                  // ),
                 ),
               );
             },

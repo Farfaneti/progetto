@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<HomeProvider>(
         create: (context) => HomeProvider(
             Provider.of<ImpactService>(context, listen: false),
-            Provider.of<AppDatabase>(context, listen: false)),)
+            Provider.of<AppDatabase>(context, listen: false),
+             Provider.of<Preferences>(context, listen: false),))
       ],
       child: MaterialApp(
         home: const Splash(),

@@ -1,11 +1,14 @@
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:progetto/models/db.dart';
 import 'package:progetto/models/entities/met.dart';
+import 'package:provider/provider.dart';
 import '../models/entities/exercise.dart';
 import '../models/entities/pressure.dart';
 import '../services/impact.dart';
+import '../utils/shared_preferences.dart';
 
 // this is the change notifier. it will manage all the logic of the home page: fetching the correct data from the database
 // and on startup fetching the data from the online services
@@ -25,8 +28,10 @@ class HomeProvider extends ChangeNotifier {
 
   final ImpactService impactService;
   late DateTime lastFetch;
+  final Preferences pref;
+  
 
-  HomeProvider(this.impactService, this.db) {
+  HomeProvider(this.impactService, this.db, this.pref) {
     _init();
   }
 
@@ -60,54 +65,47 @@ class HomeProvider extends ChangeNotifier {
       return;
     }
     for (var element in _exercisesDB) {
-      db.exerciseDao.insertExercise(element);
-    } // db add to the table
+      db.exerciseDao.insertExercise(element); // db add to the table
+      double durationInHours = element.duration / 60; // Convert duration from minutes to hours
+          double met = element.calories / (pref.weight! * durationInHours);
+          double met_min = met * (element.duration);
+          final metDB =MET(null, met_min , element.dateTime, element.id);
+          insertMet(metDB);
+    } 
   }
 
 //restituisce la data corrispondente al lunedì della stessa settimana
   DateTime getStartOfWeek(DateTime date) {
-    int difference = date.weekday - DateTime.monday;
-    if (difference < 0) {
-      difference += 7;
-    }
-    return date.subtract(Duration(days: difference));
+    date = DateTime(date.year, date.month, date.day);
+       print('data inizio= $date');
+       print('inizio settimana= ${date.subtract(Duration(days: date.weekday - 1))}');
+    return date.subtract(Duration(days: date.weekday - 1));
+ 
   }
 
 // calcolo del MET come somma dei Met di una settimana, usa il metodo sopra per trovare il lunedì della settimana attuale
   Future<double> calculateMETforWeek(DateTime date, int weight) async {
-    DateTime startDate = getStartOfWeek(date);
+    DateTime currentDate = getStartOfWeek(date);
+    print('currentdate= $currentDate');
     Map<String, double> weeklyMET = {};
-    DateTime currentDate = startDate;
     double weekMETmin = 0;
-    double met_min = 0;
-    double weekMETmin_perc = 0;
+     double weekMETmin_perc = 0;
+    
 
-    List<Ex> exercises =
-        await db.exerciseDao.findExercisebyDate(currentDate, date);
-    if (exercises.isEmpty) {
+    List<MET> metmin =
+        await db.metDao.findMetbyDate(currentDate, date);
+    if (metmin.isEmpty) {
       return 0;
     }
 
     for (int i = 0; i < 7; i++) {
-      double totalMET = 0;
+     
 
-      for (var exercise in exercises) {
-        if (exercise.dateTime.year == currentDate.year &&
-            exercise.dateTime.month == currentDate.month &&
-            exercise.dateTime.day == currentDate.day) {
-          double durationInHours =
-              exercise.duration / 60; // Convert duration from minutes to hours
-          double met = exercise.calories / (weight * durationInHours);
-          met_min = met * (exercise.duration);
-          totalMET += met_min; //mantiene il valore del met del singolo giorno
-          weekMETmin +=
-              met_min; // salva il valore del met dell'intera settimana
+      for (var met in metmin) {
+        if (met.dateTime.day == currentDate.day) {
+          weekMETmin += met.met; // salva il valore del met dell'intera settimana
         }
       }
-      
-
-      String dayName = _getDayName(currentDate.weekday);
-      weeklyMET[dayName] = totalMET;
 
       currentDate = currentDate.add(Duration(days: 1));
 
@@ -143,27 +141,23 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<Map<String, double>> METforWeek(DateTime date, int weight) async {
-    DateTime startDate = getStartOfWeek(date);
+    DateTime currentDate = getStartOfWeek(date);
     Map<String, double> weeklyMET = {};
-    DateTime currentDate = startDate;
+  
 
-    List<Ex> exercises =
-        await db.exerciseDao.findExercisebyDate(currentDate, date);
+    List<MET> metmin =
+        await db.metDao.findMetbyDate(currentDate, date);
+    
+    
 
     for (int i = 0; i < 7; i++) {
       double totalMET = 0;
 
-      for (var exercise in exercises) {
-        if (exercise.dateTime.year == currentDate.year &&
-            exercise.dateTime.month == currentDate.month &&
-            exercise.dateTime.day == currentDate.day) {
-          double durationInHours =
-              exercise.duration / 60; // Convert duration from minutes to hours
-          double met = exercise.calories / (weight * durationInHours);
-          double met_min = met * (exercise.duration);          
-          totalMET += met_min; //mantiene il valore del met del singolo giorno
-          final metDB =MET(null, met_min , exercise.dateTime, exercise.id);
-          insertMet(metDB);  // qui aggiungo il met-min relativo all'esercizio, nel db, onConflict.abort, cioè tiene solo la prima versione che viene inserita nel db
+      for (var met in metmin) {
+        if (met.dateTime.day == currentDate.day) {
+                   
+          totalMET += met.met; //mantiene il valore del met del singolo giorno
+          
         }
 
         totalMET = double.parse(totalMET.toStringAsFixed(2));
