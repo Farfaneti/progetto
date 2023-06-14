@@ -21,7 +21,6 @@ class PressurePage extends StatefulWidget {
 
 class _PressurePageState extends State<PressurePage> {
   DateTime today = DateTime.now();
- 
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
@@ -139,48 +138,103 @@ class _PressurePageState extends State<PressurePage> {
 
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 350,
-                      height: 200,
-                      child: charts.BarChart(
-                        chartSeriesList ?? [],
-                        animate: true,
-                        customSeriesRenderers: [
-                          charts.BarTargetLineRendererConfig<String>(
-                            // ID for the renderer. This is used to associate specific renderer configuration with the series.
-                            customRendererId: 'customTargetLine',
-                            groupingType: charts.BarGroupingType.grouped,
-                          ),
+                    child: Container(
+                      // color: FitnessAppTheme.white,
+                      decoration: BoxDecoration(
+                        color: FitnessAppTheme.nearlyWhite,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            bottomLeft: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: FitnessAppTheme.grey.withOpacity(0.2),
+                              offset: const Offset(1.1, 1.1),
+                              blurRadius: 10.0),
                         ],
-                        behaviors: [
-                          charts.SeriesLegend(),
-                          charts.DomainHighlighter(),
-                        ],
-                        primaryMeasureAxis: charts.NumericAxisSpec(
-                          tickProviderSpec:
-                              charts.StaticNumericTickProviderSpec(
-                            [
-                              charts.TickSpec(90,
-                                  label: '90',
-                                  style: charts.TextStyleSpec(
-                                      color: charts.ColorUtil.fromDartColor(
-                                          FitnessAppTheme.lightPurple))),
-                              charts.TickSpec(140,
-                                  label: '140',
-                                  style: charts.TextStyleSpec(
-                                      color: charts.ColorUtil.fromDartColor(
-                                          FitnessAppTheme.nearlyDarkBlue))),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 380,
+                          height: 300,
+                          child: charts.BarChart(
+                            chartSeriesList ?? [],
+                            animate: true,
+                            customSeriesRenderers: [
+                              charts.BarTargetLineRendererConfig<String>(
+                                // ID for the renderer. This is used to associate specific renderer configuration with the series.
+                                customRendererId: 'customTargetLine',
+                                groupingType: charts.BarGroupingType.grouped,
+                                // groupingWidthFraction: 0.8,
+                              ),
                             ],
-                          ),
-                          renderSpec: charts.GridlineRendererSpec(
-                            lineStyle: charts.LineStyleSpec(
-                              color: charts.ColorUtil.fromDartColor(
-                                  Colors.grey.withOpacity(0.4)),
-                            ),
-                            labelStyle: charts.TextStyleSpec(
-                              color:
-                                  charts.ColorUtil.fromDartColor(Colors.grey),
-                            ),
+                            behaviors: [
+                              charts.SeriesLegend(),
+                              charts.DomainHighlighter(),
+                              charts.RangeAnnotation([
+                                charts.LineAnnotationSegment(
+                                  90,
+                                  charts.RangeAnnotationAxisType.measure,
+                                  startLabel: '90',
+                                  labelStyleSpec: charts.TextStyleSpec(
+                                    color: charts.ColorUtil.fromDartColor(Colors
+                                        .deepPurple), // Set your desired label color here
+                                  ),
+                                  labelPosition:
+                                      charts.AnnotationLabelPosition.inside,
+                                  labelAnchor: charts.AnnotationLabelAnchor.end,
+                                  labelDirection: charts
+                                      .AnnotationLabelDirection.horizontal,
+                                  color: charts.ColorUtil.fromDartColor(
+                                      FitnessAppTheme.lightPurple),
+                                ),
+                                charts.LineAnnotationSegment(
+                                  140,
+                                  charts.RangeAnnotationAxisType.measure,
+                                  startLabel: '140',
+                                  labelStyleSpec: charts.TextStyleSpec(
+                                    color: charts.ColorUtil.fromDartColor(Colors
+                                        .deepPurple), // Set your desired label color here
+                                  ),
+                                  labelPosition:
+                                      charts.AnnotationLabelPosition.inside,
+                                  labelAnchor: charts.AnnotationLabelAnchor.end,
+                                  labelDirection: charts
+                                      .AnnotationLabelDirection.horizontal,
+                                  color: charts.ColorUtil.fromDartColor(
+                                      FitnessAppTheme.nearlyDarkBlue),
+                                ),
+                              ]),
+                            ],
+                            // primaryMeasureAxis: charts.NumericAxisSpec(
+                            //   tickProviderSpec:
+                            //       charts.StaticNumericTickProviderSpec(
+                            //     [
+                            //       charts.TickSpec(90,
+                            //           label: '90',
+                            //           style: charts.TextStyleSpec(
+                            //               color: charts.ColorUtil.fromDartColor(
+                            //                   FitnessAppTheme.lightPurple))),
+                            //       charts.TickSpec(140,
+                            //           label: '140',
+                            //           style: charts.TextStyleSpec(
+                            //               color: charts.ColorUtil.fromDartColor(
+                            //                   FitnessAppTheme.nearlyDarkBlue))),
+                            //     ],
+                            //   ),
+                            //   renderSpec: charts.GridlineRendererSpec(
+                            //     lineStyle: charts.LineStyleSpec(
+                            //       color: charts.ColorUtil.fromDartColor(
+                            //           Colors.grey.withOpacity(0.4)),
+                            //     ),
+                            //     labelStyle: charts.TextStyleSpec(
+                            //       color:
+                            //           charts.ColorUtil.fromDartColor(Colors.grey),
+                            //     ),
+                            //   ),
+                            // ),
                           ),
                         ),
                       ),
