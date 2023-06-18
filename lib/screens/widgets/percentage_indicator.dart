@@ -6,8 +6,17 @@ import 'package:provider/provider.dart';
 import '../../provider/homeprovider.dart';
 import '../../utils/shared_preferences.dart';
 
-class PercentageIndicator extends StatelessWidget {
-  const PercentageIndicator({Key? key}) : super(key: key);
+class PercentageIndicator extends StatefulWidget {
+  final DateTime selectedDate; // Add the selectedDate parameter
+
+   const PercentageIndicator({Key? key, required this.selectedDate}) : super(key: key);
+
+  @override
+  _PercentageIndicatorState createState() => _PercentageIndicatorState();
+}
+
+class _PercentageIndicatorState extends State<PercentageIndicator> {
+  DateTime selectedDate = DateTime.now(); // Track the selected day
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +27,7 @@ class PercentageIndicator extends StatelessWidget {
       body: Center(
         child: FutureBuilder<double>(
           future: homeProvider.calculateMETforWeek(
-              DateTime.now(), pref.weight ?? 0),
+              widget.selectedDate, pref.weight ?? 0),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var percent = snapshot.data!;
