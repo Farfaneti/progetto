@@ -46,7 +46,7 @@ class _MetValueView extends State<MetValueView> {
         padding:
             const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
         child: Container(
-          height: 140,
+          
           decoration: BoxDecoration(
             color: FitnessAppTheme.white,
             borderRadius: const BorderRadius.only(
@@ -72,7 +72,7 @@ class _MetValueView extends State<MetValueView> {
                     const Padding(
                       padding: EdgeInsets.only(left: 4, bottom: 8, top: 8),
                       child: Text(
-                        "Weekly Met/min value",
+                        "Weekly Met/min value:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: FitnessAppTheme.fontName,
@@ -98,14 +98,15 @@ class _MetValueView extends State<MetValueView> {
                             
                             String message;
                           if (remainingValue > 500) {
-                            message = 'Keep working out! You need ${remainingValue.toStringAsFixed(0)} MET/min to reach the target!';
+                            message = "Keep working out! \nYou need ${remainingValue.toStringAsFixed(0)} MET/min to reach the target!";
+
                           } else if
                           (remainingValue>0 ){
-                            message = 'Keep going! you have almost reached your target for this week, you just need ${remainingValue.toStringAsFixed(0)} MET/min';
+                            message = 'Keep going! \nYou have almost reached your target for this week, you just need ${remainingValue.toStringAsFixed(0)} MET/min';
                           } else 
 
                           {
-                            message = 'Nice done! You have reached your MET target for this week.';
+                            message = 'Well done! \nYou have reached your MET target for this week.';
                           }
 
                           return Column(
@@ -113,12 +114,17 @@ class _MetValueView extends State<MetValueView> {
                               Center(
                                 child: Text(
                                   WeeklyMet == 0 ? '0' : '${WeeklyMet.toStringAsFixed(0)}',
+                                  
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                     fontFamily: FitnessAppTheme.fontName,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 26,
-                                    color: FitnessAppTheme.lightPurple,
+                                    color: WeeklyMet < 600?
+                                           Colors.red
+                                          : WeeklyMet<3000? 
+                                             Colors.orange
+                                             : Colors.green ,
                                   ),
                                 ),
                               ),

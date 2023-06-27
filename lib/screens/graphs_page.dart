@@ -95,6 +95,11 @@ String getStartOfTheWeek(DateTime date) {
               )),
           METStatusBox(),
 
+           const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: MetValueView() 
+              ),
+
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
@@ -114,10 +119,7 @@ String getStartOfTheWeek(DateTime date) {
               child: BarChart(),
             ),
           ),
-          const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: MetValueView() 
-              )
+         
         ])));
   }
 }
