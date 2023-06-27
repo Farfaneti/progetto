@@ -90,10 +90,11 @@ class HomeProvider extends ChangeNotifier {
     Map<String, double> weeklyMET = {};
     double weekMETmin = 0;
      double weekMETmin_perc = 0;
+     DateTime endOfTheWeek = currentDate.add(Duration(days: 6));
     
 
     List<MET> metmin =
-        await db.metDao.findMetbyDate(currentDate, date);
+        await db.metDao.findMetbyDate(currentDate, endOfTheWeek);
     if (metmin.isEmpty) {
       return 0;
     }

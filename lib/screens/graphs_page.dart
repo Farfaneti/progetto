@@ -76,7 +76,7 @@ String getStartOfTheWeek(DateTime date) {
           Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                '${getStartOfTheWeek(selectedDay)} - ${DateFormat('MMMM d').format(selectedDay)} ', // Aggiunta della settimana corrente
+                '${getStartOfTheWeek(selectedDay)} - ${getEndOfTheWeek(selectedDay)} ', // Aggiunta della settimana corrente
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontSize: 14,
