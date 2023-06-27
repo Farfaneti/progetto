@@ -119,6 +119,33 @@ class HomeProvider extends ChangeNotifier {
     //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
   }
 
+  Future<double> calculateMET(DateTime date, int weight) async {
+  DateTime currentDate = getStartOfWeek(date);
+  print('currentdate= $currentDate');
+  double weekMETmin = 0;
+
+  List<MET> metmin = await db.metDao.findMetbyDate(currentDate, date);
+  if (metmin.isEmpty) {
+    return 0;
+  }
+
+  for (int i = 0; i < 7; i++) {
+    for (var met in metmin) {
+      if (met.dateTime.day == currentDate.day) {
+        weekMETmin += met.met; // Accumula il valore MET della settimana
+      }
+    }
+
+    currentDate = currentDate.add(Duration(days: 1));
+  }
+
+  weekMETmin = double.parse(weekMETmin.toStringAsFixed(2));
+
+  return weekMETmin; //ritorna il valore non percentuale
+}
+
+  
+
   String _getDayName(int weekday) {
     switch (weekday) {
       case 1:
