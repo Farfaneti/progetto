@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/provider/homeprovider.dart';
 import 'package:progetto/screens/exercise_list.dart';
+import 'package:progetto/screens/widgets/MetValueView.dart';
 import 'package:progetto/screens/widgets/bar_chart.dart';
 
 import 'package:progetto/screens/widgets/met_status.dart';
@@ -94,6 +95,10 @@ String getStartOfTheWeek(DateTime date) {
                 child: PercentageIndicator(selectedDate: selectedDay),
               )),
           METStatusBox(),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: MetValueView(selectedDate: selectedDay)
+            ),
 
           const Padding(
             padding: EdgeInsets.all(8.0),
@@ -111,7 +116,7 @@ String getStartOfTheWeek(DateTime date) {
             child: SizedBox(
               width: 350,
               height: 200,
-              child: BarChart(),
+              child: BarChart(selectedDate: selectedDay),
             ),
           )
         ])));

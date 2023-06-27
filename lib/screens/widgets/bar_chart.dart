@@ -6,8 +6,16 @@ import '../../provider/homeprovider.dart';
 import '../../utils/shared_preferences.dart';
 
 
-class BarChart extends StatelessWidget {
-  BarChart({Key? key}) : super(key: key);
+class BarChart extends StatefulWidget {
+  const BarChart({Key? key, required this.selectedDate}) : super(key: key);
+  
+  final DateTime selectedDate;
+
+  @override
+  State<BarChart> createState() => _BarChart();
+}
+
+class _BarChart extends State<BarChart> {
   final Color customColor = Color.fromARGB(255, 113, 21, 163);
 
   List<charts.Series<BarMmodel, String>> _createSampleData(List<BarMmodel> data) {
@@ -28,7 +36,7 @@ class BarChart extends StatelessWidget {
     final homeProvider = Provider.of<HomeProvider>(context);
 
     return  FutureBuilder<Map<String, double>>(
-      future: homeProvider.METforWeek(DateTime.now(), pref.weight ?? 0), 
+      future: homeProvider.METforWeek(widget.selectedDate, pref.weight ?? 0), 
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data!.entries.map((entry) {
