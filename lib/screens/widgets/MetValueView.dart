@@ -11,13 +11,16 @@ class MetValueView extends StatefulWidget {
   // final AnimationController? animationController;
   // final Animation<double>? animation;
 
-  const MetValueView({Key? key}) : super(key: key);
+  final DateTime selectedDate;
+
+  const MetValueView({Key? key, required this.selectedDate}) : super(key: key);
 
   @override
   State<MetValueView> createState() => _MetValueView();
 }
 
 class _MetValueView extends State<MetValueView> {
+  DateTime selectedDate = DateTime.now();
   double WeeklyMet = 0;
   double targetMETmin = 4000 * 0.75;
 
@@ -33,12 +36,11 @@ class _MetValueView extends State<MetValueView> {
     var weight = pref.weight;
 
     // Calculate the Met value
-    DateTime specificDay =
-        DateTime.now(); // Replace with your desired specific day
+
     // Calculate the weekly Met value until the specific day
     Future<double> WeeklyMet =
-        homeProvider.calculateMET(specificDay, weight!);
-       
+        homeProvider.calculateMET(widget.selectedDate, weight!);
+
     return Container(
       //animation: animationController!,
 
@@ -46,7 +48,6 @@ class _MetValueView extends State<MetValueView> {
         padding:
             const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
         child: Container(
-          
           decoration: BoxDecoration(
             color: FitnessAppTheme.white,
             borderRadius: const BorderRadius.only(
@@ -83,48 +84,48 @@ class _MetValueView extends State<MetValueView> {
                       ),
                     ),
                     FutureBuilder<double>(
-                        future: WeeklyMet,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            double WeeklyMet = snapshot.data ?? 0;
+                      future: WeeklyMet,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          double WeeklyMet = snapshot.data ?? 0;
 
-                            double remainingValue = max(0, targetMETmin - WeeklyMet);
+                          double remainingValue =
+                              max(0, targetMETmin - WeeklyMet);
 
-                            
-                            String message;
+                          String message;
                           if (remainingValue > 500) {
-                            message = "Keep working out! \nYou need ${remainingValue.toStringAsFixed(0)} MET/min to reach the target!";
-
-                          } else if
-                          (remainingValue>0 ){
-                            message = 'Keep going! \nYou have almost reached your target for this week, you just need ${remainingValue.toStringAsFixed(0)} MET/min';
-                          } else 
-
-                          {
-                            message = 'Well done! \nYou have reached your MET target for this week.';
+                            message =
+                                "Keep working out! \nYou need ${remainingValue.toStringAsFixed(0)} MET/min to reach the target!";
+                          } else if (remainingValue > 0) {
+                            message =
+                                'Keep going! \nYou have almost reached your target for this week, you just need ${remainingValue.toStringAsFixed(0)} MET/min';
+                          } else {
+                            message =
+                                'Well done! \nYou have reached your MET target for this week.';
                           }
 
                           return Column(
                             children: <Widget>[
                               Center(
                                 child: Text(
-                                  WeeklyMet == 0 ? '0' : '${WeeklyMet.toStringAsFixed(0)}',
-                                  
+                                  WeeklyMet == 0
+                                      ? '0'
+                                      : '${WeeklyMet.toStringAsFixed(0)}',
                                   textAlign: TextAlign.center,
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                     fontFamily: FitnessAppTheme.fontName,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 26,
-                                    color: WeeklyMet < 600?
-                                           Colors.red
-                                          : WeeklyMet<3000? 
-                                             Colors.orange
-                                             : Colors.green ,
+                                    color: WeeklyMet < 600
+                                        ? Colors.red
+                                        : WeeklyMet < 3000
+                                            ? Colors.orange
+                                            : Colors.green,
                                   ),
                                 ),
                               ),

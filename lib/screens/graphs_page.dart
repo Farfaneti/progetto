@@ -21,11 +21,11 @@ class GraphPage extends StatefulWidget {
 }
 
 class _GraphPageState extends State<GraphPage> {
-  DateTime today = DateTime.now();
+  DateTime selectedDay = DateTime.now(); // Track the selected day
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
-      today = day;
+      selectedDay = day;
     });
 
     Navigator.of(context).push(MaterialPageRoute(
@@ -57,8 +57,8 @@ String getStartOfTheWeek(DateTime date) {
             headerStyle: const HeaderStyle(
                 formatButtonVisible: false, titleCentered: true),
             availableGestures: AvailableGestures.all,
-            selectedDayPredicate: (day) => isSameDay(day, today),
-            focusedDay: today,
+            selectedDayPredicate: (day) => isSameDay(day, selectedDay),
+            focusedDay: selectedDay,
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime(2030, 10, 16),
             onDaySelected: _onDaySelected,
@@ -76,7 +76,7 @@ String getStartOfTheWeek(DateTime date) {
           Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                '${getStartOfTheWeek(DateTime.now())} - ${getEndOfTheWeek(DateTime.now())}', // Aggiunta della settimana corrente
+                '${getStartOfTheWeek(selectedDay)} - ${getEndOfTheWeek(selectedDay)} ', // Aggiunta della settimana corrente
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontSize: 14,
@@ -86,14 +86,18 @@ String getStartOfTheWeek(DateTime date) {
               ),
             ),
           // va messo il grafico 2
-          const Padding(
+          Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
               child: SizedBox(
                 width: 350,
                 height: 200,
-                child: PercentageIndicator(),
+                child: PercentageIndicator(selectedDate: selectedDay),
               )),
           METStatusBox(),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: MetValueView(selectedDate: selectedDay)
+            ),
 
            const Padding(
               padding: EdgeInsets.all(8.0),
@@ -116,7 +120,7 @@ String getStartOfTheWeek(DateTime date) {
             child: SizedBox(
               width: 350,
               height: 200,
-              child: BarChart(),
+              child: BarChart(selectedDate: selectedDay),
             ),
           ),
          
