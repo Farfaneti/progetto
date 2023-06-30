@@ -67,12 +67,12 @@ class Splash extends StatelessWidget {
     Future.delayed(const Duration(seconds: 1), () => _checkAuth(context));
     return Material(
       child: Container(
-        color: const Color.fromARGB(255, 162, 113, 220),
+        color: Color(0xFFA271DC),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             const Text(
-              'AppName',
+              'HyperMET',
               style: TextStyle(
                   color: Color(0xFFE4DFD4),
                   fontSize: 40,

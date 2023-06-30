@@ -52,10 +52,10 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
       //animation: animationController!,
 
       child: Padding(
-        padding:
-            const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 18),
         child: Container(
           height: 260,
+          width: 380,
           decoration: BoxDecoration(
             color: FitnessAppTheme.white,
             borderRadius: const BorderRadius.only(
@@ -114,9 +114,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       padding: const EdgeInsets.only(
                                           left: 4, bottom: 3),
                                       child: Text(
-                                         maxSysPressure == 0
-                                       ? 'No data'
-                                     : '${maxSysPressure.toStringAsFixed(0)}',
+                                        maxSysPressure == 0
+                                            ? 'No data'
+                                            : '${maxSysPressure.toStringAsFixed(0)}',
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -126,13 +126,11 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                         ),
                                       ),
                                     ),
-                                     Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 8, bottom: 4),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, bottom: 4),
                                       child: Text(
-                                          maxSysPressure == 0
-                                       ? ''
-                                     :'mmHg',
+                                        maxSysPressure == 0 ? '' : 'mmHg',
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -149,11 +147,11 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                   width: 90,
                                   height: 20,
                                   child: Text(
-                                     maxSysPressure == 0
-                                    ? ''
-                                     :  maxSysPressure < 140
-                                        ? 'Normal value'
-                                        : 'High value',
+                                    maxSysPressure == 0
+                                        ? ''
+                                        : maxSysPressure < 140
+                                            ? 'Normal value'
+                                            : 'High value',
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
                                       fontWeight: FontWeight.w500,
@@ -204,9 +202,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       padding: const EdgeInsets.only(
                                           left: 4, bottom: 3),
                                       child: Text(
-                                         maxDiasPressure == 0
-                                       ? 'No data'
-                                     : '${maxDiasPressure.toStringAsFixed(0)}',
+                                        maxDiasPressure == 0
+                                            ? 'No data'
+                                            : '${maxDiasPressure.toStringAsFixed(0)}',
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -220,9 +218,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       padding:
                                           EdgeInsets.only(left: 8, bottom: 4),
                                       child: Text(
-                                          maxDiasPressure == 0
-                                       ? ''
-                                     : 'mmHg',
+                                        maxDiasPressure == 0 ? '' : 'mmHg',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -240,10 +236,10 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                   height: 20,
                                   child: Text(
                                     maxDiasPressure == 0
-                                    ? ''
-                                     : maxDiasPressure < 90
-                                        ? 'Normal value'
-                                        : 'High value',
+                                        ? ''
+                                        : maxDiasPressure < 90
+                                            ? 'Normal value'
+                                            : 'High value',
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
                                       fontWeight: FontWeight.w500,

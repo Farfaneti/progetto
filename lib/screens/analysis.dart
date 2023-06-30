@@ -208,33 +208,6 @@ class _PressurePageState extends State<PressurePage> {
                                 ),
                               ]),
                             ],
-                            // primaryMeasureAxis: charts.NumericAxisSpec(
-                            //   tickProviderSpec:
-                            //       charts.StaticNumericTickProviderSpec(
-                            //     [
-                            //       charts.TickSpec(90,
-                            //           label: '90',
-                            //           style: charts.TextStyleSpec(
-                            //               color: charts.ColorUtil.fromDartColor(
-                            //                   FitnessAppTheme.lightPurple))),
-                            //       charts.TickSpec(140,
-                            //           label: '140',
-                            //           style: charts.TextStyleSpec(
-                            //               color: charts.ColorUtil.fromDartColor(
-                            //                   FitnessAppTheme.nearlyDarkBlue))),
-                            //     ],
-                            //   ),
-                            //   renderSpec: charts.GridlineRendererSpec(
-                            //     lineStyle: charts.LineStyleSpec(
-                            //       color: charts.ColorUtil.fromDartColor(
-                            //           Colors.grey.withOpacity(0.4)),
-                            //     ),
-                            //     labelStyle: charts.TextStyleSpec(
-                            //       color:
-                            //           charts.ColorUtil.fromDartColor(Colors.grey),
-                            //     ),
-                            //   ),
-                            // ),
                           ),
                         ),
                       ),

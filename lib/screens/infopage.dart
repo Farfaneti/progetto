@@ -19,10 +19,10 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   int activeIndex = 0;
   final List<String> imageList = [
-    'assets/Screenshot1.png',
-    'assets/Screenshot2.png',
-    'assets/Screenshot3.png',
-    'assets/Screenshot4.png',
+    'assets/Screenshot_1.png',
+    'assets/Screenshot_2.png',
+    'assets/Screenshot_3.png',
+    'assets/Screenshot_4.png',
   ];
 
   @override

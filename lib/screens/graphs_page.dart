@@ -33,17 +33,17 @@ class _GraphPageState extends State<GraphPage> {
     ));
   }
 
-
-String getStartOfTheWeek(DateTime date) {
+  String getStartOfTheWeek(DateTime date) {
     DateTime startOfTheWeek = date.subtract(Duration(days: date.weekday - 1));
     return DateFormat('MMMM d').format(startOfTheWeek);
   }
 
   String getEndOfTheWeek(DateTime date) {
-    DateTime endOfTheWeek = date.add(Duration(days: DateTime.daysPerWeek - date.weekday));
+    DateTime endOfTheWeek =
+        date.add(Duration(days: DateTime.daysPerWeek - date.weekday));
     return DateFormat('MMMM d').format(endOfTheWeek);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
@@ -74,17 +74,13 @@ String getStartOfTheWeek(DateTime date) {
             ),
           ),
           Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                '${getStartOfTheWeek(selectedDay)} - ${getEndOfTheWeek(selectedDay)} ', // Aggiunta della settimana corrente
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: FitnessAppTheme.lightPurple
-                ),
-              ),
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              '${getStartOfTheWeek(selectedDay)} - ${getEndOfTheWeek(selectedDay)} ', // Aggiunta della settimana corrente
+              textAlign: TextAlign.left,
+              style: FitnessAppTheme.subtitle,
             ),
+          ),
           // va messo il grafico 2
           Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
@@ -95,10 +91,8 @@ String getStartOfTheWeek(DateTime date) {
               )),
           METStatusBox(),
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: MetValueView(selectedDate: selectedDay)
-            ),
-
+              padding: EdgeInsets.all(8.0),
+              child: MetValueView(selectedDate: selectedDay)),
 
           const Padding(
             padding: EdgeInsets.all(8.0),
@@ -119,7 +113,6 @@ String getStartOfTheWeek(DateTime date) {
               child: BarChart(selectedDate: selectedDay),
             ),
           ),
-         
         ])));
   }
 }
