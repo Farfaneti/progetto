@@ -133,50 +133,121 @@ class ImpactService {
   Future<List<Ex>> getDataFromDay(DateTime startTime) async {
     await updateBearer();
 
-   if (DateTime.now().subtract(const Duration(days: 1)).difference(startTime).inDays > 7) {
-    startTime = DateTime.now().subtract(const Duration(days: 7));
-   }
+    if (DateTime.now()
+            .subtract(const Duration(days: 1))
+            .difference(startTime)
+            .inDays >
+        7) {
+      startTime = DateTime.now().subtract(const Duration(days: 7));
+    }
     Response r;
-    if (DateFormat('y-M-d').format(startTime)==DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1))))
-     {
-      r = await _dio.get('data/v1/exercise/patients/$userImpact/day/${DateFormat('y-M-d').format(startTime)}/');
-     } 
-    
-    else 
-    {
+    if (DateFormat('y-M-d').format(startTime) ==
+        DateFormat('y-M-d')
+            .format(DateTime.now().subtract(const Duration(days: 1)))) {
       r = await _dio.get(
-       'data/v1/exercise/patients/$userImpact/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-       // 'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-    
-    }
-    List<dynamic> data = r.data[
-        'data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
-    List<Ex> ex = [];
-    for (var daydata in data) {
-      String day = daydata['date'];
-      for (var dataday in daydata['data']) {
-        //qui entro nel secondo data
-        var calories = dataday['calories']; //è in Kcal
-        var duration = dataday['duration']/60000;//è in millisecondi la converto in minuti
-        duration = double.parse(duration.toStringAsFixed(4));
-        String activityName = dataday['activityName'];
-        String hour = dataday['time'];
-        String datetime = '${day}T$hour';
-        DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
-        Ex exnew = Ex(null, activityName, calories, duration, timestamp);
-        if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
-          ex.add(exnew);
-        }
-        print('Calories: $calories');
-        print('Duration: $duration');
-        print('Activity Name: $activityName');
-        print('timestamp: $timestamp');
-        
-      }
-    }
+          'data/v1/exercise/patients/$userImpact/day/${DateFormat('y-M-d').format(startTime)}/');
 
-    var exlist = ex.toList()..sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    return exlist;
+      if (r.data == null) {
+        List<Ex> ex = [];
+
+        return ex;
+      } else {
+        dynamic responseData = r.data['data'];
+
+        if (responseData is List ) {
+          List<dynamic> data = r.data['data'];
+          List<Ex> ex = [];
+          for (var daydata in data) {
+            String day = daydata['date'];
+            for (var dataday in daydata['data']) {
+              //qui entro nel secondo data
+              var calories = dataday['calories']; //è in Kcal
+              var duration = dataday['duration'] /
+                  60000; //è in millisecondi la converto in minuti
+              duration = double.parse(duration.toStringAsFixed(4));
+              String activityName = dataday['activityName'];
+              String hour = dataday['time'];
+              String datetime = '${day}T$hour';
+              DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+              Ex exnew = Ex(null, activityName, calories, duration, timestamp);
+              if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
+                ex.add(exnew);
+              }
+              print('Calories: $calories');
+              print('Duration: $duration');
+              print('Activity Name: $activityName');
+              print('timestamp: $timestamp');
+            }
+          }
+
+          var exlist = ex.toList()
+            ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+          return exlist;
+        } else if (responseData is Map<String, dynamic>) {
+          Map<String, dynamic> data = r.data['data'];
+          List<Ex> ex = [];
+          String day = data['date'];
+
+          for (var value in data['data']) {
+            var calories = value['calories']; //è in Kcal
+            var duration = value['duration'] /
+                60000; //è in millisecondi la converto in minuti
+            duration = double.parse(duration.toStringAsFixed(4));
+            String activityName = value['activityName'];
+            String hour = value['time'];
+            String datetime = '${day}T$hour';
+            DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+            Ex exnew = Ex(null, activityName, calories, duration, timestamp);
+            if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
+              ex.add(exnew);
+            }
+            print('Calories: $calories');
+            print('Duration: $duration');
+            print('Activity Name: $activityName');
+            print('timestamp: $timestamp');
+          }
+
+          var exlist = ex.toList()
+            ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+          return exlist;
+        }
+      }
+    } else {
+      r = await _dio.get(
+          'data/v1/exercise/patients/$userImpact/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+      // 'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
+
+      List<dynamic> data = r.data[
+          'data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
+      List<Ex> ex = [];
+      for (var daydata in data) {
+        String day = daydata['date'];
+        for (var dataday in daydata['data']) {
+          //qui entro nel secondo data
+          var calories = dataday['calories']; //è in Kcal
+          var duration = dataday['duration'] /
+              60000; //è in millisecondi la converto in minuti
+          duration = double.parse(duration.toStringAsFixed(4));
+          String activityName = dataday['activityName'];
+          String hour = dataday['time'];
+          String datetime = '${day}T$hour';
+          DateTime timestamp = _truncateSeconds(DateTime.parse(datetime));
+          Ex exnew = Ex(null, activityName, calories, duration, timestamp);
+          if (!ex.any((e) => e.dateTime.isAtSameMomentAs(exnew.dateTime))) {
+            ex.add(exnew);
+          }
+          print('Calories: $calories');
+          print('Duration: $duration');
+          print('Activity Name: $activityName');
+          print('timestamp: $timestamp');
+        }
+      }
+
+      var exlist = ex.toList()
+        ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+      return exlist;
+    }
+  throw Exception('Errore');
   }
 
   DateTime _truncateSeconds(DateTime input) {
@@ -184,3 +255,5 @@ class ImpactService {
         input.year, input.month, input.day, input.hour, input.minute);
   }
 }
+
+

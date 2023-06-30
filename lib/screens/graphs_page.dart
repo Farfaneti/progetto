@@ -99,10 +99,6 @@ String getStartOfTheWeek(DateTime date) {
             child: MetValueView(selectedDate: selectedDay)
             ),
 
-           const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: MetValueView() 
-              ),
 
           const Padding(
             padding: EdgeInsets.all(8.0),
