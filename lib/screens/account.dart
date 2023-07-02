@@ -5,16 +5,15 @@ import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
-  AccountPage({super.key});
+  const AccountPage({super.key});
 
   @override
-  _AccountPageState createState() => _AccountPageState();
+  AccountPageState createState() => AccountPageState();
 }
 
-//This class holds data related to the form.
-class _AccountPageState extends State<AccountPage> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
+
+class AccountPageState extends State<AccountPage> {
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -24,7 +23,7 @@ class _AccountPageState extends State<AccountPage> {
         backgroundColor: FitnessAppTheme.background,
         appBar: AppBar(
           iconTheme: const IconThemeData(
-            color: FitnessAppTheme.nearlyBlack, //change your color here
+            color: FitnessAppTheme.nearlyBlack,
           ),
           title: const Text('My Account'),
           centerTitle: true,
@@ -41,7 +40,7 @@ class _AccountPageState extends State<AccountPage> {
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            // Build a Form widget using the _formKey created above.
+          
             child: Form(
                 key: _formKey,
                 child: Column(
@@ -65,7 +64,7 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                         ),
 
-                        // The validator receives the text that the user has entered.
+                   
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your username';
@@ -73,8 +72,7 @@ class _AccountPageState extends State<AccountPage> {
                           return null;
                         },
                         onChanged: (value) {
-                          // La funzione onChanged viene chiamata ogni volta che l'utente modifica il testo del campo di input.
-                          //La utilizzo per aggiornare lo stato del widget, cioè per aggiornare il valore di una variabile
+                          
                           setState(() {
                             String newnickname = value;
                             pref.nickname = newnickname;
@@ -171,9 +169,9 @@ class _AccountPageState extends State<AccountPage> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              // Validate returns true if the form is valid, or false otherwise.
+                              
                               if (_formKey.currentState!.validate()) {
-                                // If the form is valid, display a snackbar and save the information in a database.
+                               
 
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

@@ -7,8 +7,7 @@ import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class BodyMeasurementView extends StatefulWidget {
-  // final AnimationController? animationController;
-  // final Animation<double>? animation;
+  
 
   const BodyMeasurementView({Key? key}) : super(key: key);
 
@@ -37,19 +36,18 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
     var bmi = weight! / pow(heightInMeters, 2);
     bmi = double.parse(bmi.toStringAsFixed(2));
 
-    // Calculate the maximum systolic pressure for the specific day
+   
     DateTime specificDay =
-        DateTime.now(); // Replace with your desired specific day
-    // Calculate the maximum systolic pressure for the specific day
+        DateTime.now(); 
     Future<int> maxSysPressureFuture =
         homeProvider.calculateDailyMaxSystolicPressure(specificDay);
 
-// Calculate the maximum diastolic pressure for the specific day
+
     Future<int> maxDiasPressureFuture =
         homeProvider.calculateDailyMaxDiastolicPressure(specificDay);
 
     return Container(
-      //animation: animationController!,
+      
 
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 18),
@@ -220,7 +218,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       child: Text(
                                         maxDiasPressure == 0 ? '' : 'mmHg',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,

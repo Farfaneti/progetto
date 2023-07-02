@@ -10,7 +10,5 @@ class ServerStrings {
   static const authServerUrl = 'gate/v1/';
   static const apiServerUrl = 'api/v1/';
 
-  
-  //static String username = 'Re2JCHK5jL';
-  //static String password = '12345678!';
+
 }

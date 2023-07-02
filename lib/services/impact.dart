@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:progetto/models/entities/entities.dart';
 import 'package:progetto/services/server_string.dart';
 import 'package:progetto/utils/shared_preferences.dart';
-
 import '../models/db.dart';
 
 class ImpactService {
@@ -160,7 +159,6 @@ class ImpactService {
           for (var daydata in data) {
             String day = daydata['date'];
             for (var dataday in daydata['data']) {
-              //qui entro nel secondo data
               var calories = dataday['calories']; //è in Kcal
               var duration = dataday['duration'] /
                   60000; //è in millisecondi la converto in minuti
@@ -215,10 +213,9 @@ class ImpactService {
     } else {
       r = await _dio.get(
           'data/v1/exercise/patients/$userImpact/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-      // 'data/v1/exercise/patients/${prefs.impactUsername}/daterange/start_date/${DateFormat('y-M-d').format(startTime)}/end_date/${DateFormat('y-M-d').format(DateTime.now().subtract(const Duration(days: 1)))}/');
-
+      
       List<dynamic> data = r.data[
-          'data']; // entro nella prima parentesi sarebbe: { data:[ date: 'date', data:[ logld; activityName; activityTypre; activityLevel:[];averageHeartRate; calories; distance; duration; activeDuration; steps;]}
+          'data']; 
       List<Ex> ex = [];
       for (var daydata in data) {
         String day = daydata['date'];

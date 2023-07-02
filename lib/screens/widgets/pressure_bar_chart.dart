@@ -7,7 +7,7 @@ class GroupedBarChart extends StatelessWidget {
   final List<charts.Series<PressureValues, String>> seriesList;
   final bool animate;
 
-  GroupedBarChart({
+  const GroupedBarChart({
     Key? key,
     required this.seriesList,
     required this.animate,

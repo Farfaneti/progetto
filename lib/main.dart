@@ -22,8 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(
-          create: (context) => Preferences()..init(),
-          // This creates the preferences when the provider is creater. With lazy = true (default), the preferences would be initialized when first accessed, but we need them for the other services
+          create: (context) => Preferences()..init(), 
           lazy: false,
         ),
         Provider(

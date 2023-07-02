@@ -140,8 +140,8 @@ class _LoginState extends State<LoginPage> {
                   padding: const EdgeInsets.all(12.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (userController.text != 'Re2JCHK5jL' ||
-                          passwordController.text != '12345678!') {
+                      if (userController.text != 'username' ||
+                          passwordController.text != 'password') {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 backgroundColor: Colors.red,
@@ -181,7 +181,7 @@ class _LoginState extends State<LoginPage> {
                       }
                     },
                     style: ButtonStyle(
-                        //maximumSize: const MaterialStatePropertyAll(Size(50, 20)),
+                        
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                         elevation: MaterialStateProperty.all(0),

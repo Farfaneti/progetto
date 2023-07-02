@@ -31,7 +31,7 @@ class HypertensionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('${HypertensionPage.routename} built');
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(

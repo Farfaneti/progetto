@@ -18,11 +18,11 @@ class ExerciseListPage extends StatefulWidget {
 
 
   @override
-  _ExerciseListPageState createState() => _ExerciseListPageState();
+  ExerciseListPageState createState() => ExerciseListPageState();
 }
 
 
-class _ExerciseListPageState extends State<ExerciseListPage> {
+class ExerciseListPageState extends State<ExerciseListPage> {
   late DateTime startTime;
   late DateTime endTime;
   List<Ex> exerciseList = [];
@@ -53,19 +53,6 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
     });
   }
 
-
-  // void deleteExercise(Ex exercise) async {
-  //   final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-  //   final exerciseDao = database.exerciseDao;
-
-
-  //   await exerciseDao.deleteExercise(exercise);
-  //   setState(() {
-  //     exerciseList.remove(exercise);
-  //   });
-  // }
-
-
  @override
 Widget build(BuildContext context) {
   return Scaffold(
@@ -74,7 +61,7 @@ Widget build(BuildContext context) {
       backgroundColor: FitnessAppTheme.purple,
     ),
     body: isEmpty
-        ? Center(
+        ? const Center(
             child: Text('There is no data saved for this date'),
           )
         : ListView.builder(
@@ -87,7 +74,7 @@ Widget build(BuildContext context) {
                 child: ListTile(
                   title: Text(
                     'Activity: ${exercise.activityName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -97,38 +84,34 @@ Widget build(BuildContext context) {
                     children: [
                       Text(
                         'Duration (min): ${exercise.duration}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
                         'Calories (Kcal): ${exercise.calories}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'MET-min: ${metmin}',
-                        style: TextStyle(
+                        'MET-min: $metmin',
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
                         'Date: ${exercise.dateTime}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                     ],
                   ),
-                  // trailing: IconButton(
-                  //   icon: const Icon(Icons.delete),
-                  //   onPressed: () => deleteExercise(exercise),
-                  // ),
                 ),
               );
             },

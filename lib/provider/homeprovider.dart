@@ -1,16 +1,15 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:progetto/models/db.dart';
 import 'package:progetto/models/entities/met.dart';
-import 'package:provider/provider.dart';
+
 import '../models/entities/exercise.dart';
 import '../models/entities/pressure.dart';
 import '../services/impact.dart';
 import '../utils/shared_preferences.dart';
 
-// this is the change notifier. it will manage all the logic of the home page: fetching the correct data from the database
-// and on startup fetching the data from the online services
+
 class HomeProvider extends ChangeNotifier {
   // data to be used by the UI
   late List<Ex> exercises;
@@ -21,7 +20,7 @@ class HomeProvider extends ChangeNotifier {
   // data fetched from external services or db
   late List<Ex> _exercisesDB;
 
-  // selected day of data to be shown
+
   DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
 
   final ImpactService impactService;
@@ -32,7 +31,7 @@ class HomeProvider extends ChangeNotifier {
     _init();
   }
 
-  // constructor of provider which manages the fetching of all data from the servers and then notifies the ui to build
+ 
   Future<void> _init() async {
     await _fetch();
     notifyListeners();
@@ -75,16 +74,14 @@ class HomeProvider extends ChangeNotifier {
 //restituisce la data corrispondente al lunedì della stessa settimana
   DateTime getStartOfWeek(DateTime date) {
     date = DateTime(date.year, date.month, date.day);
-    print('data inizio= $date');
-    print(
-        'inizio settimana= ${date.subtract(Duration(days: date.weekday - 1))}');
+   
     return date.subtract(Duration(days: date.weekday - 1));
   }
 
 // calcolo del MET come somma dei Met di una settimana, usa il metodo sopra per trovare il lunedì della settimana attuale
   Future<double> calculateMETforWeek(DateTime date, int weight) async {
     DateTime currentDate = getStartOfWeek(date);
-    print('currentdate= $currentDate');
+   
     Map<String, double> weeklyMET = {};
     double weekMETmin = 0;
     double weekMETmin_perc = 0;
@@ -99,7 +96,7 @@ class HomeProvider extends ChangeNotifier {
       for (var met in metmin) {
         if (met.dateTime.day == currentDate.day) {
           weekMETmin +=
-              met.met; // salva il valore del met dell'intera settimana
+              met.met; 
         }
       }
 
@@ -111,13 +108,12 @@ class HomeProvider extends ChangeNotifier {
       }
     }
     weekMETmin_perc = double.parse(weekMETmin_perc.toStringAsFixed(2));
-    return weekMETmin_perc; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
-    //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
+    return weekMETmin_perc;
   }
 
   Future<double> calculateMET(DateTime date, int weight) async {
     DateTime currentDate = getStartOfWeek(date);
-    print('currentdate= $currentDate');
+    
     double weekMETmin = 0;
     DateTime endOfTheWeek = currentDate.add(Duration(days: 7));
 
@@ -129,7 +125,7 @@ class HomeProvider extends ChangeNotifier {
     for (int i = 0; i < 7; i++) {
       for (var met in metmin) {
         if (met.dateTime.day == currentDate.day) {
-          weekMETmin += met.met; // Accumula il valore MET della settimana
+          weekMETmin += met.met; 
         }
       }
 
@@ -188,35 +184,34 @@ class HomeProvider extends ChangeNotifier {
 
     print('$weeklyMET');
 
-    return weeklyMET; //così ritorno solo il valore di MET raggiunto fino a quel giorno della settimana
-    //return weeklyMET //mi torna per ogni giorno della settimana quel è stato il valore di met raggiunto
+    return weeklyMET; 
   }
 
 // Function to calculate the daily average of pressure data for a specific day
   Future<double> calculateDailySystolicPressureAverage(
       DateTime specificDay) async {
-    // Get the start and end time of the specific day
+  
     DateTime startTime =
         DateTime(specificDay.year, specificDay.month, specificDay.day);
     DateTime endTime = DateTime(
         specificDay.year, specificDay.month, specificDay.day, 23, 59, 59);
 
-    // Retrieve the pressure data for the specific day
+   
     List<Pressure> pressureList =
         await db.pressureDao.findPressurebyDate(startTime, endTime);
 
     if (pressureList.isEmpty) {
-      return 0; // Return 0 if no data is available
+      return 0; 
     }
 
-    // Calculate the sum of systolic pressure values
+   
     int systolicSum = 0;
 
     for (Pressure pressure in pressureList) {
       systolicSum += pressure.systolic;
     }
 
-    // Calculate the average values
+   
     double systolicAverage = systolicSum / pressureList.length;
 
     return systolicAverage;
@@ -303,7 +298,7 @@ class HomeProvider extends ChangeNotifier {
     return maxDiastolic;
   }
 
-// METODI PER PRESSIONE
+
   Future<List<Pressure>> findAllPressure() async {
     final results = await db.pressureDao.findAllPressure();
     return results;
@@ -314,21 +309,20 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   } //insertPressure
 
-  //This method wraps the deleteTodo() method of the DAO.
-  //Then, it notifies the listeners that something changed.
+  
   Future<void> removePressure(Pressure pressure) async {
     await db.pressureDao.deletePressure(pressure);
     notifyListeners();
   } //removePressure
 
-  // METODI PER MET
+
   Future<List<MET>> findAllMet() async {
     final results = await db.metDao.findAllMet();
     return results;
-  } //findAllPressure
+  } 
 
   Future<void> insertMet(MET met) async {
     await db.metDao.insertMet(met);
     notifyListeners();
-  } //insertPressure
+  }
 }

@@ -56,10 +56,6 @@ class Preferences {
 
 
 
-  // Here we define all the keys we will need in the Preferences. We will then access the value with the getter as Preferences.key
-  // The getter allows us to forget the specific string used as key in the SharedPreferences and get a list of all saved preferences as variables of the class
-  // Parte da cambiare a seconda di quello che ci serve prendere con il get
-
   String? get impactRefreshToken => _getFromDisk('impactRT');
   set impactRefreshToken(String? newImpactRefreshToken) =>
       _saveToDisk("impactRT", newImpactRefreshToken);

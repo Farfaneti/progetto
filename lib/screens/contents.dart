@@ -10,8 +10,8 @@ class Contents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('${Contents.routename} built');
-    return Scaffold(
+  
+    return const Scaffold(
         backgroundColor: FitnessAppTheme.background,
         body: SingleChildScrollView(
           child: Column(children: <Widget>[

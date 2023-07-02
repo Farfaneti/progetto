@@ -35,10 +35,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.initialIndex; // Add this line
+    _selectedIndex = widget.initialIndex; 
   }
 
-  //String get username => null;
+ 
 
   Widget _selectPage({
     required int index,
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             style: FitnessAppTheme.body1,
                           ),
                           onTap: () async {
-                            // bool reset = await pref.resetSettings();
+                            
                             bool reset = await pref
                                 .logOut(); // questo comando elimina solo usename e password dalle shared preferences
                             if (reset) {
@@ -167,9 +167,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
             appBar: AppBar(
               title: Text(_selectTitle(index: _selectedIndex)),
-              // (Text(
-              //   'AppName',
-              // )),
               titleTextStyle: FitnessAppTheme.headline2,
               iconTheme:
                   const IconThemeData(color: FitnessAppTheme.nearlyBlack),

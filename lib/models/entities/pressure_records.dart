@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:progetto/models/entities/pressure.dart';
-import 'package:progetto/screens/analysis.dart';
-import 'package:progetto/screens/profile.dart';
+
 import 'package:provider/provider.dart';
 import '../../methods/theme.dart';
-import '../db.dart';
+
 import '../../provider/homeprovider.dart';
 import '../../screens/homepage.dart';
 
@@ -15,10 +14,10 @@ class PressureRecordPage extends StatefulWidget {
   const PressureRecordPage({Key? key}) : super(key: key);
 
   @override
-  _PressureRecordState createState() => _PressureRecordState();
+  PressureRecordState createState() => PressureRecordState();
 }
 
-class _PressureRecordState extends State<PressureRecordPage> {
+class PressureRecordState extends State<PressureRecordPage> {
   final _formKey = GlobalKey<FormState>();
   Completer<void> primaryCompleter = Completer<void>();
 
@@ -216,7 +215,7 @@ class _PressureRecordState extends State<PressureRecordPage> {
 
   void _savePressureRecord() async {
     final currentContext =
-        context; // Variabile locale per salvare il contesto corrente
+        context; 
 
     final pressureRecord =
         Pressure(null, systolic!, diastolic!, _selectedDateTime);
@@ -229,14 +228,13 @@ class _PressureRecordState extends State<PressureRecordPage> {
       ),
     );
 
-    // ignore: use_build_context_synchronously
-    // Navigator.pop(context, pressureRecord);
+  
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => HomePage(
           title: 'Home',
-          initialIndex: 1, // Set the initial index to 1
+          initialIndex: 1, 
         ),
       ),
     );

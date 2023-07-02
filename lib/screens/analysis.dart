@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/pressure_list.dart';
 import 'package:progetto/screens/widgets/body_measurement_view.dart';
-import 'package:progetto/screens/widgets/pressure_bar_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -139,7 +138,7 @@ class _PressurePageState extends State<PressurePage> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      // color: FitnessAppTheme.white,
+                      
                       decoration: BoxDecoration(
                         color: FitnessAppTheme.nearlyWhite,
                         borderRadius: const BorderRadius.only(
@@ -164,10 +163,10 @@ class _PressurePageState extends State<PressurePage> {
                             animate: true,
                             customSeriesRenderers: [
                               charts.BarTargetLineRendererConfig<String>(
-                                // ID for the renderer. This is used to associate specific renderer configuration with the series.
+                
                                 customRendererId: 'customTargetLine',
                                 groupingType: charts.BarGroupingType.grouped,
-                                // groupingWidthFraction: 0.8,
+                          
                               ),
                             ],
                             behaviors: [
@@ -180,7 +179,7 @@ class _PressurePageState extends State<PressurePage> {
                                   startLabel: '90',
                                   labelStyleSpec: charts.TextStyleSpec(
                                     color: charts.ColorUtil.fromDartColor(Colors
-                                        .deepPurple), // Set your desired label color here
+                                        .deepPurple), 
                                   ),
                                   labelPosition:
                                       charts.AnnotationLabelPosition.inside,
@@ -196,7 +195,7 @@ class _PressurePageState extends State<PressurePage> {
                                   startLabel: '140',
                                   labelStyleSpec: charts.TextStyleSpec(
                                     color: charts.ColorUtil.fromDartColor(Colors
-                                        .deepPurple), // Set your desired label color here
+                                        .deepPurple),
                                   ),
                                   labelPosition:
                                       charts.AnnotationLabelPosition.inside,
@@ -216,9 +215,9 @@ class _PressurePageState extends State<PressurePage> {
                 }
               },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const BodyMeasurementView(),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: BodyMeasurementView(),
             )
           ],
         ),

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
@@ -13,10 +13,10 @@ class PressureListPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PressureListPageState createState() => _PressureListPageState();
+  PressureListPageState createState() => PressureListPageState();
 }
 
-class _PressureListPageState extends State<PressureListPage> {
+class PressureListPageState extends State<PressureListPage> {
   late DateTime startTime;
   late DateTime endTime;
   List<Pressure> pressureList = [];
@@ -65,7 +65,7 @@ class _PressureListPageState extends State<PressureListPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(
+                builder: (context) => const HomePage(
                   title: 'Home',
                   initialIndex: 1,
                 ),
@@ -77,7 +77,7 @@ class _PressureListPageState extends State<PressureListPage> {
         backgroundColor: FitnessAppTheme.purple,
       ),
       body: isEmpty
-          ? Center(
+          ? const Center(
               child: Text('There is no data saved for this date'),
             )
           : ListView.builder(
@@ -86,7 +86,7 @@ class _PressureListPageState extends State<PressureListPage> {
                 final pressure = pressureList[index];
                 return Card(
                   color: FitnessAppTheme
-                      .background, // Colore di sfondo personalizzato
+                      .background, 
                   child: ListTile(
                     title: const Text(
                       'Blood Pressure:',
@@ -94,7 +94,7 @@ class _PressureListPageState extends State<PressureListPage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: FitnessAppTheme
-                            .grey, // Colore del testo personalizzato
+                            .grey, 
                       ),
                     ),
                     subtitle: Column(
@@ -105,7 +105,7 @@ class _PressureListPageState extends State<PressureListPage> {
                             style: const TextStyle(
                               fontSize: 16,
                               color: FitnessAppTheme
-                                  .grey, // Colore del testo personalizzato
+                                  .grey,
                             ),
                           ),
                           Text(
@@ -113,7 +113,7 @@ class _PressureListPageState extends State<PressureListPage> {
                             style: const TextStyle(
                               fontSize: 16,
                               color: FitnessAppTheme
-                                  .grey, // Colore del testo personalizzato
+                                  .grey, 
                             ),
                           ),
                           Text(
@@ -121,7 +121,7 @@ class _PressureListPageState extends State<PressureListPage> {
                             style: const TextStyle(
                               fontSize: 14,
                               color: FitnessAppTheme
-                                  .nearlyBlue, // Colore del testo personalizzato
+                                  .nearlyBlue,
                             ),
                           ),
                         ]),

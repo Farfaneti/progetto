@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:pollutrack/pages/home.dart';
-//import 'package:pollutrack/pages/onboarding/purpleair_ob.dart';
-//import 'package:pollutrack/services/impact.dart';
-//import 'package:pollutrack/utils/shared_preferences.dart';
-//import 'package:provider/provider.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/screens/homepage.dart';
 import 'package:progetto/screens/profile.dart';
@@ -16,7 +11,7 @@ class ImpactOnboarding extends StatefulWidget {
   static const route = '/impact/';
   static const routeDisplayName = 'ImpactOnboardingPage';
 
-  ImpactOnboarding({Key? key}) : super(key: key);
+  const ImpactOnboarding({Key? key}) : super(key: key);
 
   @override
   State<ImpactOnboarding> createState() => _ImpactOnboardingState();
@@ -27,7 +22,7 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<
-      FormState>(); //il comando crea una chiave globale _formKey associata a un widget FormState, che rappresenta lo stato di un widget Form e può essere utilizzata per accedere e manipolare l'oggetto FormState.
+      FormState>(); 
 
   void _showPassword() {
     setState(() {
@@ -189,14 +184,12 @@ class _ImpactOnboardingState extends State<ImpactOnboarding> {
                           duration: Duration(seconds: 2),
                         ));
                       } else {
-                        // QUI CONTROLLO CHE LA PAGINA PROFILE SIA COMPILATA, SE è COMPILATA ALLORA MANDO ALLA HOMEPAGE,
-                        //SE NON è COMPILATA MANDO ALLA PROFILE PAGE
                         Future.delayed(const Duration(seconds: 1),
                             () => _checkProfile(context));
                       }
                     },
                     style: ButtonStyle(
-                        //maximumSize: const MaterialStatePropertyAll(Size(50, 20)),
+                       
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                         elevation: MaterialStateProperty.all(0),

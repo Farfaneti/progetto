@@ -76,12 +76,12 @@ class _GraphPageState extends State<GraphPage> {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              '${getStartOfTheWeek(selectedDay)} - ${getEndOfTheWeek(selectedDay)} ', // Aggiunta della settimana corrente
+              '${getStartOfTheWeek(selectedDay)} - ${getEndOfTheWeek(selectedDay)} ', 
               textAlign: TextAlign.left,
               style: FitnessAppTheme.subtitle,
             ),
           ),
-          // va messo il grafico 2
+       
           Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 20.0),
               child: SizedBox(
@@ -102,9 +102,7 @@ class _GraphPageState extends State<GraphPage> {
               style: FitnessAppTheme.title,
             ),
           ),
-          // va messo il grafico 1
-
-          // Use the chartSeriesList to build the chart
+          
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(

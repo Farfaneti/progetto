@@ -16,9 +16,7 @@ import 'entities/met.dart';
 //The generated code will be in database.g.dart
 part 'db.g.dart';
 
-//Here we are saying that this is the first version of the Database and it has just 1 entity, i.e., Meal.
-//We also added a TypeConverter to manage the DateTime of a Meal entry, since DateTimes are not natively
-//supported by Floor.
+
 @TypeConverters([DateTimeConverter])
 @Database(version: 1, entities: [Ex, Pressure, MET])
 abstract class AppDatabase extends FloorDatabase {

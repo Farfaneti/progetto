@@ -13,7 +13,7 @@ class Pressure {
   //The diastolic pressure
   final int diastolic;
 
-  //When the exercise occured
+  //When the pressure was registered
   final DateTime dateTime;
 
   //Default constructor

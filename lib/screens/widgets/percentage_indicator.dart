@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:progetto/methods/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/homeprovider.dart';
 import '../../utils/shared_preferences.dart';
 
 class PercentageIndicator extends StatefulWidget {
-  final DateTime selectedDate; // Add the selectedDate parameter
+  final DateTime selectedDate; 
 
    const PercentageIndicator({Key? key, required this.selectedDate}) : super(key: key);
 
   @override
-  _PercentageIndicatorState createState() => _PercentageIndicatorState();
+  PercentageIndicatorState createState() => PercentageIndicatorState();
 }
 
-class _PercentageIndicatorState extends State<PercentageIndicator> {
-  DateTime selectedDate = DateTime.now(); // Track the selected day
+class PercentageIndicatorState extends State<PercentageIndicator> {
+  DateTime selectedDate = DateTime.now(); 
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _PercentageIndicatorState extends State<PercentageIndicator> {
                 circularStrokeCap: CircularStrokeCap.round,
                 center: Text(
                   '${percent * 100}%',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black45,
                       fontStyle: FontStyle.normal,
                       fontSize: 28,

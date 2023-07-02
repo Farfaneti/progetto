@@ -16,7 +16,7 @@ class TabIconData {
 
   AnimationController? animationController;
 
-  // da cambiare le immagini/icone
+ 
   static List<TabIconData> tabIconsList = <TabIconData>[
     TabIconData(
       imagePath: 'assets/tab_1.png',

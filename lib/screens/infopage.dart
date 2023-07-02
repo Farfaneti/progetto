@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
-import 'package:progetto/screens/text_contents/text1.dart';
-import 'package:progetto/screens/text_contents/text2.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class InfoPage extends StatefulWidget {
-  InfoPage({Key? key}) : super(key: key);
+  const InfoPage({Key? key}) : super(key: key);
 
   static const routename = 'InfoPage';
 
@@ -27,7 +25,7 @@ class _InfoPageState extends State<InfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('${InfoPage.routename} built');
+
     final pref = Provider.of<Preferences>(context);
 
     return Scaffold(
@@ -42,7 +40,6 @@ class _InfoPageState extends State<InfoPage> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            //mettere logo app
             Center(
                 child: Padding(
               padding: EdgeInsets.only(top: 16),
@@ -59,7 +56,7 @@ class _InfoPageState extends State<InfoPage> {
                   child: Text(
                     'What is the goal of the HyperMET app?',
                     style: FitnessAppTheme.title,
-                    // textAlign: TextAlign.left,
+                  
                   ),
                 )),
 
@@ -80,7 +77,7 @@ class _InfoPageState extends State<InfoPage> {
                   child: Text(
                     'What does the HyperMET app do?',
                     style: FitnessAppTheme.title,
-                    // textAlign: TextAlign.left,
+                    
                   ),
                 )),
             const Padding(
@@ -100,10 +97,10 @@ class _InfoPageState extends State<InfoPage> {
                   child: Text(
                     'HyperMET app pages and functionalities',
                     style: FitnessAppTheme.title,
-                    // textAlign: TextAlign.left,
+                  
                   ),
                 )),
-            //inserire immagini tipo screenshot dell'app in uno slideshow widget
+           
             Center(
               child: Column(
                 children: [
@@ -160,7 +157,7 @@ class _InfoPageState extends State<InfoPage> {
   Widget buildIndicator() => AnimatedSmoothIndicator(
         activeIndex: activeIndex,
         count: imageList.length,
-        effect: JumpingDotEffect(
+        effect: const JumpingDotEffect(
             dotColor: FitnessAppTheme.lightPurple,
             dotHeight: 15,
             dotWidth: 15,

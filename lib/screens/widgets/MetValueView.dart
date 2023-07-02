@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/theme.dart';
 import 'package:progetto/provider/homeprovider.dart';
@@ -8,8 +6,7 @@ import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class MetValueView extends StatefulWidget {
-  // final AnimationController? animationController;
-  // final Animation<double>? animation;
+  
 
   final DateTime selectedDate;
 
@@ -35,14 +32,11 @@ class _MetValueView extends State<MetValueView> {
     final pref = Provider.of<Preferences>(context);
     var weight = pref.weight;
 
-    // Calculate the Met value
-
-    // Calculate the weekly Met value until the specific day
     Future<double> WeeklyMet =
         homeProvider.calculateMET(widget.selectedDate, weight!);
 
     return Container(
-      //animation: animationController!,
+     
 
       child: Padding(
         padding:

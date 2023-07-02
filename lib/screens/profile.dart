@@ -5,19 +5,18 @@ import 'package:progetto/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+  const ProfilePage({super.key});
 
   static const route = 'Profile';
   static const routename = 'ProfilePage';
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-//This class holds data related to the form.
-class _ProfilePageState extends State<ProfilePage> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
+
+class ProfilePageState extends State<ProfilePage> {
+ 
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -28,15 +27,15 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: FitnessAppTheme.background,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
-          // Build a Form widget using the _formKey created above.
+         
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     'Add your name, height and weight data:',
                     style: FitnessAppTheme.body1,
                   ),
@@ -66,8 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     return null;
                   },
                   onChanged: (value) {
-                    // La funzione onChanged viene chiamata ogni volta che l'utente modifica il testo del campo di input.
-                    //La utilizzo per aggiornare lo stato del widget, cioè per aggiornare il valore di una variabile
+                   
                     setState(() {
                       String newnickname = value;
                       pref.nickname = newnickname;
@@ -164,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
+                      
                         if (_formKey.currentState!.validate()) {
                           // If the form is valid, display a snackbar and save the information in a database.
 

@@ -16,10 +16,9 @@ class Splash extends StatelessWidget {
   // Method for navigation SplashPage -> Login
   void _toLoginPage(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LoginPage(
-            //title: 'LoginPage',
+        builder: (context) => const LoginPage( 
             )));
-  } //_toHomePage
+  } //_toLoginPage
 
   // Method for navigation SplashPage -> HomePage
   void _toHomePage(BuildContext context) {
@@ -63,7 +62,7 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Future.delayed(const Duration(seconds: 5), () => _toLoginPage(context));
+   
     Future.delayed(const Duration(seconds: 1), () => _checkAuth(context));
     return Material(
       child: Container(

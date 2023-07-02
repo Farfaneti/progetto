@@ -1,12 +1,9 @@
 import 'dart:math' as math;
-// import 'package:progetto/screens/homepage.dart'
-// import 'package:best_flutter_ui_templates/fitness_app/models/tabIcon_data.dart';
-// import 'package:best_flutter_ui_templates/main.dart';
+
 import 'package:flutter/material.dart';
 import 'package:progetto/methods/tab_icon_data.dart';
 
-// import '../../main.dart';
-// import '../models/tabIcon_data.dart';
+
 
 import 'package:progetto/methods/theme.dart';
 
@@ -19,11 +16,11 @@ class BottomBarView extends StatefulWidget {
   final Function()? addClick;
   final List<TabIconData>? tabIconsList;
   @override
-  // ignore: library_private_types_in_public_api
-  _BottomBarViewState createState() => _BottomBarViewState();
+ 
+  BottomBarViewState createState() => BottomBarViewState();
 }
 
-class _BottomBarViewState extends State<BottomBarView>
+class BottomBarViewState extends State<BottomBarView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -170,7 +167,7 @@ class _BottomBarViewState extends State<BottomBarView>
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           onTap: widget.addClick,
-                          child: Icon(
+                          child: const Icon(
                             Icons.add,
                             color: FitnessAppTheme.white,
                             size: 32,
