@@ -1,16 +1,7 @@
-# progetto
+# HyperMET
 
-A new Flutter project.
+The HyperMET application promotes the prevention of hypertension through physical exercise and a healthy lifestyle. 
+It includes a section to record blood pressure and track daily and weekly progress. 
+Additionally, it encourages the user to achieve weekly physical activity goals, utilizing data from a Fitbit device for monitoring.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
